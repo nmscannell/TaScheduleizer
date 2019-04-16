@@ -1,0 +1,48 @@
+body{
+        background-image: url(logo2.png);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: auto;
+        text-align: center;
+        padding-top: 436px;
+    }
+html{
+    background: url(background.png) no-repeat center fixed;
+    background-size: auto;
+}
+form{
+    display: inline-block;
+}
+#password
+{
+    border-color: red;
+    height : 30px;
+    width: 200px;
+}
+#username
+{
+    border-color: blue;
+    height: 30px;
+    width: 200px;
+}
+#submit
+{
+    width: 75px;
+    height: 25px;
+    background-color: grey;
+    border: none;
+    color: white;
+    position: center;
+}
+.blinking{
+    animation: blinkingText 0.8s infinite;
+    font-weight: bolder;
+    color: red;
+}
+@keyframes blinkingText{
+    0%{     color: #000;    }
+    49%{    color: transparent; }
+    50%{    color: transparent; }
+    99%{    color:transparent;  }
+    100%{   color: #000;    }
+}
