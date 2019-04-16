@@ -8,26 +8,26 @@ class Command():
         self.function = function
 
 
-def login(self, userName, password):
+def login(userName, password):
     test = Account.objects.filter(currentUser=True)
-    # Accessing the login page will automatically log out previous user. This shouldn't ever happen but ill leave it.
     if len(test) > 0:
-        raise Exception("A user is already logged in")
+        return "A user is already logged in"
+
 
     try:
         CurrentUser = Account.objects.get(userName=userName)
         if CurrentUser.password != password:
-            raise Exception("Incorrect password")
+            return "Incorrect password"
 
     except Account.DoesNotExist:
-        raise Exception("Account Not Found")
+        return "Account Not Found"
 
     CurrentUser.currentUser = True
     CurrentUser.save()
-    return CurrentUser.title
+    return "Logged in as " + userName
 
 
-def logout(self):
+def logout():
     pass
 
 
@@ -59,7 +59,7 @@ def viewCourseAssign(userName):
     pass
 
 
-def getCommands(self):
+def getCommands():
     commandList = [Command("login", 2, login), Command("logout", 0, logout),
                    Command("createAccount", 5, createAccount), Command("deleteAccount", 1, deleteAccount),
                    Command("createCourse", 6, createCourse), Command("createSection", 6, createSection),
