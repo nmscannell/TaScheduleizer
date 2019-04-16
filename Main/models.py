@@ -1,6 +1,8 @@
 from django.db import models
 
 # Create your models here.
+
+
 class Account(models.Model):
     userName = models.CharField(max_length=20, default=" ")
     firstName = models.CharField(max_length=20, default=" ")
@@ -42,10 +44,11 @@ class AccountCourse(models.Model):
     def __str__(self):
         return str(self.Instructor) + " " + str(self.Course)
 
+
 class Section(models.Model):
 
     course = models.ForeignKey(Course, default=None, on_delete=models.CASCADE)
-    type = models.IntegerField(max_length=1)
+    type = models.IntegerField()
     number = models.IntegerField(default=000)
     meetingDays = models.CharField(max_length=10, default=" ")
     startTime = models.IntegerField(default=0000)
