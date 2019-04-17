@@ -1,8 +1,8 @@
 from django.test import TestCase
-from Main.models import Account, Course, AccountCourse, Section, AccountSection
+from Main.models import Account
 import Commands
 
-class TestCommands(TestCase):
+class TestCreateAccount(TestCase):
 
     def setUp(self):
 
