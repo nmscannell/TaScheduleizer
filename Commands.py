@@ -161,7 +161,7 @@ def createSection(courseNumber, type, sectionNumber, days, start, end):
             return "Invalid start or end time, please use a 4 digit military time representation"
 
     # Make sure the lab does not already exist
-    if Section.objects.filter(course=c, sectionNumber=sectionNumber).exists():
+    if Section.objects.filter(course=c, number=sectionNumber).exists():
         return "Lab already exists, lab not added"
     else:
         l = Section.objects.create(course=c)
@@ -227,7 +227,39 @@ def assignAccSection(userName, courseNumber, sectionNumber):
 
 
 def viewCourseAssign(userName):
-    pass
+    if not Account.objects.filter(userName=userName).exists():
+        return "Account not found"
+
+    account = Account.objects.get(userName=userName)
+
+    if not AccountCourse.objects.filter(Account=account).exists():
+        return str(account) + " does not have any assignments"
+
+    labAssignments = AccountSection.objects.filter(Account=account)
+
+    response = str(account) + " is assigned to: "
+    labList = []
+    checkList = []
+    for a in labAssignments:
+        labList.append(str(a.Section))
+        checkList.append(a.Section.course)
+
+    response += ", ".join(labList)
+
+    courseAssignments = AccountCourse.objects.filter(Account=account)
+
+    courseList = []
+    first = True
+    for a in courseAssignments:
+        if a.Course not in checkList:
+            if first and len(labAssignments) != 0:# all this does is puts a comma after lab sections if present
+                response += ", "
+                first = False
+            courseList.append(str(a.Course))
+
+    response += ", ".join(courseList)
+
+    return response
 
 
 def getCommands():

@@ -42,20 +42,20 @@ class AccountCourse(models.Model):
     Course = models.ForeignKey(Course, on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(self.Instructor) + " " + str(self.Course)
+        return str(self.Account) + " " + str(self.Course)
 
 
 class Section(models.Model):
 
     course = models.ForeignKey(Course, default=None, on_delete=models.CASCADE)
-    type = models.IntegerField()
+    type = models.IntegerField(default=0)
     number = models.IntegerField(default=000)
     meetingDays = models.CharField(max_length=10, default=" ")
     startTime = models.IntegerField(default=0000)
     endTime = models.IntegerField(default=0000)
 
     def __str__(self):
-        return str(self.course) + " section " + str(self.sectionNumber)
+        return str(self.course) + " section " + str(self.number)
 
 
 class AccountSection(models.Model):
@@ -63,6 +63,6 @@ class AccountSection(models.Model):
     Section = models.ForeignKey(Section, on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(self.TA) + " " + str(self.Lab)
+        return str(self.Account) + " " + str(self.Section)
 
 
