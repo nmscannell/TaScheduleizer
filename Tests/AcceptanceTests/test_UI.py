@@ -26,9 +26,6 @@ class TestUI(TestCase):
 
     """
 
-    def test_command(self):
-        self.fail()
-
     def test_login_success(self):
         self.assertEqual(self.UI.command("login janewayk123 123456"), "Logged in as janewayk123")
 
