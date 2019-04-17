@@ -1,0 +1,34 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Account</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" type = "text/css" href="{% static 'createAccount.css' %}">
+
+    <h1>Create an Account</h1>
+
+</head>
+<body>
+<form method="post" action="/createaccount/">
+  {%csrf_token%}
+
+      First Name:
+    <input type="text" name="firstname" id="firstname" required/><br>
+        Last Name:
+    <input type="text" name="lastname" id="lastname" required/><br>
+        UserName:
+    <input type="text" name="username" id="username" required/><br>
+        Email:
+    <input type="email" name="email" id="email" required/><br>
+
+    <input type="radio" name="title" value="TA"  checked>TA<br>
+    <input type="radio" name="title" value="Instructor">Instructor<br>
+    <input type="submit"/><br>
+    <p>{{ message }}</p>
+
+  </form>
+{{ message }}
+</body>
+</html>

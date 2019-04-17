@@ -47,3 +47,46 @@ class loginPage(View):
         except Exception as e:
 
             return render(request, 'loginscreen.html', {"message": str(e)})
+
+class adminPage(View):
+
+    def get(self, request):
+        return render(request, 'Accounts/AdminHome.html')
+
+class supervisorPage(View):
+
+    def get(self, request):
+        return render(request, 'Accounts/SupervisorHome.html')
+
+
+class instructorPage(View):
+
+    def get(self, request):
+        return render(request, 'Accounts/InstructorHome.html')
+
+class taPage(View):
+
+    def get(self, request):
+        return render(request, 'Accounts/TaHome.html')
+
+class createAccountView(View):
+
+    def get(self, request):
+        #accountList = list(Account.objects.all())
+        return render(request, 'createAccount.html')
+
+    def post(self, request):
+        #self.CA = Account()
+        userName = str(request.POST["username"])
+        firstName = str(request.POST["firstname"])
+        lastName = str(request.POST["lastname"])
+        #email = str(request.POST["email"])
+        #title = str(request.POST["title"])
+        return render(request, 'createAccount.html')
+        #command = [userName, title, email, firstName, lastName]
+
+        #try:
+            #message = Account.createAccountModels(self.CA, command)
+            #return render(request, 'createAccount.html', {"message": message})
+        #except Exception as e:
+            #return render(request, 'createAccount.html', {"message": str(e)})

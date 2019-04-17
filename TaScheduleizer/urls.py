@@ -21,5 +21,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.redirect_login),
     path('command/', views.commandLine.as_view()),
-    path('login/', views.loginPage.as_view())
+    path('login/', views.loginPage.as_view()),
+    path('administrator/', views.adminPage.as_view()),
+    path('supervisor/', views.supervisorPage.as_view()),
+    path('instructor/', views.instructorPage.as_view()),
+    path('ta/', views.taPage.as_view()),
+    path('createaccount/', views.createAccountView.as_view()),
 ]
