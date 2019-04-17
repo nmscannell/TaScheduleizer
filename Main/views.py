@@ -48,10 +48,12 @@ class loginPage(View):
 
             return render(request, 'loginscreen.html', {"message": str(e)})
 
+
 class adminPage(View):
 
     def get(self, request):
         return render(request, 'Accounts/AdminHome.html')
+
 
 class supervisorPage(View):
 
@@ -64,10 +66,12 @@ class instructorPage(View):
     def get(self, request):
         return render(request, 'Accounts/InstructorHome.html')
 
+
 class taPage(View):
 
     def get(self, request):
         return render(request, 'Accounts/TaHome.html')
+
 
 class createAccountView(View):
 

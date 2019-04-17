@@ -15,7 +15,9 @@ class UI:
                 if len(command)-1 != a.arguments:
                     return a.opcode + " requires " + str(a.arguments) + " arguments"
 
-                if a.arguments == 1:
+                if a.arguments == 0:
+                    return a.function()
+                elif a.arguments == 1:
                     return a.function(command[1])
                 elif a.arguments == 2:
                     return a.function(command[1], command[2])
