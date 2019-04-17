@@ -41,7 +41,7 @@ def logout():
         return "Multiple account Logged in, Something went terribly wrong"
 
 
-def createAccount(firstName, lastName, userName, email, title):
+def createAccount(firstName, lastName, userName, title, email):
     # Check that the command has the correct number of arguments
 
     # Check that the account trying to be created does not already exist
