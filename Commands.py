@@ -142,9 +142,9 @@ def viewCourseAssign(userName):
 
 def getCommands():
     commandList = [Command("login", 2, login), Command("logout", 0, logout),
-                   Command("createAccount", 5, createAccount), Command("deleteAccount", 1, deleteAccount),
-                   Command("createCourse", 6, createCourse), Command("createSection", 6, createSection),
-                   Command("assignAccCourse", 2, assignAccCourse),
-                   Command("assignAccSection", 3, assignAccSection),
-                   Command("viewCourseAssign", 1, viewCourseAssign)]
+                   Command("createaccount", 5, createAccount), Command("deleteaccount", 1, deleteAccount),
+                   Command("createcourse", 6, createCourse), Command("createsection", 6, createSection),
+                   Command("assignacccourse", 2, assignAccCourse),
+                   Command("assignaccsection", 3, assignAccSection),
+                   Command("viewcourseassign", 1, viewCourseAssign)]
     return commandList
