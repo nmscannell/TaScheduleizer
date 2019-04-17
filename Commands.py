@@ -130,7 +130,7 @@ def createSection(courseNumber, type, sectionNumber, days, start, end):
     if len(courseNumber) > 3 or len(courseNumber) < 3:
         return "Course number must be numeric and three digits long"
 
-    # Make sure course that the lab is being created for exists
+    # Make sure course that the lab is being created for exists ok
     try:
         c = Course.objects.get(number=courseNumber)
     except Course.DoesNotExist:
