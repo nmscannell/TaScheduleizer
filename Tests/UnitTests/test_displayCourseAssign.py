@@ -30,6 +30,14 @@ class TestDisplayCourseAssign(TestCase):
                                                             "Teaching Assistants: None\n"
                                                             "LEC 123: None\n")
 
+    def test_displayCourseAssign_1_Lab(self):
+        self.section1 = Section.objects.create(course=self.c1, type=0, number=123)
+
+        self.assertMultiLineEqual(displayCourseAssign(333), "Intro CS333\n"
+                                                            "Instructors: None\n"
+                                                            "Teaching Assistants: None\n"
+                                                            "LAB 123: None\n")
+
     def test_displayCourseAssign_1_Lec_1_lab(self):
         self.section1 = Section.objects.create(course=self.c1, type=1, number=123)
         self.section2 = Section.objects.create(course=self.c1, type=0, number=604)
@@ -48,5 +56,57 @@ class TestDisplayCourseAssign(TestCase):
         self.assertMultiLineEqual(displayCourseAssign(333), "Intro CS333\n"
                                                             "Instructors: None\n"
                                                             "Teaching Assistants: None\n"
-                                                            "LEC 123: None\n"
+                                                            "LEC 123: None\n" 
+                                                            "LEC 321: None\n"
                                                             "LAB 604: None\n")
+
+    def test_displayCourse_1_Instructor(self):
+        self.account1 = Account.objects.create(userName="hsimpson", firstName="Homer", lastName="Simpson", title=2)
+        AccountCourse.objects.create(Account=self.account1, Course=self.c1)
+
+        self.assertMultiLineEqual(displayCourseAssign(333), "Intro CS333\n"
+                                                            "Instructors: Homer Simpson\n"
+                                                            "Teaching Assistants: None\n"
+                                                            "No sections found")
+
+    def test_displayCourse_2_Instructor(self):
+        self.account1 = Account.objects.create(userName="hsimpson", firstName="Homer", lastName="Simpson", title=2)
+        self.account2 = Account.objects.create(userName="cwhitley", firstName="Chip", lastName="Whitley", title=2)
+        AccountCourse.objects.create(Account=self.account1, Course=self.c1)
+        AccountCourse.objects.create(Account=self.account2, Course=self.c1)
+
+        self.assertMultiLineEqual(displayCourseAssign(333), "Intro CS333\n"
+                                                            "Instructors: Homer Simpson, Chip Whitley\n"
+                                                            "Teaching Assistants: None\n"
+                                                            "No sections found")
+
+    def test_displayCourse_1_TA(self):
+        self.account1 = Account.objects.create(userName="hsimpson", firstName="Homer", lastName="Simpson", title=1)
+        AccountCourse.objects.create(Account=self.account1, Course=self.c1)
+
+        self.assertMultiLineEqual(displayCourseAssign(333), "Intro CS333\n"
+                                                            "Instructors: None\n"
+                                                            "Teaching Assistants: Homer Simpson\n"
+                                                            "No sections found")
+
+    def test_displayCourse_2_TA(self):
+        self.account1 = Account.objects.create(userName="hsimpson", firstName="Homer", lastName="Simpson", title=1)
+        self.account2 = Account.objects.create(userName="cwhitley", firstName="Chip", lastName="Whitley", title=1)
+        AccountCourse.objects.create(Account=self.account1, Course=self.c1)
+        AccountCourse.objects.create(Account=self.account2, Course=self.c1)
+
+        self.assertMultiLineEqual(displayCourseAssign(333), "Intro CS333\n"
+                                                            "Instructors: None\n"
+                                                            "Teaching Assistants: Homer Simpson, Chip Whitley\n"
+                                                            "No sections found")
+
+    def test_displayCourse_1_instructor_1_TA(self):
+        self.account1 = Account.objects.create(userName="hsimpson", firstName="Homer", lastName="Simpson", title=1)
+        self.account2 = Account.objects.create(userName="cwhitley", firstName="Chip", lastName="Whitley", title=2)
+        AccountCourse.objects.create(Account=self.account1, Course=self.c1)
+        AccountCourse.objects.create(Account=self.account2, Course=self.c1)
+
+        self.assertMultiLineEqual(displayCourseAssign(333), "Intro CS333\n"
+                                                            "Instructors: Chip Whitley\n"
+                                                            "Teaching Assistants: Homer Simpson\n"
+                                                            "No sections found")

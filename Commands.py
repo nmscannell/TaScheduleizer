@@ -249,8 +249,9 @@ def displayCourseAssign(courseNumber):
     if not instructorList:
         response += "None"
     else:
-        for a in instructorList:
-            response += a + " "
+        response += ", ".join(instructorList)
+        #for a in instructorList:
+            #response += a + " "
 
     response += "\nTeaching Assistants: "
 
@@ -263,15 +264,24 @@ def displayCourseAssign(courseNumber):
     if not taList:
         response += "None"
     else:
-        for a in taList:
-            response += a + " "
+        response += ", ".join(taList)
+        #for a in taList:
+            #response += a + " "
     response += "\n"
-    sectionList = Section.objects.filter(course=course)
-    if not sectionList:
+    lecSectionList = Section.objects.filter(course=course, type=1)
+    labSectionList = Section.objects.filter(course=course, type=0)
+    if not lecSectionList and not labSectionList:
         response += "No sections found"
         return response
     else:
-        for a in sectionList:
+        for a in lecSectionList:
+            p = AccountSection.objects.filter(Section=a)
+            if not p:
+                response += str(a) + ": None\n"
+            else:
+                for q in p:
+                    response += str(q.Section) + ": " + str(q.Account) + "\n"
+        for a in labSectionList:
             p = AccountSection.objects.filter(Section=a)
             if not p:
                 response += str(a) + ": None\n"
