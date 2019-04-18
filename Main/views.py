@@ -109,3 +109,16 @@ class courseAssignmentsList(View):
     def get(self, request):
         courses = displayAllCourseAssign()
         return render(request, 'courseAssignmentList.html', {"courseList": courses})
+
+
+class deleteAccount(View):
+    def get(self, request):
+        return render(request, 'deleteAccount.html')
+    def post(self, request):
+       pass
+
+class instructorCourse(View):
+    def get(self, request):
+        return render(request, 'assignInstructor.html')
+    def post(self, request):
+        pass

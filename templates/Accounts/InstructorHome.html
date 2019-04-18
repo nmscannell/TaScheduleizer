@@ -4,9 +4,47 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
+<style>
+ul {
+  padding: 0;
+  overflow: hidden;
+  margin: 0;
+  background-color: #312f33;
+  list-style-type: none;
+}
+
+li {
+  float: left;
+  border-right:2px solid #bbb;
+}
+
+li:last-child {
+  border-right: none;
+}
+
+li a {
+    color: #fffe31;
+    text-align: center;
+    padding: 20px 24px;
+    display: block;
+    text-decoration: none;
+}
+
+li a:hover:not(.active) {
+  background-color: #3d35ff;
+}
+
+.active {
+  background-color: #a329af;
+}
+</style>
 <body>
-<h1> {{ account }}'s Homepage </h1>
-<p>Instructor commands will go here</p>
-<a href="/login/">Logout</a>
+<h1 align="center"> {{ account }}'s Homepage </h1>
+<ul>
+   <li><a class="active" href=" ">Edit the Contact Information</a></li>
+    <li><a href="/courseassignments">View Course Assignments</a></li>
+     <li><a href=" ">View TA assignments</a></li>
+     <li style="float:right"><a href="/login/">Logout</a></li>
+</ul>
 </body>
 </html>

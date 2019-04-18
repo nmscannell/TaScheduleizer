@@ -27,5 +27,7 @@ urlpatterns = [
     path('instructor/', views.instructorPage.as_view()),
     path('ta/', views.taPage.as_view()),
     path('createaccount/', views.createAccountView.as_view()),
-    path('courseassignments/', views.courseAssignmentsList.as_view())
+    path('courseassignments/', views.courseAssignmentsList.as_view()),
+    path('deleteaccount/', views.courseAssignmentsList.as_view()),
+    path('assigninstructor/', views.courseAssignmentsList.as_view()),
 ]
