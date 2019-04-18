@@ -2,6 +2,7 @@ from Main.models import Account, Course, Section, AccountSection, AccountCourse
 import re
 
 
+
 class Command():
 
     def __init__(self, opcode, arguments, function):
@@ -11,21 +12,16 @@ class Command():
 
 
 def login(userName, password):
-    test = Account.objects.filter(currentUser=True)
-    if len(test) > 0:
-        return "A user is already logged in"
 
     try:
         CurrentUser = Account.objects.get(userName=userName)
         if CurrentUser.password != password:
-            return "Incorrect password"
+            raise Exception("Incorrect password")
 
     except Account.DoesNotExist:
-        return "Account Not Found"
+        raise Exception("Account Not Found")
 
-    CurrentUser.currentUser = True
-    CurrentUser.save()
-    return "Logged in as " + userName
+    return CurrentUser
 
 
 def logout():

@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from UserInterface import UI
+from Commands import login
+from CurrentUserHelper import CurrentUser
 # Create your views here.
 
 
@@ -28,12 +30,15 @@ class loginPage(View):
         return render(request, 'loginscreen.html', {"message": ""})
 
     def post(self, request):
+        CU = CurrentUser()
         username = str(request.POST["username"])
         password = str(request.POST["password"])
-        username = username.strip()
 
         try:
-            check = LH.login(command)
+            currentUser = login(username, password)
+            CU.setCurrentUser(currentUser, request)
+
+            check = CU.getCurrentUserTitle(request)
 
             if check == 1:
                 return redirect('/ta/')
@@ -45,7 +50,6 @@ class loginPage(View):
                 return redirect('/supervisor/')
 
         except Exception as e:
-
             return render(request, 'loginscreen.html', {"message": str(e)})
 
 
@@ -64,13 +68,17 @@ class supervisorPage(View):
 class instructorPage(View):
 
     def get(self, request):
-        return render(request, 'Accounts/InstructorHome.html')
+        CU = CurrentUser()
+        account = CU.getCurrentUser(request)
+        return render(request, 'Accounts/InstructorHome.html', {"account": account})
 
 
 class taPage(View):
 
     def get(self, request):
-        return render(request, 'Accounts/TaHome.html')
+        CU = CurrentUser()
+        account = CU.getCurrentUser(request)
+        return render(request, 'Accounts/TaHome.html', {"account": account})
 
 
 class createAccountView(View):
