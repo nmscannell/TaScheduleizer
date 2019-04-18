@@ -1,4 +1,5 @@
 from Main.models import Account, Course, Section, AccountSection, AccountCourse
+import CurrentUserHelper
 import re
 
 
@@ -8,6 +9,8 @@ class Command():
         self.opcode = opcode
         self.arguments = arguments
         self.function = function
+
+
 
 
 def login(userName, password):
@@ -36,7 +39,8 @@ def logout():
 
 
 def createAccount(firstName, lastName, userName, title, email):
-    # Check that the command has the correct number of arguments
+
+
 
     # Check that the account trying to be created does not already exist
     if Account.objects.filter(userName=userName).exists():
@@ -325,6 +329,7 @@ def viewCourseAssign(userName):
     response += ", ".join(courseList)
 
     return response
+
 
 
 def getCommands():
