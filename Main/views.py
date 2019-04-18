@@ -112,7 +112,13 @@ class courseAssignmentsList(View):
 
 
 class deleteAccount(View):
-        pass
+    def get(self, request):
+        return render(request, 'deleteAccount.html')
+    def post(self, request):
+       pass
 
 class instructorCourse(View):
-    pass
+    def get(self, request):
+        return render(request, 'assignInstructor.html')
+    def post(self, request):
+        pass
