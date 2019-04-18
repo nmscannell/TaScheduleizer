@@ -231,7 +231,7 @@ def displayAllCourseAssign():
 
     return courseList
 
-
+# Please don't touch this.
 def displayCourseAssign(courseNumber):
     course = Course.objects.get(number=courseNumber)
 
