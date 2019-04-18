@@ -231,11 +231,11 @@ def displayAllCourseAssign():
 
     return courseList
 
-# Please don't touch this.
+
 def displayCourseAssign(courseNumber):
     course = Course.objects.get(number=courseNumber)
 
-    response = course.name + " Cs" + str(course.number) + "\n"
+    response = course.name + " CS" + str(course.number) + "\n"
 
     lst = AccountCourse.objects.filter(Course=course)
     instructorList = []
@@ -273,7 +273,7 @@ def displayCourseAssign(courseNumber):
         for a in sectionList:
             p = AccountSection.objects.filter(Section=a)
             if not p:
-                response += str(a) + " : None\n"
+                response += str(a) + ": None\n"
             else:
                 for q in p:
                     response += str(q.Section) + ": " + str(q.Account) + "\n"

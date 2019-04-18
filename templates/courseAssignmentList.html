@@ -3,12 +3,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Course Assignments</title>
     <link rel="stylesheet" type = "text/css" href="{% static 'courseAssignmentList.css' %}">
 </head>
 <body>
+<h1>Course Assignments</h1>
 {% for i in courseList %}
-    <p class="text">{{ i }}</p><br>
+    <p>{{ i }}</p><br>
 {% endfor %}
 </body>
 </html>
