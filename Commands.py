@@ -11,21 +11,16 @@ class Command():
 
 
 def login(userName, password):
-    test = Account.objects.filter(currentUser=True)
-    if len(test) > 0:
-        return "A user is already logged in"
 
     try:
         CurrentUser = Account.objects.get(userName=userName)
         if CurrentUser.password != password:
-            return "Incorrect password"
+            raise Exception("Incorrect password")
 
     except Account.DoesNotExist:
-        return "Account Not Found"
+        raise Exception("Account Not Found")
 
-    CurrentUser.currentUser = True
-    CurrentUser.save()
-    return "Logged in as " + userName
+    return CurrentUser
 
 
 def logout():
@@ -77,7 +72,8 @@ def createAccount(firstName, lastName, userName, title, email):
 
 
 def deleteAccount(userName):
-    pass
+    Account.objects.filter(userName = userName).delete()
+    return "Account successfully deleted"
 
 
 def createCourse(name, number, online, days, start, end):
@@ -226,6 +222,75 @@ def assignAccSection(userName, courseNumber, sectionNumber):
     return "TA successfully assigned"
 
 
+def displayAllCourseAssign():
+    lst = Course.objects.all()
+    courseList = []
+
+    for a in lst:
+        courseList.append(displayCourseAssign(a.number))
+
+    return courseList
+
+
+def displayCourseAssign(courseNumber):
+    course = Course.objects.get(number=courseNumber)
+
+    response = course.name + " CS" + str(course.number) + "\n"
+
+    lst = AccountCourse.objects.filter(Course=course)
+    instructorList = []
+
+    for a in lst:
+        if a.Account.title == 2:
+            instructorList.append(str(a.Account))
+
+    response += "Instructors: "
+    if not instructorList:
+        response += "None"
+    else:
+        response += ", ".join(instructorList)
+        #for a in instructorList:
+            #response += a + " "
+
+    response += "\nTeaching Assistants: "
+
+    taList = []
+
+    for a in lst:
+        if a.Account.title == 1:
+            taList.append(str(a.Account))
+
+    if not taList:
+        response += "None"
+    else:
+        response += ", ".join(taList)
+        #for a in taList:
+            #response += a + " "
+    response += "\n"
+    lecSectionList = Section.objects.filter(course=course, type=1)
+    labSectionList = Section.objects.filter(course=course, type=0)
+    if not lecSectionList and not labSectionList:
+        response += "No sections found"
+        return response
+    else:
+        for a in lecSectionList:
+            p = AccountSection.objects.filter(Section=a)
+            if not p:
+                response += str(a) + ": None\n"
+            else:
+                for q in p:
+                    response += str(q.Section) + ": " + str(q.Account) + "\n"
+        for a in labSectionList:
+            p = AccountSection.objects.filter(Section=a)
+            if not p:
+                response += str(a) + ": None\n"
+            else:
+                for q in p:
+                    response += str(q.Section) + ": " + str(q.Account) + "\n"
+
+    return response
+
+
 def viewCourseAssign(userName):
     if not Account.objects.filter(userName=userName).exists():
         return "Account not found"
@@ -263,10 +328,10 @@ def viewCourseAssign(userName):
 
 
 def getCommands():
-    commandList = [Command("login", 2, login), Command("logout", 0, logout),
-                   Command("createaccount", 5, createAccount), Command("deleteaccount", 1, deleteAccount),
-                   Command("createcourse", 6, createCourse), Command("createsection", 6, createSection),
-                   Command("assignacccourse", 2, assignAccCourse),
-                   Command("assignaccsection", 3, assignAccSection),
-                   Command("viewcourseassign", 1, viewCourseAssign)]
-    return commandList
+    return [Command("login", 2, login), Command("logout", 0, logout),
+            Command("createaccount", 5, createAccount), Command("deleteaccount", 1, deleteAccount),
+            Command("createcourse", 6, createCourse), Command("createsection", 6, createSection),
+            Command("assignacccourse", 2, assignAccCourse),
+            Command("assignaccsection", 3, assignAccSection),
+            Command("viewcourseassign", 1, viewCourseAssign)]
+

@@ -1,0 +1,10 @@
+body
+{
+    text-align: center;
+}
+p
+{
+    font-size: 20pt;
+    white-space: pre-wrap;
+    color: red;
+}

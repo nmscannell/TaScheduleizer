@@ -22,7 +22,7 @@ class Account(models.Model):
     currentUser = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.userName
+        return self.firstName + " " + self.lastName
 
 
 class Course(models.Model):
@@ -55,7 +55,12 @@ class Section(models.Model):
     endTime = models.IntegerField(default=0000)
 
     def __str__(self):
-        return str(self.course) + " section " + str(self.number)
+        id = ""
+        if self.type == 1:
+            id = "LEC"
+        else:
+            id = "LAB"
+        return id + " " + str(self.number)
 
 
 class AccountSection(models.Model):
