@@ -73,7 +73,8 @@ def createAccount(firstName, lastName, userName, title, email):
 
 
 def deleteAccount(userName):
-    pass
+    Account.objects.filter(userName = userName).delete()
+    return "Account successfully deleted"
 
 
 def createCourse(name, number, online, days, start, end):
