@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from UserInterface import UI
-from Commands import login
+from Commands import login, displayAllCourseAssign
 from CurrentUserHelper import CurrentUser
 # Create your views here.
 
@@ -102,3 +102,10 @@ class createAccountView(View):
             #return render(request, 'createAccount.html', {"message": message})
         #except Exception as e:
             #return render(request, 'createAccount.html', {"message": str(e)})
+
+
+class courseAssignmentsList(View):
+
+    def get(self, request):
+        courses = displayAllCourseAssign()
+        return render(request, 'courseAssignmentList.html', {"courseList": courses})

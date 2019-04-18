@@ -222,6 +222,64 @@ def assignAccSection(userName, courseNumber, sectionNumber):
     return "TA successfully assigned"
 
 
+def displayAllCourseAssign():
+    lst = Course.objects.all()
+    courseList = []
+
+    for a in lst:
+        courseList.append(displayCourseAssign(a.number))
+
+    return courseList
+
+
+def displayCourseAssign(courseNumber):
+    course = Course.objects.get(number=courseNumber)
+
+    response = course.name + " Cs" + str(course.number) + "\n"
+
+    lst = AccountCourse.objects.filter(Course=course)
+    instructorList = []
+
+    for a in lst:
+        if a.Account.title == 2:
+            instructorList.append(str(a.Account))
+
+    response += "Instructors: "
+    if not instructorList:
+        response += "None"
+    else:
+        for a in instructorList:
+            response += a + " "
+
+    response += "\nTeaching Assistants: "
+
+    taList = []
+
+    for a in lst:
+        if a.Account.title == 1:
+            taList.append(str(a.Account))
+
+    if not taList:
+        response += "None"
+    else:
+        for a in taList:
+            response += a + " "
+    response += "\n"
+    sectionList = Section.objects.filter(course=course)
+    if not sectionList:
+        response += "No sections found"
+        return response
+    else:
+        for a in sectionList:
+            p = AccountSection.objects.filter(Section=a)
+            if not p:
+                response += str(a) + " : None\n"
+            else:
+                for q in p:
+                    response += str(q.Section) + ": " + str(q.Account) + "\n"
+
+    return response
+
 def viewCourseAssign(userName):
     if not Account.objects.filter(userName=userName).exists():
         return "Account not found"
