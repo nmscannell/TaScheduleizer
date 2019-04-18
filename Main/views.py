@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from UserInterface import UI
-from Commands import login, displayAllCourseAssign
+from Commands import login, displayAllCourseAssign, createAccount
 from CurrentUserHelper import CurrentUser
 # Create your views here.
 
@@ -90,25 +90,24 @@ class taPage(View):
 
 class createAccountView(View):
 
+
     def get(self, request):
-        #accountList = list(Account.objects.all())
         return render(request, 'createAccount.html')
 
     def post(self, request):
-        #self.CA = Account()
         userName = str(request.POST["username"])
         firstName = str(request.POST["firstname"])
         lastName = str(request.POST["lastname"])
-        #email = str(request.POST["email"])
-        #title = str(request.POST["title"])
-        return render(request, 'createAccount.html')
-        #command = [userName, title, email, firstName, lastName]
+        email = str(request.POST["email"])
+        title = str(request.POST["title"])
+        try:
+            message = createAccount(userName=userName, firstName=firstName,
+                                    lastName=lastName, email=email, title=title)
 
-        #try:
-            #message = Account.createAccountModels(self.CA, command)
-            #return render(request, 'createAccount.html', {"message": message})
-        #except Exception as e:
-            #return render(request, 'createAccount.html', {"message": str(e)})
+            return render(request, 'createAccount.html', {"message": message})
+        except Exception as e:
+            return render(request, 'createAccount.html', {"message": str(e)})
+
 
 
 class courseAssignmentsList(View):
