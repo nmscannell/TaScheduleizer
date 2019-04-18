@@ -2,7 +2,6 @@ from Main.models import Account, Course, Section, AccountSection, AccountCourse
 import re
 
 
-
 class Command():
 
     def __init__(self, opcode, arguments, function):
@@ -290,6 +289,7 @@ def displayCourseAssign(courseNumber):
                     response += str(q.Section) + ": " + str(q.Account) + "\n"
 
     return response
+
 
 def viewCourseAssign(userName):
     if not Account.objects.filter(userName=userName).exists():

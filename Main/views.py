@@ -27,6 +27,8 @@ def redirect_login(request):
 class loginPage(View):
 
     def get(self, request):
+        CU = CurrentUser()
+        CU.removeCurrentUser(request)
         return render(request, 'loginscreen.html', {"message": ""})
 
     def post(self, request):
@@ -56,6 +58,11 @@ class loginPage(View):
 class adminPage(View):
 
     def get(self, request):
+        CU = CurrentUser()
+        currentuser = CU.getCurrentUser(request)
+
+        if not currentuser:
+            return render(request, 'errorPage.html', {"message": "Only admins may view this page"})
         return render(request, 'Accounts/AdminHome.html')
 
 
