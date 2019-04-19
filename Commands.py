@@ -73,7 +73,9 @@ def createAccount(firstName, lastName, userName, title, email):
 
 
 def deleteAccount(userName):
-    Account.objects.filter(userName = userName).delete()
+    if not Account.objects.get(userName=userName).exists():
+        return "Account does not exist"
+    Account.objects.filter(userName=userName).delete()
     return "Account successfully deleted"
 
 
