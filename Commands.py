@@ -1,7 +1,7 @@
 from Main.models import Account, Course, Section, AccountSection, AccountCourse
 import CurrentUserHelper
 import re
-from itertools import chain
+
 
 
 class Command():
@@ -73,7 +73,7 @@ def createAccount(firstName, lastName, userName, title, email):
 
 
 def deleteAccount(userName):
-    Account.objects.filter(userName = userName).delete()
+    Account.objects.filter(userName= userName).delete()
     return "Account successfully deleted"
 
 

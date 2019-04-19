@@ -177,6 +177,7 @@ class directoryView(View):
 
         return render(request, 'Directory.html', {"directory": directory})
 
+
 class editPubInfoView(View):
 
     def get(self, request):
