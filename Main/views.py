@@ -144,3 +144,11 @@ class directoryView(View):
             directory = getPrivateDataList()
 
         return render(request, 'Directory.html', {"directory": directory})
+
+class editPubInfoView(View):
+
+    def get(self, request):
+        pass
+
+    def post(self, request):
+        pass
