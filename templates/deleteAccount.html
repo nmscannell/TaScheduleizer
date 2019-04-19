@@ -13,9 +13,13 @@
 <body>
 <form method="post" action="/deleteaccount/">
   {%csrf_token%}
+<select name = "username" onchange="this.form.submit()">
 
-      UserName:
-    <input type="text" name="username" id="username" required/><br>
+    {%for i  in stafflist %}
+        <option value={{ i.username }}>{{ i }}</option>
+    {% endfor %}
+</select>
+
     <input type="submit"/><br>
     <p>{{ message }}</p>
 
