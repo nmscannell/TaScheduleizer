@@ -27,12 +27,28 @@ class Test_web(TestCase):
                                officePhone="897-654-398", officeDays="MW", officeHoursStart="1500",
                                officeHoursEnd="1600", currentUser=False)
 
+        # Set up for Course testing
+        Course.objects.create(name="DataStructures", number=351, onCampus=True, classDays="TR",
+                              classHoursStart=1200, classHoursEnd=1300)
+
+        Course.objects.create(name="ComputerArchitecture", number=458, onCampus=True, classDays="MW",
+                              classHoursStart=1230, classHoursEnd=1345)
+
+        Section.objects.create(course=Course.objects.get(number="351"), sectionNumber=804)
+
+        Section.objects.create(course=Course.objects.get(number="458"), sectionNumber=804)
+
+
+
+    """
+    login
+    """
+
 
 
 
     """
     createAccount 
-    
     """
 
     def test_createAccount_success(self):
@@ -41,3 +57,48 @@ class Test_web(TestCase):
                                                    'email': 'obrien31@uwm.edu'})
         self.assertEqual(response.context['message'],
                          "Account successfully created.  Temporary password is: obrien31456")
+
+    def test_createAccount_alreadyexists(self):
+        response = self.c.post('/createaccount/', {'firstname': 'Jean Luc', 'lastname': 'Picard',
+                                                   'username': 'picard304', 'title': 'TA',
+                                                   'email': 'picardj@uwm.edu'})
+        self.assertEqual(response.context['message'], "Account already exists")
+
+    def test_createAccount_invalid_email(self):
+        response = self.c.post('/createaccount/', {'firstname': 'Harry', 'lastname': 'Kim',
+                                                   'username': 'kim4', 'title': 'Instructor',
+                                                   'email': 'kim4@starfleet.com'})
+        self.assertEqual(response.context['message'], "The email address you have entered in not valid.  "
+                                    "Please make sure you are using a uwm email address in the correct format.")
+
+    def test_createAccount_invalid_title(self):
+        response = self.c.post('/createaccount/', {'firstname': 'Harry', 'lastname': 'Kim',
+                                                   'username': 'kim4', 'title': 'Engineer',
+                                                   'email': 'kim4@uwm.edu'})
+        self.assertEqual(response.context['message'], "Invalid title, account not created")
+
+
+    """
+    createCourse
+    """
+
+    def test_createCourse_success(self):
+        pass
+
+    def test_createCourse_invalidNumber(self):
+        pass
+
+    def test_createCourse_course_exists(self):
+        pass
+
+    def test_createCourse_invalid_days(self):
+        pass
+
+    def test_createCourse_invalid_times(self):
+        pass
+
+    def test_createCourse_invalid_locations(self):
+        pass
+
+
+
