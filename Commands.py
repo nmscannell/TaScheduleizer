@@ -292,7 +292,7 @@ def displayCourseAssign(courseNumber):
     return response
 
 
-def viewCourseAssign(userName):
+def viewCourseAssign(userName): # secret message
     if not Account.objects.filter(userName=userName).exists():
         return "Account not found"
 
