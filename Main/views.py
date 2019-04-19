@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from UserInterface import UI
-from Commands import login, displayAllCourseAssign, createAccount
+from Commands import login, displayAllCourseAssign, createAccount, getPrivateDataList, getPublicDataList
 from CurrentUserHelper import CurrentUser
 # Create your views here.
 
@@ -109,7 +109,6 @@ class createAccountView(View):
             return render(request, 'createAccount.html', {"message": str(e)})
 
 
-
 class courseAssignmentsList(View):
 
     def get(self, request):
@@ -120,11 +119,28 @@ class courseAssignmentsList(View):
 class deleteAccount(View):
     def get(self, request):
         return render(request, 'deleteAccount.html')
+
     def post(self, request):
        pass
 
 class instructorCourse(View):
     def get(self, request):
         return render(request, 'assignInstructor.html')
+
     def post(self, request):
         pass
+
+class directoryView(View):
+
+    def get(self, request):
+        CU = CurrentUser()
+        title = CU.getCurrentUserTitle(request)
+
+        if title == 0:
+            return render(request, 'errorPage.html', {"message": "You Must log in to View this page"})
+        if title == 1 or title == 2:
+            directory = getPublicDataList()
+        else:
+            directory = getPrivateDataList()
+
+        return render(request, 'Directory.html', {"directory": directory})

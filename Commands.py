@@ -1,6 +1,7 @@
 from Main.models import Account, Course, Section, AccountSection, AccountCourse
 import CurrentUserHelper
 import re
+from itertools import chain
 
 
 class Command():
@@ -9,8 +10,6 @@ class Command():
         self.opcode = opcode
         self.arguments = arguments
         self.function = function
-
-
 
 
 def login(userName, password):
@@ -39,8 +38,6 @@ def logout():
 
 
 def createAccount(firstName, lastName, userName, title, email):
-
-
 
     # Check that the account trying to be created does not already exist
     if Account.objects.filter(userName=userName).exists():
@@ -331,6 +328,30 @@ def viewCourseAssign(userName):
     return response
 
 
+def getPublicDataList():
+    instructorList = Account.objects.filter(title=2)
+    taList = Account.objects.filter(title=1)
+    staffList = instructorList | taList
+
+    directory = []
+
+    for i in staffList:
+        directory.append(i.displayPublic())
+
+    return directory
+
+
+def getPrivateDataList():
+    instructorList = Account.objects.filter(title=2)
+    taList = Account.objects.filter(title=1)
+    staffList = list(chain(instructorList, taList))
+
+    directory = []
+
+    for i in staffList:
+        directory.append(i.displayPrivate())
+
+    return directory
 
 def getCommands():
     return [Command("login", 2, login), Command("logout", 0, logout),

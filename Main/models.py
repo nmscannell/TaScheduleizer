@@ -9,13 +9,14 @@ class Account(models.Model):
     lastName = models.CharField(max_length=20, default=" ")
     password = models.CharField(max_length=20, default="password")
     email = models.EmailField(default="")
+    homePhone = models.CharField(max_length=12, default="")
     title = models.IntegerField(default=0)
     address = models.CharField(max_length=30, default=" ")
     city = models.CharField(max_length=20, default=" ")
     state = models.CharField(max_length=20, default=" ")
     zipCode = models.IntegerField(default=00000)
     officeNumber = models.IntegerField(default=000)
-    officePhone = models.CharField(max_length=12, default="000-000-0000")
+    officePhone = models.CharField(max_length=12, default="")
     officeDays = models.CharField(max_length=10, default=" ")
     officeHoursStart = models.IntegerField(default=0000)
     officeHoursEnd = models.IntegerField(default=0000)
@@ -23,6 +24,28 @@ class Account(models.Model):
 
     def __str__(self):
         return self.firstName + " " + self.lastName
+
+    def displayPrivate(self):
+        t=""
+        if self.title == 1:
+            t = "Teaching Assistant"
+        else:
+            t = "Instructor"
+        return str(self.firstName) + " " + str(self.lastName) + "\n" + t + "\nHome Phone: " + str(self.homePhone) + \
+            "\nEmail: " + str(self.email) + "\n" + str(self.address) + "\n" + str(self.city) + " " + str(self.state) \
+            + " " + str(self.zipCode) + "\n" + "Office: " + str(self.officeNumber) + "\nOffice Phone: " + \
+            str(self.officePhone) + "\nOffice Hours: " + str(self.officeDays) + " " + str(self.officeHoursStart) + " " \
+            + str(self.officeHoursEnd)
+
+    def displayPublic(self):
+        t = ""
+        if self.title == 1:
+            t = "Teaching Assistant"
+        else:
+            t = "Instructor"
+        return str(self.firstName) + " " + str(self.lastName) + "\n" + t + "\nEmail: " + str(self.email) + "\n" + \
+            "Office: " + str(self.officeNumber) + "\nOffice Phone: " + str(self.officePhone) + "\nOffice Hours: " + \
+            str(self.officeDays) + " " + str(self.officeHoursStart) + " " + str(self.officeHoursEnd)
 
 
 class Course(models.Model):
