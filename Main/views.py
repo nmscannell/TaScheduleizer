@@ -118,13 +118,13 @@ class createAccountView(View):
         lastName = str(request.POST["lastname"])
         email = str(request.POST["email"])
         title = str(request.POST["title"])
-        try:
-            message = createAccount(userName=userName, firstName=firstName,
-                                    lastName=lastName, email=email, title=title)
+        #try:
+        message = createAccount(userName=userName, firstName=firstName,
+                                lastName=lastName, email=email, title=title)
 
-            return render(request, 'createAccount.html', {"message": message})
-        except Exception as e:
-            return render(request, 'createAccount.html', {"message": str(e)})
+        return render(request, 'createAccount.html', {"message": message})
+        #except Exception as e:
+         #   return render(request, 'createAccount.html', {"message": str(e)})
 
 
 class courseAssignmentsList(View):
@@ -147,7 +147,11 @@ class deleteAccount(View):
         return render(request, 'deleteAccount.html')
 
     def post(self, request):
-       pass
+        username = str(request.POST["username"])
+        message = deleteAccount(userName=username)
+        return render(request, 'deleteAccount.html', {"message": message})
+
+
 
 
 class instructorCourse(View):
