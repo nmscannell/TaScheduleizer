@@ -331,26 +331,28 @@ def viewCourseAssign(userName):
 def getPublicDataList():
     instructorList = Account.objects.filter(title=2)
     taList = Account.objects.filter(title=1)
+    # staffList = list(chain(instructorList, taList))
     staffList = instructorList | taList
-
     directory = []
 
     for i in staffList:
         directory.append(i.displayPublic())
 
+    directory.sort()
     return directory
 
 
 def getPrivateDataList():
     instructorList = Account.objects.filter(title=2)
-    taList = Account.objects.filter(title=1)
-    staffList = list(chain(instructorList, taList))
-
+    taList = Account.objects.filter(title='1')
+    # staffList = list(chain(instructorList, taList))
+    staffList = instructorList | taList
     directory = []
 
     for i in staffList:
         directory.append(i.displayPrivate())
 
+    directory.sort(key=str.lower)
     return directory
 
 def getCommands():
