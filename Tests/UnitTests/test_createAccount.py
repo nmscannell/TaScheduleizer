@@ -1,11 +1,14 @@
 from django.test import TestCase
 from Main.models import Account
 import Commands
+from django.test import Client
+
 
 class TestCreateAccount(TestCase):
 
     def setUp(self):
 
+        self.c = Client()
         # Set up for createAccount Testing
         Account.objects.create(userName="janewayk123", firstName="Kathryn", lastName="Janeway", password="123456",
                                email="janewayk@starfleet.com", title=2,
@@ -74,3 +77,12 @@ class TestCreateAccount(TestCase):
     def test_invalid_title(self):
         self.assertEqual(Commands.createAccount("Wesley", "Crusher", "crusher31", "student", "crusher31@uwm.edu"),
                          "Invalid title, account not created")
+
+    def test_something(self):
+        self.c.post('/createaccount/', {'firstname':'Wesley', 'lastname':'Crusher',
+                                              'username': 'crusher31', 'title':'TA', 'email':'crusher31@uwm.edu'})
+        A = Account.objects.get(userName="crusher31")
+        self.assertEqual(A.firstName, "Wesley")
+        self.assertEqual(A.lastName, "Crusher")
+        self.assertEqual(A.email, "crusher31@uwm.edu")
+        self.assertEqual(A.title, 1)
