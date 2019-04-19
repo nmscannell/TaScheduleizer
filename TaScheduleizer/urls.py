@@ -31,4 +31,5 @@ urlpatterns = [
     path('deleteaccount/', views.deleteAccount.as_view()),
     path('assigninstructor/', views.instructorCourse.as_view()),
     path('directory/', views.directoryView.as_view()),
+    path('editpubInfo/', views.editPubInfoView.as_view())
 ]
