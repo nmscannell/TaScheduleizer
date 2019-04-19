@@ -1,6 +1,6 @@
 from django.test import TestCase
 from UserInterface import UI
-from Main.models import Account
+from Main.models import Account, Course, Section, AccountCourse, AccountSection
 
 
 class TestUI(TestCase):
@@ -14,15 +14,78 @@ class TestUI(TestCase):
                                officeNumber="456", officePhone="555-555-5555", officeDays="TR",
                                officeHoursStart="1300", officeHoursEnd="1400", currentUser=False)
 
-    """
-            login command
-            When the login command is entered, it takes two arguments
-            -user name
-            -password
+        Account.objects.create(userName="picard304", firstName="Jean Luc", lastName="Picard", password="90456",
+                               email="picardj@uwm.edu", title=1, address="87 Enterprise Avenue",
+                               city="Alpha", state="Quadrant", zipCode="11111", officeNumber="54",
+                               officePhone="777-777-7777", officeDays="W", officeHoursStart="0900",
+                               officeHoursEnd="1000", currentUser=False)
 
-            If the account does not exist, an error message will be displayed.  If the password it incorrect, 
-            an error message will be displayed.  If the command is missing arguments, an error message will be 
-            displayed. 
+        Account.objects.create(userName="kirkj22", firstName="James", lastName="Kirk", password="678543",
+                               email="kirkj22@uwm.edu", title=4, address="789 Enterprise Avenue",
+                               city="Alpha", state="Quadrant", zipCode="89765", officeNumber="987",
+                               officePhone="897-654-398", officeDays="MW", officeHoursStart="1500",
+                               officeHoursEnd="1600", currentUser=False)
+
+        Account.objects.create(userName="taman", title=1)
+
+        # Set up for Course testing
+        Course.objects.create(name="DataStructures", number=351, onCampus=True, classDays="TR",
+                              classHoursStart=1200, classHoursEnd=1300)
+
+        Course.objects.create(name="ComputerArchitecture", number=458, onCampus=True, classDays="MW",
+                              classHoursStart=1230, classHoursEnd=1345)
+
+        Section.objects.create(course=Course.objects.get(number="351"), sectionNumber=804)
+
+        Section.objects.create(course=Course.objects.get(number="458"), sectionNumber=804)
+
+        # Set up for Labs testing
+        Course.objects.create(name="TemporalMechanics", number=784, onCampus=True, classDays="MW",
+                              classHoursStart=1000, classHoursEnd=1100)
+
+        Course.objects.create(name="WarpTheory", number=633, onCampus=True, classDays="TR", classHoursStart=1200,
+                              classHoursEnd=1250)
+
+        Course.objects.create(name="QuantumMechanics", number=709, onCampus=True, classDays="MWF",
+                              classHoursStart=1030, classHoursEnd=1145)
+
+        Course.objects.create(name="Linguistics", number=564, onCampus=False, classDays="TR",
+                              classHoursStart=1800, classHoursEnd=1930)
+
+        self.c1 = Course.objects.get(name="TemporalMechanics")
+        self.c2 = Course.objects.get(name="WarpTheory")
+        self.c3 = Course.objects.get(name="QuantumMechanics")
+
+        Section.objects.create(course=self.c1, sectionNumber=201, meetingDays="W", startTime=1000, endTime=1200)
+        Section.objects.create(course=self.c1, sectionNumber=202, meetingDays="F", startTime=1400, endTime=1700)
+        Section.objects.create(course=self.c1, sectionNumber=203, meetingDays="T", startTime=1000, endTime=1200)
+
+        # set up for InstructorCourses testing
+        self.cheng = Account.objects.create(userName="cheng41", title="2")
+        Account.objects.create(userName="bob15", title="2")
+        Course.objects.create(number="535", name="Algorithms")
+        Course.objects.create(number="537")
+        Course.objects.create(number="317", name="DiscreteMath")
+        self.course1 = Course.objects.get(number="535")
+        self.course2 = Course.objects.get(number="317")
+        AccountCourse.objects.create(Course=self.course1, Instructor=self.cheng)
+
+        AccountCourse.objects.create(TA=Account.objects.get(userName="taman"), Course=Course.objects.get(number="317"))
+
+        # set up for assign TA to Lab
+        self.datastructures = Course.objects.get(name="DataStructures")
+        self.tamanAccount = Account.objects.get(userName="taman")
+
+
+    """
+        login command
+        When the login command is entered, it takes two arguments
+        -user name
+        -password
+
+        If the account does not exist, an error message will be displayed.  If the password it incorrect, 
+        an error message will be displayed.  If the command is missing arguments, an error message will be 
+        displayed. 
 
     """
 
@@ -90,19 +153,19 @@ class TestUI(TestCase):
                          "address in the correct format.")
 
     """
-            createCourse command 
-            When the createCourse command is entered, it takes six arguments:
-            -Course Name 
-            -Course Number 
-            -Campus or online
-            -Meetings days (if online, enter NN)  
-            -Start time (if online, enter 0000)
-            -End time (if online, enter 0000)
+        createCourse command 
+        When the createCourse command is entered, it takes six arguments:
+        -Course Name 
+        -Course Number 
+        -Campus or online
+        -Meetings days (if online, enter NN)  
+        -Start time (if online, enter 0000)
+        -End time (if online, enter 0000)
 
-            If the course name matches a database entry a then the course is not created 
-            and an error message is displayed and some other stuff
+        If the course name matches a database entry a then the course is not created 
+        and an error message is displayed and some other stuff
 
-            If a command argument is missing, an error message is displayed. 
+        If a command argument is missing, an error message is displayed. 
 
         """
 
@@ -167,14 +230,14 @@ class TestUI(TestCase):
                          "Invalid start or end time, please use a 4 digit military time representation")
 
     """
-            When the createSection command is entered, it takes the following arguments:
-            -Course number associated with the lab 
-            -Lab section number
-            -Day(s) of week
-            -Begin time
-            -End time
-            If the lab already exists, a new lab is not created. If arguments are missing, return error. If the 
-            associated course is online, a lab cannot be created for it.
+        When the createSection command is entered, it takes the following arguments:
+        -Course number associated with the lab 
+        -Lab section number
+        -Day(s) of week
+        -Begin time
+        -End time
+        If the lab already exists, a new lab is not created. If arguments are missing, return error. If the 
+        associated course is online, a lab cannot be created for it.
     """
 
     def test_command_createLab_permission_denied(self):
@@ -260,21 +323,21 @@ class TestUI(TestCase):
                          "You cannot create a lab for an online course")
 
     """
-            When the edit command is entered, it takes 4 arguments.
-            Only supervisors and administrators can utilize this command
-            -Username
-            -Field that needs editing 
-                - Home phone
-                - Email 
-                - Office hours (a start time, an end time and days of office hours) 
-                - Address 
-                - Office Number
-                - Office phone Number
-                - Password 
-            -The new information to replace the current information 
+        When the edit command is entered, it takes 4 arguments.
+        Only supervisors and administrators can utilize this command
+        -Username
+        -Field that needs editing 
+            - Home phone
+            - Email 
+            - Office hours (a start time, an end time and days of office hours) 
+            - Address 
+            - Office Number
+            - Office phone Number
+            - Password 
+        -The new information to replace the current information 
 
-            If the user does not exist, an error message is displayed.
-            If command arguments are missing, an error message is displayed. 
+        If the user does not exist, an error message is displayed.
+        If command arguments are missing, an error message is displayed. 
 
     """
 
@@ -454,11 +517,11 @@ class TestUI(TestCase):
         self.assertEqual(self.UI.command("assignAccountcourse bob15 999"), "Invalid course number")
 
     """
-            assignTALab
-            -When the assignTALab command is entered, it takes three arguments
-            -userName of TA to be assigned
-            -classNumber
-            -Lab section number 
+        assignTALab
+        -When the assignTALab command is entered, it takes three arguments
+        -userName of TA to be assigned
+        -classNumber
+        -Lab section number 
     """
 
     def test_command_assignTALab_noLogin(self):
