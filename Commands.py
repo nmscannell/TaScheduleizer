@@ -354,7 +354,7 @@ def getPrivateDataList():
     for i in staffList:
         directory.append(i.displayPrivate())
 
-    directory.sort(key=str.lower)
+    directory.sort()
     return directory
 
 def getCommands():
