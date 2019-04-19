@@ -3,6 +3,7 @@ from django.views import View
 from UserInterface import UI
 from Commands import login, displayAllCourseAssign, createAccount, getPrivateDataList, getPublicDataList
 from CurrentUserHelper import CurrentUser
+from Main.models import Account
 # Create your views here.
 
 
@@ -140,18 +141,23 @@ class courseAssignmentsList(View):
 
 class deleteAccount(View):
     def get(self, request):
-        CU = CurrentUser()
-        currentusertitle = CU.getCurrentUserTitle(request)
-        if currentusertitle < 3:
-            return render(request, 'errorPage.html', {"message": "You do not have permission to view this page"})
-        return render(request, 'deleteAccount.html')
+        instructorList = Account.objects.filter(title=2)
+        taList = Account.objects.filter(title='1')
+        staffList = instructorList | taList
+        # CU = CurrentUser()
+        # currentusertitle = CU.getCurrentUserTitle(request)
+        # if currentusertitle < 3:
+            # return render(request, 'errorPage.html', {"message": "You do not have permission to view this page"})
+        return render(request, 'deleteAccount.html', {"stafflist": staffList})
 
     def post(self, request):
         username = str(request.POST["username"])
         message = deleteAccount(userName=username)
-        return render(request, 'deleteAccount.html', {"message": message})
+        instructorList = Account.objects.filter(title=2)
+        taList = Account.objects.filter(title='1')
+        staffList = instructorList | taList
 
-
+        return render(request, 'deleteAccount.html', {"message": message, "stafflist": staffList})
 
 
 class instructorCourse(View):
@@ -180,6 +186,7 @@ class directoryView(View):
             directory = getPrivateDataList()
 
         return render(request, 'Directory.html', {"directory": directory})
+
 
 class editPubInfoView(View):
 
