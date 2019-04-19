@@ -59,9 +59,9 @@ class adminPage(View):
 
     def get(self, request):
         CU = CurrentUser()
-        currentuser = CU.getCurrentUser(request)
+        currentusertitle = CU.getCurrentUserTitle(request)
 
-        if not currentuser:
+        if currentusertitle != 3:
             return render(request, 'errorPage.html', {"message": "Only admins may view this page"})
         return render(request, 'Accounts/AdminHome.html')
 
@@ -69,6 +69,11 @@ class adminPage(View):
 class supervisorPage(View):
 
     def get(self, request):
+        CU = CurrentUser()
+        currentusertitle = CU.getCurrentUserTitle(request)
+
+        if currentusertitle != 4:
+            return render(request, 'errorPage.html', {"message": "Only supervisors may view this page"})
         return render(request, 'Accounts/SupervisorHome.html')
 
 
@@ -77,6 +82,10 @@ class instructorPage(View):
     def get(self, request):
         CU = CurrentUser()
         account = CU.getCurrentUser(request)
+        currentusertitle = CU.getCurrentUserTitle(request)
+
+        if currentusertitle != 2:
+            return render(request, 'errorPage.html', {"message": "Only instructors may view this page"})
         return render(request, 'Accounts/InstructorHome.html', {"account": account})
 
 
@@ -85,13 +94,22 @@ class taPage(View):
     def get(self, request):
         CU = CurrentUser()
         account = CU.getCurrentUser(request)
+        currentusertitle = CU.getCurrentUserTitle(request)
+
+        if currentusertitle != 1:
+            return render(request, 'errorPage.html', {"message": "Only Teaching Assistants may view this page"})
         return render(request, 'Accounts/TaHome.html', {"account": account})
 
 
 class createAccountView(View):
 
-
     def get(self, request):
+        CU = CurrentUser()
+        currentusertitle = CU.getCurrentUserTitle(request)
+
+        if currentusertitle < 3:
+            return render(request, 'errorPage.html', {"message": "You do not have permission to View this page"})
+
         return render(request, 'createAccount.html')
 
     def post(self, request):
@@ -112,23 +130,37 @@ class createAccountView(View):
 class courseAssignmentsList(View):
 
     def get(self, request):
+        CU = CurrentUser()
+        currentusertitle = CU.getCurrentUserTitle(request)
+        if currentusertitle == 0:
+            return render(request, 'errorPage.html', {"message": "You must log in to view this page"})
         courses = displayAllCourseAssign()
         return render(request, 'courseAssignmentList.html', {"courseList": courses})
 
 
 class deleteAccount(View):
     def get(self, request):
+        CU = CurrentUser()
+        currentusertitle = CU.getCurrentUserTitle(request)
+        if currentusertitle < 3:
+            return render(request, 'errorPage.html', {"message": "You do not have permission to view this page"})
         return render(request, 'deleteAccount.html')
 
     def post(self, request):
        pass
 
+
 class instructorCourse(View):
     def get(self, request):
+        CU = CurrentUser()
+        currentusertitle = CU.getCurrentUserTitle(request)
+        if currentusertitle != 4:
+            return render(request, 'errorPage.html', {"message": "You do not have permission to view this page"})
         return render(request, 'assignInstructor.html')
 
     def post(self, request):
         pass
+
 
 class directoryView(View):
 
