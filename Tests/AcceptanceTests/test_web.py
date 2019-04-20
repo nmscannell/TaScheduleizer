@@ -59,7 +59,7 @@ class Test_web(TestCase):
         Section.objects.create(course=self.c1, sectionNumber=202, meetingDays="F", startTime=1400, endTime=1700)
         Section.objects.create(course=self.c1, sectionNumber=203, meetingDays="T", startTime=1000, endTime=1200)
 
-        # set up for InstructorCourses testing
+        # set up for AssignAccountCourses testing
         self.cheng = Account.objects.create(userName="cheng41", title="2")
         Account.objects.create(userName="bob15", title="2")
         Course.objects.create(number="535", name="Algorithms")
@@ -71,7 +71,7 @@ class Test_web(TestCase):
 
         AccountCourse.objects.create(TA=Account.objects.get(userName="taman"), Course=Course.objects.get(number="317"))
 
-        # set up for assign TA to Lab
+        # set up for assign TA to Section
         self.datastructures = Course.objects.get(name="DataStructures")
         self.tamanAccount = Account.objects.get(userName="taman")
 
@@ -185,7 +185,52 @@ class Test_web(TestCase):
         self.assertEqual(response.context['message'],
                          "Location is invalid, please enter campus or online")
 
+    """
+    createSection
+    """
+    ["createLab", "633", "201", "T", "1000", "1100"]
+    def test_createSection_success(self):
+        response = self.c.post('/createssection/', {'name': 'ComputerNetwork', 'number': 520,
+                                                  'onCampus': True, 'classDays': 'TR',
+                                                  'classHoursStart': 1400, 'classHoursEnd': '1600'})
+        self.assertEqual(response.context['message'],
+                         "Course successfully created")
 
+    def test_createSection_invalidNumber(self):
+        response = self.c.post('/createsection/', {'name': 'ComputerNetwork', 'number': 1024,
+                                                  'onCampus': True, 'classDays': 'TR',
+                                                  'classHoursStart': 1400, 'classHoursEnd': '1600'})
+        self.assertEqual(response.context['message'],
+                         "Course number must be numeric and three digits long")
+
+    def test_createCourse_course_exists(self):
+        response = self.c.post('/createcourse/', {'name': 'ComputerSecurity', 'number': 469,
+                                                  'onCampus': True, 'classDays': 'MW',
+                                                  'classHoursStart': 1200, 'classHoursEnd': '1400'})
+        self.assertEqual(response.context['message'],
+                         "Course already exists")
+
+    def test_createCourse_invalid_days(self):
+
+        response = self.c.post('/createcourse/', {'name': 'ComputerSecurity', 'number': 469,
+                                                  'onCampus': True, 'classDays': 'S',
+                                                  'classHoursStart': 1200, 'classHoursEnd': '1400'})
+        self.assertEqual(response.context['message'],
+                         "Invalid days of the week, please enter days in the format: MWTRF or NN for online")
+
+    def test_createCourse_invalid_times(self):
+        response = self.c.post('/createcourse/', {'name': 'Server Side Web Programming', 'number': 452,
+                                                  'onCampus': True, 'classDays': 'TR',
+                                                  'classHoursStart': '15:00', 'classHoursEnd': '17:00'})
+        self.assertEqual(response.context['message'],
+                         "Invalid start or end time, please use a 4 digit military time representation")
+
+    def test_createCourse_invalid_locations(self):
+        response = self.c.post('/createcourse/', {'name': 'Server Side Web Programming', 'number': 452,
+                                                  'onCampus': 'hybrid', 'classDays': 'TR',
+                                                  'classHoursStart': '1500', 'classHoursEnd': '1700'})
+        self.assertEqual(response.context['message'],
+                         "Location is invalid, please enter campus or online")
 
 '''
 accountCourse
