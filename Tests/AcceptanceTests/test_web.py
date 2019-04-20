@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.test import Client
-from Main.models import Account, Course, Section
+from Main.models import Account, Course, Section, AccountCourse, AccountSection
 
 
 class Test_web(TestCase):
@@ -38,7 +38,42 @@ class Test_web(TestCase):
 
         Section.objects.create(course=Course.objects.get(number="458"), sectionNumber=804)
 
+        # Set up for Labs testing
+        Course.objects.create(name="TemporalMechanics", number=784, onCampus=True, classDays="MW",
+                              classHoursStart=1000, classHoursEnd=1100)
 
+        Course.objects.create(name="WarpTheory", number=633, onCampus=True, classDays="TR", classHoursStart=1200,
+                              classHoursEnd=1250)
+
+        Course.objects.create(name="QuantumMechanics", number=709, onCampus=True, classDays="MWF",
+                              classHoursStart=1030, classHoursEnd=1145)
+
+        Course.objects.create(name="Linguistics", number=564, onCampus=False, classDays="TR",
+                              classHoursStart=1800, classHoursEnd=1930)
+
+        self.c1 = Course.objects.get(name="TemporalMechanics")
+        self.c2 = Course.objects.get(name="WarpTheory")
+        self.c3 = Course.objects.get(name="QuantumMechanics")
+
+        Section.objects.create(course=self.c1, sectionNumber=201, meetingDays="W", startTime=1000, endTime=1200)
+        Section.objects.create(course=self.c1, sectionNumber=202, meetingDays="F", startTime=1400, endTime=1700)
+        Section.objects.create(course=self.c1, sectionNumber=203, meetingDays="T", startTime=1000, endTime=1200)
+
+        # set up for InstructorCourses testing
+        self.cheng = Account.objects.create(userName="cheng41", title="2")
+        Account.objects.create(userName="bob15", title="2")
+        Course.objects.create(number="535", name="Algorithms")
+        Course.objects.create(number="537")
+        Course.objects.create(number="317", name="DiscreteMath")
+        self.course1 = Course.objects.get(number="535")
+        self.course2 = Course.objects.get(number="317")
+        AccountCourse.objects.create(Course=self.course1, Instructor=self.cheng)
+
+        AccountCourse.objects.create(TA=Account.objects.get(userName="taman"), Course=Course.objects.get(number="317"))
+
+        # set up for assign TA to Lab
+        self.datastructures = Course.objects.get(name="DataStructures")
+        self.tamanAccount = Account.objects.get(userName="taman")
 
     """
     login
@@ -150,3 +185,7 @@ class Test_web(TestCase):
     def test_createAccount_doesnotexists(self):
         response = self.c.post('/deleteaccount/', {'username': 'henry42'})
         self.assertEqual(response.context['message'], "Account does not exist")
+
+'''
+accountCourse
+'''
