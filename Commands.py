@@ -37,6 +37,30 @@ def logout():
         return "Multiple account Logged in, Something went terribly wrong"
 
 
+def checkValidEmail(email):
+    str = email.split('@', 1)
+    if len(str) == 1 or str[1] != "uwm.edu":
+        return False
+    return True
+
+def containsOnlyDigits(argument):
+    if not re.match('^[0-9]*$', argument):
+        return False
+    return True
+
+
+def checkVaildTimes(startTime, endTime):
+    if len(startTime) != 4 or len(endTime) != 4:
+        return False
+    if not re.match('^[0-2]*$', startTime[0]) or not re.match('^[0-1]*$', endTime[0]):
+        return False
+    for i in range(1, 3):
+        if not (re.match('^[0-9]*$', startTime[i])) or not (re.match('^[0-9]*$', endTime[i])):
+            return False
+    return True
+
+
+# Creating an Account
 def createAccount(firstName, lastName, userName, title, email):
 
     # Check that the account trying to be created does not already exist
@@ -44,11 +68,7 @@ def createAccount(firstName, lastName, userName, title, email):
         return "Account already exists"
 
     # Make sure the account is trying to be created with a UWM email address
-    str = email.split('@', 1)
-    if len(str) == 1:
-        return "The email address you have entered in not valid.  " \
-               "Please make sure you are using a uwm email address in the correct format."
-    if str[1] != "uwm.edu":
+    if checkValidEmail(email) == False:
         return "The email address you have entered in not valid.  " \
                "Please make sure you are using a uwm email address in the correct format."
 
@@ -358,21 +378,69 @@ def getPrivateDataList():
     return directory
 
 def editPubInfo(user, dict):
+
     user.firstName = dict['firstName']
+
     user.lastName = dict['lastName']
-    user.email = dict['email']
+
+    # Email
+    email = dict['email']
+    if checkValidEmail(email) == False:
+        return "The email address you have entered in not valid.  " \
+               "Please make sure you are using a uwm email address in the correct format."
+    else:
+        user.email = email
+
+    # Password
     user.password = dict['password']
-    user.homePhone = dict['homephone']
+
+    # Home phone
+    homePhone = dict['homephone']
+    if containsOnlyDigits(homePhone.replace("-", "")) == False:
+        return "Home Phone can only contain numbers"
+    else:
+        user.homePhone = homePhone
+
+    # Address
     user.address = dict['address']
+
+    # City
     user.city = dict['city']
+
+    # State
     user.state = dict['state']
-    user.zipCode = dict['zipcode']
-    user.officeNumber = dict['officenumber']
+
+    # Zip Code
+    zipCode = dict['zipcode']
+    if containsOnlyDigits(zipCode) == False:
+        return "ZipCode my be only numeric"
+    else:
+        user.zipCode = zipCode
+
+    # Office Number
+    officeNumber = dict['officenumber']
+    if containsOnlyDigits(officeNumber) == False:
+        return "Office Number must be numeric"
+    else:
+        user.officeNumber = officeNumber
+
+
     user.officePhone = dict['officephone']
     user.officeDays = dict['officedays']
-    user.officeHoursStart = dict['officestart']
-    user.officeHoursEnd = dict['officeend']
+
+    # Start Time and End Time
+    officeHoursStart = dict['officestart']
+    officeHoursEnd = dict['officeend']
+    if checkVaildTimes(officeHoursStart, officeHoursEnd) == False:
+        return "Invalid start or end time, please use a 4 digit military time representation"
+    else:
+        user.officeHoursStart = officeHoursStart
+        user.officeHoursEnd = officeHoursEnd
+
+
+    # Save changes
     user.save()
+
     return "Fields successfully updated"
 
 
