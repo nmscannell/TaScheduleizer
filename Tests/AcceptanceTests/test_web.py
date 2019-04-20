@@ -188,45 +188,44 @@ class Test_web(TestCase):
     """
     createSection
     """
-    ["createLab", "633", "201", "T", "1000", "1100"]
     def test_createSection_success(self):
-        response = self.c.post('/createssection/', {'name': 'ComputerNetwork', 'number': 520,
-                                                  'onCampus': True, 'classDays': 'TR',
-                                                  'classHoursStart': 1400, 'classHoursEnd': '1600'})
+        response = self.c.post('/createssection/', {'courseNumber': 520, 'type': False, 'sectionNumber': '001',
+                                                    'classDays': 'TR', 'classHoursStart': 1400,
+                                                    'classHoursEnd': '1600'})
         self.assertEqual(response.context['message'],
-                         "Course successfully created")
+                         "Lab successfully created")
 
     def test_createSection_invalidNumber(self):
-        response = self.c.post('/createsection/', {'name': 'ComputerNetwork', 'number': 1024,
-                                                  'onCampus': True, 'classDays': 'TR',
-                                                  'classHoursStart': 1400, 'classHoursEnd': '1600'})
+        response = self.c.post('/createsection/', {'courseNumber': 520, 'type': False, 'sectionNumber': '001',
+                                                    'classDays': 'TR', 'classHoursStart': 1400,
+                                                    'classHoursEnd': '1600'})
         self.assertEqual(response.context['message'],
                          "Course number must be numeric and three digits long")
 
-    def test_createCourse_course_exists(self):
-        response = self.c.post('/createcourse/', {'name': 'ComputerSecurity', 'number': 469,
+    def test_createSection_course_exists(self):
+        response = self.c.post('/createsection/', {'name': 'ComputerSecurity', 'number': 469,
                                                   'onCampus': True, 'classDays': 'MW',
                                                   'classHoursStart': 1200, 'classHoursEnd': '1400'})
         self.assertEqual(response.context['message'],
                          "Course already exists")
 
-    def test_createCourse_invalid_days(self):
+    def test_createSection_invalid_days(self):
 
-        response = self.c.post('/createcourse/', {'name': 'ComputerSecurity', 'number': 469,
+        response = self.c.post('/createsection/', {'name': 'ComputerSecurity', 'number': 469,
                                                   'onCampus': True, 'classDays': 'S',
                                                   'classHoursStart': 1200, 'classHoursEnd': '1400'})
         self.assertEqual(response.context['message'],
                          "Invalid days of the week, please enter days in the format: MWTRF or NN for online")
 
-    def test_createCourse_invalid_times(self):
-        response = self.c.post('/createcourse/', {'name': 'Server Side Web Programming', 'number': 452,
+    def test_createSection_invalid_times(self):
+        response = self.c.post('/createsection/', {'name': 'Server Side Web Programming', 'number': 452,
                                                   'onCampus': True, 'classDays': 'TR',
                                                   'classHoursStart': '15:00', 'classHoursEnd': '17:00'})
         self.assertEqual(response.context['message'],
                          "Invalid start or end time, please use a 4 digit military time representation")
 
-    def test_createCourse_invalid_locations(self):
-        response = self.c.post('/createcourse/', {'name': 'Server Side Web Programming', 'number': 452,
+    def test_createSection_invalid_locations(self):
+        response = self.c.post('/createsection/', {'name': 'Server Side Web Programming', 'number': 452,
                                                   'onCampus': 'hybrid', 'classDays': 'TR',
                                                   'classHoursStart': '1500', 'classHoursEnd': '1700'})
         self.assertEqual(response.context['message'],
