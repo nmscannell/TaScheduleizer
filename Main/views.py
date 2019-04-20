@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from UserInterface import UI
-from Commands import login, displayAllCourseAssign, createAccount, getPrivateDataList, getPublicDataList
+from Commands import login, displayAllCourseAssign, createAccount, getPrivateDataList, getPublicDataList, editPubInfo
 from CurrentUserHelper import CurrentUser
 from Main.models import Account
 # Create your views here.
@@ -191,7 +191,27 @@ class directoryView(View):
 class editPubInfoView(View):
 
     def get(self, request):
-        pass
+        CU = CurrentUser()
+        user = CU.getCurrentUser(request)
+        return render(request, 'editPubInfo.html', {'i': user})
 
     def post(self, request):
-        pass
+        dict = {
+            'firstName': str(request.POST.get("firstname")),
+            'lastName': str(request.POST.get('lastname')),
+            'email': str(request.POST.get('email')),
+            'password': str(request.POST.get('password')),
+            'homephone': str(request.POST.get("homephone")),
+            'address': str(request.POST.get('address')),
+            'city': str(request.POST.get('city')),
+            'state': str(request.POST.get('state')),
+            'zipcode': str(request.POST.get('zipcode')),
+            'officenumber': str(request.POST.get('officenumber')),
+            'officephone': str(request.POST.get('officephone')),
+            'officedays': str(request.POST.get('officedays')),
+            'officestart': str(request.POST.get('officestart')),
+            'officeend': str(request.POST.get('officeend'))}
+        CU = CurrentUser()
+        user = CU.getCurrentUser(request)
+        message = editPubInfo(user, dict)
+        return render(request, 'editPubInfo.html', {"message": message})
