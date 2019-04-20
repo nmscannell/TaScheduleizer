@@ -209,13 +209,13 @@ class Test_web(TestCase):
         self.assertEqual(response.context['message'],
                          "The Course you are trying to create a lab for does not exist")
 
-    def test_createSection_invalid_days(self):
+    def test_createSection_not_onsite_class(self):
 
-        response = self.c.post('/createsection/', {'name': 'ComputerSecurity', 'number': 469,
-                                                  'onCampus': True, 'classDays': 'S',
-                                                  'classHoursStart': 1200, 'classHoursEnd': '1400'})
+        response = self.c.post('/createsection/', {'courseNumber': '315', 'type': True,
+                                                   'sectionNumber': '802', 'classDays': 'MW',
+                                                  'classHoursStart': 1200, 'classHoursEnd': 1400})
         self.assertEqual(response.context['message'],
-                         "Invalid days of the week, please enter days in the format: MWTRF or NN for online")
+                         "You cannot create a lab for an online course")
 
     def test_createSection_invalid_times(self):
         response = self.c.post('/createsection/', {'name': 'Server Side Web Programming', 'number': 452,
