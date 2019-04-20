@@ -38,7 +38,7 @@ class Test_web(TestCase):
 
         Section.objects.create(course=Course.objects.get(number="458"), sectionNumber=804)
 
-        # Set up for Labs testing
+        # Set up for section testing
         Course.objects.create(name="TemporalMechanics", number=784, onCampus=True, classDays="MW",
                               classHoursStart=1000, classHoursEnd=1100)
 
@@ -124,6 +124,19 @@ class Test_web(TestCase):
                                                    'email': 'kim4@uwm.edu'})
         self.assertEqual(response.context['message'], "Invalid title, account not created")
 
+    """
+    deleteAccount
+
+    """
+
+    def test_deleteAccount_success(self):
+        response = self.c.post('/deleteaccount/', {'username': 'kim4'})
+        self.assertEqual(response.context['message'],
+                         "Account successfully deleted")
+
+    def test_createAccount_doesnotexists(self):
+        response = self.c.post('/deleteaccount/', {'username': 'henry42'})
+        self.assertEqual(response.context['message'], "Account does not exist")
 
     """
     createCourse
@@ -172,19 +185,7 @@ class Test_web(TestCase):
         self.assertEqual(response.context['message'],
                          "Location is invalid, please enter campus or online")
 
-    """
-    deleteAccount
-    
-    """
 
-    def test_deleteAccount_success(self):
-        response = self.c.post('/deleteaccount/', {'username': 'kim4'})
-        self.assertEqual(response.context['message'],
-                         "Account successfully deleted")
-
-    def test_createAccount_doesnotexists(self):
-        response = self.c.post('/deleteaccount/', {'username': 'henry42'})
-        self.assertEqual(response.context['message'], "Account does not exist")
 
 '''
 accountCourse
