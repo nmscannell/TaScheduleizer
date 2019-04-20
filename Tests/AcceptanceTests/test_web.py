@@ -34,9 +34,9 @@ class Test_web(TestCase):
         Course.objects.create(name="ComputerArchitecture", number=458, onCampus=True, classDays="MW",
                               classHoursStart=1230, classHoursEnd=1345)
 
-        Section.objects.create(course=Course.objects.get(number="351"), sectionNumber=804)
+        Section.objects.create(course=Course.objects.get(number="351"), number=804)
 
-        Section.objects.create(course=Course.objects.get(number="458"), sectionNumber=804)
+        Section.objects.create(course=Course.objects.get(number="458"), number=804)
 
         # Set up for section testing
         Course.objects.create(name="TemporalMechanics", number=784, onCampus=True, classDays="MW",
@@ -55,21 +55,22 @@ class Test_web(TestCase):
         self.c2 = Course.objects.get(name="WarpTheory")
         self.c3 = Course.objects.get(name="QuantumMechanics")
 
-        Section.objects.create(course=self.c1, sectionNumber=201, meetingDays="W", startTime=1000, endTime=1200)
-        Section.objects.create(course=self.c1, sectionNumber=202, meetingDays="F", startTime=1400, endTime=1700)
-        Section.objects.create(course=self.c1, sectionNumber=203, meetingDays="T", startTime=1000, endTime=1200)
+        Section.objects.create(course=self.c1, number=201, meetingDays="W", startTime=1000, endTime=1200)
+        Section.objects.create(course=self.c1, number=202, meetingDays="F", startTime=1400, endTime=1700)
+        Section.objects.create(course=self.c1, number=203, meetingDays="T", startTime=1000, endTime=1200)
 
         # set up for AssignAccountCourses testing
         self.cheng = Account.objects.create(userName="cheng41", title="2")
+        self.taman = Account.objects.create(userName="taman", title="1")
         Account.objects.create(userName="bob15", title="2")
         Course.objects.create(number="535", name="Algorithms")
         Course.objects.create(number="537")
-        Course.objects.create(number="317", name="DiscreteMath")
+        discreteMath = Course.objects.create(number="317", name="DiscreteMath")
         self.course1 = Course.objects.get(number="535")
         self.course2 = Course.objects.get(number="317")
-        AccountCourse.objects.create(Course=self.course1, Instructor=self.cheng)
+        AccountCourse.objects.create(Course=self.course1, Account=self.cheng)
 
-        AccountCourse.objects.create(TA=Account.objects.get(userName="taman"), Course=Course.objects.get(number="317"))
+        AccountCourse.objects.create(Account=self.taman, Course=discreteMath)
 
         # set up for assign TA to Section
         self.datastructures = Course.objects.get(name="DataStructures")
@@ -240,10 +241,15 @@ class Test_web(TestCase):
                          "Invalid start or end time, please use a 4 digit military time representation")
 
 
-'''
-accountCourse
-'''
+    '''
+    accountCourse
+    '''
 
-'''
-TASection
-'''
+    '''
+    TASection
+    '''
+
+
+    """
+    editPubInfo
+    """
