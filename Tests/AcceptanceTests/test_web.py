@@ -117,7 +117,7 @@ class Test_web(TestCase):
                                                    'username': 'kim4', 'title': 'Instructor',
                                                    'email': 'kim4@starfleet.com'})
         self.assertEqual(response.context['message'], "The email address you have entered in not valid.  "
-                                    "Please make sure you are using a uwm email address in the correct format.")
+                                                      "Please make sure you are using a uwm email address in the correct format.")
 
     def test_createAccount_invalid_title(self):
         response = self.c.post('/createaccount/', {'firstname': 'Harry', 'lastname': 'Kim',
@@ -218,14 +218,14 @@ class Test_web(TestCase):
         self.assertEqual(response.context['message'],
                          "You cannot create a lab for an online course")
 
-    def test_create_lab_invalid_sectNum(self):
+    def test_create_section_invalid_sectNum(self):
         response = self.c.post('/createsection/', {'courseNumber': '315', 'type': True,
                                                    'sectionNumber': 1232, 'classDays': 'MW',
                                                    'classHoursStart': 1200, 'classHoursEnd': 1400})
         self.assertEqual(response.context['message'],
                          "Section number must be numeric and three digits long")
 
-    def test_create_lab_invalid_days(self):
+    def test_create_section_invalid_days(self):
         response = self.c.post('/createsection/', {'courseNumber': '250', 'type': True,
                                                    'sectionNumber': '804', 'classDays': 'S',
                                                    'classHoursStart': 1300, 'classHoursEnd': 1600})
@@ -233,7 +233,7 @@ class Test_web(TestCase):
 
                          "Invalid days of the week, please enter days in the format: MWTRF")
 
-    def test_create_lab_invalid_times(self):
+    def test_create_section_invalid_times(self):
         response = self.c.post('/createsection/', {'courseNumber': '251', 'type': True,
                                                    'sectionNumber': '802', 'classDays': 'MW',
                                                    'classHoursStart': '17:00', 'classHoursEnd': '20:00'})
