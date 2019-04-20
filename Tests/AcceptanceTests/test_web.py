@@ -220,23 +220,23 @@ class Test_web(TestCase):
     def test_create_lab_invalid_courseNum(self):
 
 
-                         "Course number must be numeric and three digits long")
+                         "Course number must be numeric and three digits long"
 
     def test_create_lab_invalid_sectNum(self):
 
 
-                         "Section number must be numeric and three digits long")
+                         "Section number must be numeric and three digits long"
 
     def test_create_lab_invalid_days(self):
 
 
-                         "Invalid days of the week, please enter days in the format: MWTRF")
+                         "Invalid days of the week, please enter days in the format: MWTRF"
 
     def test_create_lab_invalid_times(self):
 
 
 
-                         "Invalid start or end time, please use a 4 digit military time representation")
+                         "Invalid start or end time, please use a 4 digit military time representation"
 
 
 '''
