@@ -108,6 +108,6 @@ class Test_web(TestCase):
         self.assertEqual(response.context['message'],
                          "Account successfully deleted")
 
-    def test_createAccount_alreadyexists(self):
+    def test_createAccount_doesnotexists(self):
         response = self.c.post('/deleteaccount/', {'username': 'henry42'})
         self.assertEqual(response.context['message'], "Account does not exist")
