@@ -106,16 +106,29 @@ class Test_web(TestCase):
                                                   'onCampus': True, 'classDays': 'TR',
                                                   'classHoursStart': 1400, 'classHoursEnd': '1600'})
         self.assertEqual(response.context['message'],
-                         "Course successfully created")
+                         "Course number must be numeric and three digits long")
 
     def test_createCourse_course_exists(self):
-        pass
+        response = self.c.post('/createcourse/', {'name': 'ComputerSecurity', 'number': 469,
+                                                  'onCampus': True, 'classDays': 'MW',
+                                                  'classHoursStart': 1200, 'classHoursEnd': '1400'})
+        self.assertEqual(response.context['message'],
+                         "Course already exists")
 
     def test_createCourse_invalid_days(self):
-        pass
+
+        response = self.c.post('/createcourse/', {'name': 'ComputerSecurity', 'number': 469,
+                                                  'onCampus': True, 'classDays': 'S',
+                                                  'classHoursStart': 1200, 'classHoursEnd': '1400'})
+        self.assertEqual(response.context['message'],
+                         "Invalid days of the week, please enter days in the format: MWTRF or NN for online")
 
     def test_createCourse_invalid_times(self):
-        pass
+        response = self.c.post('/createcourse/', {'name': 'Server Side Web Programming', 'number': 452,
+                                                  'onCampus': True, 'classDays': 'TR',
+                                                  'classHoursStart': '15:00', 'classHoursEnd': '17:00'})
+        self.assertEqual(response.context['message'],
+                         "Invalid start or end time, please use a 4 digit military time representation")
 
     def test_createCourse_invalid_locations(self):
         pass
