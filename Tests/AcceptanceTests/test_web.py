@@ -49,7 +49,7 @@ class Test_web(TestCase):
                          "")
 
     def test_login_wrong_password(self):
-        response = self.c.post('/login/', {'username': 'jack23', 'password': '!@iamjack'})
+        response = self.c.post('/login/', {'username': 'jack23', 'password': '********'})
         self.assertEqual(response.context['message'],
                          "Incorrect password")
 
