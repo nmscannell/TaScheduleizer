@@ -424,8 +424,10 @@ def editPubInfo(user, dict):
     else:
         user.officeNumber = officeNumber
 
-
+    # Office phone
     user.officePhone = dict['officephone']
+
+    # Office days
     user.officeDays = dict['officedays']
 
     # Start Time and End Time
