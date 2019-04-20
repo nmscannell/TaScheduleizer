@@ -217,20 +217,49 @@ class Test_web(TestCase):
         self.assertEqual(response.context['message'],
                          "You cannot create a lab for an online course")
 
-    def test_createSection_invalid_times(self):
-        response = self.c.post('/createsection/', {'name': 'Server Side Web Programming', 'number': 452,
-                                                  'onCampus': True, 'classDays': 'TR',
-                                                  'classHoursStart': '15:00', 'classHoursEnd': '17:00'})
-        self.assertEqual(response.context['message'],
+    def test_create_lab_invalid_courseNum(self):
+        self.assertEqual(CreateLab.createLab(self.CL, self.command_create_lab_invalid_courseNum),
+                         "Course number must be numeric and three digits long")
+        self.assertEqual(CreateLab.createLab(self.CL, self.command_create_lab_invalid_courseNum2),
+                         "Course number must be numeric and three digits long")
+        self.assertEqual(CreateLab.createLab(self.CL, self.command_create_lab_invalid_courseNum3),
+                         "Course number must be numeric and three digits long")
+
+    def test_create_lab_invalid_sectNum(self):
+        self.assertEqual(CreateLab.createLab(self.CL, self.command_create_lab_invalid_sectNum),
+                         "Section number must be numeric and three digits long")
+        self.assertEqual(CreateLab.createLab(self.CL, self.command_create_lab_invalid_sectNum2),
+                         "Section number must be numeric and three digits long")
+        self.assertEqual(CreateLab.createLab(self.CL, self.command_create_lab_invalid_sectNum3),
+                         "Section number must be numeric and three digits long")
+
+    def test_create_lab_invalid_days(self):
+        self.assertEqual(CreateLab.createLab(self.CL, self.command_create_lab_invalid_days),
+                         "Invalid days of the week, please enter days in the format: MWTRF")
+        self.assertEqual(CreateLab.createLab(self.CL, self.command_create_lab_invalid_days2),
+                         "Invalid days of the week, please enter days in the format: MWTRF")
+        self.assertEqual(CreateLab.createLab(self.CL, self.command_create_lab_invalid_days3),
+                         "Invalid days of the week, please enter days in the format: MWTRF")
+
+    def test_create_lab_invalid_times(self):
+        self.assertEqual(CreateLab.createLab(self.CL, self.command_create_lab_invalid_time),
+                         "Invalid start or end time, please use a 4 digit military time representation")
+        self.assertEqual(CreateLab.createLab(self.CL, self.command_create_lab_invalid_time2),
+                         "Invalid start or end time, please use a 4 digit military time representation")
+        self.assertEqual(CreateLab.createLab(self.CL, self.command_create_lab_invalid_time3),
+                         "Invalid start or end time, please use a 4 digit military time representation")
+        self.assertEqual(CreateLab.createLab(self.CL, self.command_create_lab_invalid_time4),
+                         "Invalid start or end time, please use a 4 digit military time representation")
+        self.assertEqual(CreateLab.createLab(self.CL, self.command_create_lab_invalid_time5),
+                         "Invalid start or end time, please use a 4 digit military time representation")
+        self.assertEqual(CreateLab.createLab(self.CL, self.command_create_lab_invalid_time6),
                          "Invalid start or end time, please use a 4 digit military time representation")
 
-    def test_createSection_invalid_locations(self):
-        response = self.c.post('/createsection/', {'name': 'Server Side Web Programming', 'number': 452,
-                                                  'onCampus': 'hybrid', 'classDays': 'TR',
-                                                  'classHoursStart': '1500', 'classHoursEnd': '1700'})
-        self.assertEqual(response.context['message'],
-                         "Location is invalid, please enter campus or online")
 
 '''
 accountCourse
+'''
+
+'''
+TASection
 '''
