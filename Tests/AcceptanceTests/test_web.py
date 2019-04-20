@@ -189,25 +189,25 @@ class Test_web(TestCase):
     createSection
     """
     def test_createSection_success(self):
-        response = self.c.post('/createssection/', {'courseNumber': 520, 'type': False, 'sectionNumber': '001',
+        response = self.c.post('/createssection/', {'courseNumber': 520, 'type': False, 'sectionNumber': 403,
                                                     'classDays': 'TR', 'classHoursStart': 1400,
                                                     'classHoursEnd': '1600'})
         self.assertEqual(response.context['message'],
                          "Lab successfully created")
 
     def test_createSection_invalidNumber(self):
-        response = self.c.post('/createsection/', {'courseNumber': 520, 'type': False, 'sectionNumber': '001',
+        response = self.c.post('/createsection/', {'courseNumber': 5923, 'type': False, 'sectionNumber': 403,
                                                     'classDays': 'TR', 'classHoursStart': 1400,
                                                     'classHoursEnd': '1600'})
         self.assertEqual(response.context['message'],
                          "Course number must be numeric and three digits long")
 
-    def test_createSection_course_exists(self):
-        response = self.c.post('/createsection/', {'name': 'ComputerSecurity', 'number': 469,
-                                                  'onCampus': True, 'classDays': 'MW',
-                                                  'classHoursStart': 1200, 'classHoursEnd': '1400'})
+    def test_createSection_course_not_exists(self):
+        response = self.c.post('/createsection/', {'courseNumber': 536, 'type': False, 'sectionNumber': '803',
+                                                    'classDays': 'MW', 'classHoursStart': 1600,
+                                                    'classHoursEnd': '1800'})
         self.assertEqual(response.context['message'],
-                         "Course already exists")
+                         "The Course you are trying to create a lab for does not exist")
 
     def test_createSection_invalid_days(self):
 
