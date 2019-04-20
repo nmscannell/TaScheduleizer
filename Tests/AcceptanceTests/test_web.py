@@ -96,13 +96,17 @@ class Test_web(TestCase):
 
     def test_createCourse_success(self):
         response = self.c.post('/createcourse/', {'name': 'ComputerNetwork', 'number': 520,
-                                                   'onCampus': True, 'classDays': 'TR',
-                                                   'classHoursStart': 1400, 'classHoursEnd': '1600'})
+                                                  'onCampus': True, 'classDays': 'TR',
+                                                  'classHoursStart': 1400, 'classHoursEnd': '1600'})
         self.assertEqual(response.context['message'],
                          "Course successfully created")
 
     def test_createCourse_invalidNumber(self):
-        pass
+        response = self.c.post('/createcourse/', {'name': 'ComputerNetwork', 'number': 1024,
+                                                  'onCampus': True, 'classDays': 'TR',
+                                                  'classHoursStart': 1400, 'classHoursEnd': '1600'})
+        self.assertEqual(response.context['message'],
+                         "Course successfully created")
 
     def test_createCourse_course_exists(self):
         pass
