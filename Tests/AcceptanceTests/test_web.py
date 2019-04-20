@@ -217,26 +217,27 @@ class Test_web(TestCase):
         self.assertEqual(response.context['message'],
                          "You cannot create a lab for an online course")
 
-    def test_create_lab_invalid_courseNum(self):
-
-
-                         "Course number must be numeric and three digits long"
-
     def test_create_lab_invalid_sectNum(self):
-
-
-                         "Section number must be numeric and three digits long"
+        response = self.c.post('/createsection/', {'courseNumber': '315', 'type': True,
+                                                   'sectionNumber': 1232, 'classDays': 'MW',
+                                                   'classHoursStart': 1200, 'classHoursEnd': 1400})
+        self.assertEqual(response.context['message'],
+                         "Section number must be numeric and three digits long")
 
     def test_create_lab_invalid_days(self):
+        response = self.c.post('/createsection/', {'courseNumber': '315', 'type': True,
+                                                   'sectionNumber': '802', 'classDays': 'MW',
+                                                   'classHoursStart': 1200, 'classHoursEnd': 1400})
+        self.assertEqual(response.context['message'],
 
-
-                         "Invalid days of the week, please enter days in the format: MWTRF"
+                         "Invalid days of the week, please enter days in the format: MWTRF")
 
     def test_create_lab_invalid_times(self):
-
-
-
-                         "Invalid start or end time, please use a 4 digit military time representation"
+        response = self.c.post('/createsection/', {'courseNumber': '315', 'type': True,
+                                                   'sectionNumber': '802', 'classDays': 'MW',
+                                                   'classHoursStart': 1200, 'classHoursEnd': 1400})
+        self.assertEqual(response.context['message'],
+                         "Invalid start or end time, please use a 4 digit military time representation")
 
 
 '''
