@@ -99,5 +99,15 @@ class Test_web(TestCase):
     def test_createCourse_invalid_locations(self):
         pass
 
+    """
+    deleteAccount
+    """
 
+    def test_deleteAccount_success(self):
+        response = self.c.post('/deleteaccount/', {'username': 'kim4'})
+        self.assertEqual(response.context['message'],
+                         "Account successfully deleted")
 
+    def test_createAccount_alreadyexists(self):
+        response = self.c.post('/deleteaccount/', {'username': 'henry42'})
+        self.assertEqual(response.context['message'], "Account does not exist")
