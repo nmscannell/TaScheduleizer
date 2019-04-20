@@ -131,7 +131,11 @@ class Test_web(TestCase):
                          "Invalid start or end time, please use a 4 digit military time representation")
 
     def test_createCourse_invalid_locations(self):
-        pass
+        response = self.c.post('/createcourse/', {'name': 'Server Side Web Programming', 'number': 452,
+                                                  'onCampus': 'hybrid', 'classDays': 'TR',
+                                                  'classHoursStart': '1500', 'classHoursEnd': '1700'})
+        self.assertEqual(response.context['message'],
+                         "Location is invalid, please enter campus or online")
 
     """
     deleteAccount
