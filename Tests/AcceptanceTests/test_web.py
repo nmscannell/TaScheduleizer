@@ -43,7 +43,10 @@ class Test_web(TestCase):
     """
     login
     """
-
+    def test_login_success(self):
+        response = self.c.post('/login/', {'username': 'jack23', 'password': '!@iamjack',})
+        self.assertEqual(response.context['message'],
+                         "")
 
 
     """
@@ -101,6 +104,7 @@ class Test_web(TestCase):
 
     """
     deleteAccount
+    
     """
 
     def test_deleteAccount_success(self):
