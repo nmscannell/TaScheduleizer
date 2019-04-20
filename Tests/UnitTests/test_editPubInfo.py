@@ -296,3 +296,28 @@ class Test_editPubInfo(TestCase):
         self.assertEqual(self.j.officeDays, "TR")
         self.assertEqual(self.j.officeHoursStart, "1300")
         self.assertEqual(self.j.officeHoursEnd, "1300")
+
+    def test_change_email_invalid(self):
+        self.janeway['email'] = "jane@hotmail.com"
+        self.assertEqual(Commands.editPubInfo(self.j, self.janeway), "The email address you have entered in not valid.  "
+                                            "Please make sure you are using a uwm email address in the correct format.")
+
+    def test_change_homephone_invalid(self):
+        self.janeway['homephone'] = "abc-678-9807"
+        self.assertEqual(Commands.editPubInfo(self.j, self.janeway), "Home Phone can only contain numbers")
+
+    def test_change_zip_invalid(self):
+        self.janeway['zipcode'] = "t89r3"
+        self.assertEqual(Commands.editPubInfo(self.j, self.janeway), "ZipCode my be only numeric")
+
+    def test_change_officeNum_invalid(self):
+        self.janeway['officenumber'] = "y89"
+        self.assertEqual(Commands.editPubInfo(self.j, self.janeway), "Office Number must be numeric")
+
+    def test_change_times_invalid(self):
+        self.janeway['officestart'] = "9999"
+        self.assertEqual(Commands.editPubInfo(self.j, self.janeway), "Invalid start or end time, please use a "
+                                                                     "4 digit military time representation")
+        self.janeway['officeend'] = "9999"
+        self.assertEqual(Commands.editPubInfo(self.j, self.janeway), "Invalid start or end time, please use a "
+                                                                     "4 digit military time representation")
