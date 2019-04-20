@@ -19,7 +19,7 @@ class Test_web(TestCase):
                                email="picardj@uwm.com", title=1, address="87 Enterprise Avenue",
                                city="Alpha", state="Quadrant", zipCode="11111", officeNumber="54",
                                officePhone="777-777-7777", officeDays="W", officeHoursStart="0900",
-                               officeHoursEnd="1000", currentUser=False)
+                               officeHoursEnd="1000", homePhone='123-456-7893', currentUser=False)
 
         Account.objects.create(userName="kirkj22", firstName="James", lastName="Kirk", password="678543",
                                email="kirkj22@uwm.com", title=4, address="789 Enterprise Avenue",
@@ -241,15 +241,15 @@ class Test_web(TestCase):
                          "Invalid start or end time, please use a 4 digit military time representation")
 
 
-    '''
-    accountCourse
-    '''
-
-    '''
-    TASection
-    '''
-
 
     """
     editPubInfo
     """
+
+    def test_editPubInfo_firstName(self):
+       response = self.c.post('/editpubinfo/', {'firstname': 'James', 'lastname': 'Picard', 'email': 'picardj@uwm.edu',
+                                                'password': '90456', 'homephone': '123-456-7893',
+                                                'address': '87 Enterprise Avenue', 'city': 'Alpha', 'state': 'Quadrant',
+                                                'zipcode': '11111', 'officenumber': '54', 'officephone': '777-777-7777',
+                                                'officedays': 'W', 'officestart': '0900', 'officeend': '1000'})
+       self.assertEqual(response.context['message'], "Fields successfully updated")
