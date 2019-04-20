@@ -225,17 +225,17 @@ class Test_web(TestCase):
                          "Section number must be numeric and three digits long")
 
     def test_create_lab_invalid_days(self):
-        response = self.c.post('/createsection/', {'courseNumber': '315', 'type': True,
-                                                   'sectionNumber': '802', 'classDays': 'MW',
-                                                   'classHoursStart': 1200, 'classHoursEnd': 1400})
+        response = self.c.post('/createsection/', {'courseNumber': '250', 'type': True,
+                                                   'sectionNumber': '804', 'classDays': 'S',
+                                                   'classHoursStart': 1300, 'classHoursEnd': 1600})
         self.assertEqual(response.context['message'],
 
                          "Invalid days of the week, please enter days in the format: MWTRF")
 
     def test_create_lab_invalid_times(self):
-        response = self.c.post('/createsection/', {'courseNumber': '315', 'type': True,
+        response = self.c.post('/createsection/', {'courseNumber': '251', 'type': True,
                                                    'sectionNumber': '802', 'classDays': 'MW',
-                                                   'classHoursStart': 1200, 'classHoursEnd': 1400})
+                                                   'classHoursStart': '17:00', 'classHoursEnd': '20:00'})
         self.assertEqual(response.context['message'],
                          "Invalid start or end time, please use a 4 digit military time representation")
 
