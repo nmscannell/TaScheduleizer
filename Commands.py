@@ -357,6 +357,25 @@ def getPrivateDataList():
     directory.sort()
     return directory
 
+def editPubInfo(user, dict):
+    user.firstName = dict['firstName']
+    user.lastName = dict['lastName']
+    user.email = dict['email']
+    user.password = dict['password']
+    user.homePhone = dict['homephone']
+    user.address = dict['address']
+    user.city = dict['city']
+    user.state = dict['state']
+    user.zipCode = dict['zipcode']
+    user.officeNumber = dict['officenumber']
+    user.officePhone = dict['officephone']
+    user.officeDays = dict['officedays']
+    user.officeHoursStart = dict['officestart']
+    user.officeHoursEnd = dict['officeend']
+    user.save()
+    return "Fields successfully updated"
+
+
 def getCommands():
     return [Command("login", 2, login), Command("logout", 0, logout),
             Command("createaccount", 5, createAccount), Command("deleteaccount", 1, deleteAccount),
