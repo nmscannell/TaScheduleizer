@@ -108,13 +108,16 @@ class createAccountView(View):
     def get(self, request):
         CU = CurrentUser()
         currentusertitle = CU.getCurrentUserTitle(request)
+        user = CU.getCurrentUser(request)
 
         if currentusertitle < 3:
             return render(request, 'errorPage.html', {"message": "You do not have permission to View this page"})
 
-        return render(request, 'createAccount.html')
+        return render(request, 'createAccount.html', {"i": user})
 
     def post(self, request):
+        CU = CurrentUser()
+        user = CU.getCurrentUser(request)
         userName = str(request.POST["username"])
         firstName = str(request.POST["firstname"])
         lastName = str(request.POST["lastname"])
@@ -124,7 +127,7 @@ class createAccountView(View):
         message = createAccount(userName=userName, firstName=firstName,
                                 lastName=lastName, email=email, title=title)
 
-        return render(request, 'createAccount.html', {"message": message})
+        return render(request, 'createAccount.html', {"message": message, "i": user})
         #except Exception as e:
          #   return render(request, 'createAccount.html', {"message": str(e)})
 
@@ -142,6 +145,8 @@ class courseAssignmentsList(View):
 
 class deleteAccount(View):
     def get(self, request):
+        CU = CurrentUser()
+        user = CU.getCurrentUser(request)
         instructorList = Account.objects.filter(title=2)
         taList = Account.objects.filter(title='1')
         staffList = instructorList | taList
@@ -149,16 +154,18 @@ class deleteAccount(View):
         # currentusertitle = CU.getCurrentUserTitle(request)
         # if currentusertitle < 3:
             # return render(request, 'errorPage.html', {"message": "You do not have permission to view this page"})
-        return render(request, 'deleteAccount.html', {"stafflist": staffList})
+        return render(request, 'deleteAccount.html', {"stafflist": staffList, "i":user})
 
     def post(self, request):
+        CU = CurrentUser()
+        user = CU.getCurrentUser(request)
         username = str(request.POST["username"])
         message = deleteAccount(userName=username)
         instructorList = Account.objects.filter(title=2)
         taList = Account.objects.filter(title='1')
         staffList = instructorList | taList
 
-        return render(request, 'deleteAccount.html', {"message": message, "stafflist": staffList})
+        return render(request, 'deleteAccount.html', {"message": message, "stafflist": staffList, "i":user})
 
 
 class instructorCourse(View):
@@ -280,4 +287,24 @@ class editPubInfoView(View):
         CU = CurrentUser()
         user = CU.getCurrentUser(request)
         message = editPubInfo(user, dict)
-        return render(request, 'editPubInfo_success.html', {"message": message, "i": user, "dict": dict})
+        info = makeUserDictionary(user)
+        return render(request, 'editPubInfo_success.html', {"message": message, "i": user, "info": info})
+
+
+def makeUserDictionary(user):
+    dict = {
+        'First Name': user.firstName,
+        'Last Name': user.lastName,
+        'Email': user.email,
+        'Password': user.password,
+        'Home phone': user.homePhone,
+        'Address': user.address,
+        'City': user.city,
+        'State': user.state,
+        'Zipcode': user.zipCode,
+        'Office number': user.officeNumber,
+        'Office phone': user.officePhone,
+        'Office days': user.officeDays,
+        'Office hours start': user.officeHoursStart,
+        'Office hours end': user.officeHoursEnd }
+    return dict

@@ -60,7 +60,8 @@ def checkVaildTimes(time):
     return True
 
 def checkValidDays(days):
-    for i in days:
+    daysnospaces = days.replace(" ", "")
+    for i in daysnospaces:
         if i not in 'MTWRFN':
             return False
     return True

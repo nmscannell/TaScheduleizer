@@ -30,9 +30,11 @@
 
   </form>
 <ul>
-    <li><a class="active" href=" ">Edit the Contact Information</a></li>
-    <li><a href="/courseassignments">View Course Assignments</a></li>
-    <li><a href=" ">View TA assignments</a></li>
+    {% if i.title == 3 %}
+    <li><a href="/administrator">Admin Home</a></li>
+    {% else %}
+    <li><a href="/supervisor"></a>Supervisor Home</li>
+    {% endif %}
     <li><a href="/login/">Logout</a></li>
 </ul>
 </body>
