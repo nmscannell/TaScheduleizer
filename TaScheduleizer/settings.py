@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Main.apps.MainConfig',
     'TaScheduleizer',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
