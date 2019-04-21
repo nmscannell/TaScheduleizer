@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from UserInterface import UI
-from Commands import login, displayAllCourseAssign, createAccount, getPrivateDataList, getPublicDataList, editPubInfo
+from Commands import login, displayAllCourseAssign, createAccount, getPrivateDataList, getPublicDataList, editPubInfo, assignAccCourse
 from CurrentUserHelper import CurrentUser
-from Main.models import Account
+from Main.models import Account, Course, Section, AccountCourse, AccountSection
+
 # Create your views here.
 
 
@@ -166,11 +167,76 @@ class instructorCourse(View):
         currentusertitle = CU.getCurrentUserTitle(request)
         if currentusertitle != 4:
             return render(request, 'errorPage.html', {"message": "You do not have permission to view this page"})
-        return render(request, 'assignInstructor.html')
+        instructorList = Account.objects.filter(title=2)
+        courseList = Course.objects.all()
+        return render(request, 'assignInstructor.html', {"instList": instructorList, "courseList": courseList})
 
     def post(self, request):
-        pass
+        username = str(request.POST["username"])
+        course = str(request.POST["course"])
+        num = Course.objects.get(name=course).number
+        message = assignAccCourse(userName=username, courseNumber=num)
+        return render(request, 'assignInstructor.html', {"message": message})
 
+
+class taCourse(View):
+    def get(self, request):
+        CU = CurrentUser()
+        currentusertitle = CU.getCurrentUserTitle(request)
+        if currentusertitle != 4:
+            return render(request, 'errorPage.html', {"message": "You do not have permission to view this page"})
+        taList = Account.objects.filter(title=1)
+        courseList = Course.objects.all()
+        return render(request, 'assignTACourse.html', {"taList": taList, "courseList": courseList})
+
+    def post(self, request):
+        username = str(request.POST["username"])
+        course = str(request.POST["course"])
+        num = Course.objects.get(name=course).number
+        message = assignAccCourse(userName=username, courseNumber=num)
+        return render(request, 'assignTACourse.html', {"message": message})
+
+"""  
+
+This one will be a bit challenging. Supervisor can assign any TA for any course to a certain section. Instructors can
+only assign TAs for courses they are assigned to. Need to select a course to be able to choose a TA and section.
+
+
+class taSection(View):
+    def get(self, request):
+        CU = CurrentUser()
+        currentusertitle = CU.getCurrentUserTitle(request)
+        if currentusertitle != 4 or currentusertitle != 2:
+            return render(request, 'errorPage.html', {"message": "You do not have permission to view this page"})
+        courseList = []
+        if currentusertitle == 4:
+            courseList = Course.objects.all()
+        else:
+            courseAssigns = AccountCourse.objects.filter(Account=CU.getCurrentUser(request))
+            for a in courseAssigns:
+                courseList.append(str(a.Course))
+
+        return render(request, 'assignTASection.html', {"courseList": courseList})
+
+    def post(self, request):
+        course = str(request.POST["course"])
+        
+
+    def post(self, request):
+        username = str(request.POST["username"])
+        account = Account.objects.get(userName=username)
+        courseAssigns = AccountCourse.objects.filter(Account=account)
+        courseList = []
+        for a in courseAssigns:
+            courseList.append(a.Course.name)
+        return render(request, 'assignTASection.html', {"courseList": courseList})
+
+
+        section = str(request.POST["section"])
+        num = Section.objects.get(name=section).number
+        message = assignAccCourse(userName=username, courseNumber=num)
+        return render(request, 'assignTASection.html', {"message": message})
+ """
 
 class directoryView(View):
 
