@@ -306,3 +306,7 @@ class Test_web(TestCase):
 
         self.assertEqual(response1.context['message'], "Invalid start or end time, please use a "
                                                       "4 digit military time representation")
+
+        '''
+        
+        '''
