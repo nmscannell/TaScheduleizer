@@ -49,13 +49,13 @@ def containsOnlyDigits(argument):
     return True
 
 
-def checkVaildTimes(startTime, endTime):
-    if len(startTime) != 4 or len(endTime) != 4:
+def checkVaildTimes(time):
+    if len(time) != 4:
         return False
-    if not re.match('^[0-2]*$', startTime[0]) or not re.match('^[0-2]*$', endTime[0]):
+    if not re.match('^[0-2]*$', time[0]):
         return False
     for i in range(1, 3):
-        if not (re.match('^[0-9]*$', startTime[i])) or not (re.match('^[0-9]*$', endTime[i])):
+        if not (re.match('^[0-9]*$', time[i])):
             return False
     return True
 
@@ -385,86 +385,105 @@ def getPrivateDataList():
 def editPubInfo(user, dict):
 
     firstName = dict['firstName']
-    if not firstName.isalpha():
-        return "First Name can only contain letters"
-    user.firstName = firstName
+    if firstName != user.firstName:
+        if not firstName.replace(" ", "").isalpha():
+            return "First Name can only contain letters"
+        user.firstName = firstName
 
 
     lastName = dict['lastName']
-    if not lastName.isalpha():
-        return "Last name can only contain letters"
-    user.lastName = lastName
+    if lastName != user.lastName:
+        if not lastName.replace(" ", "").isalpha():
+            return "Last name can only contain letters"
+        user.lastName = lastName
 
 
     # Email
     email = dict['email']
-    if checkValidEmail(email) == False:
-        return "The email address you have entered in not valid.  " \
-               "Please make sure you are using a uwm email address in the correct format."
-    else:
-        user.email = email
+    if email != user.email:
+        if checkValidEmail(email) == False:
+            return "The email address you have entered in not valid.  " \
+                "Please make sure you are using a uwm email address in the correct format."
+        else:
+            user.email = email
 
     # Password
-    user.password = dict['password']
+    password = dict['password']
+    if password != user.password:
+        user.password = password
 
     # Home phone
     homePhone = dict['homephone']
-    if containsOnlyDigits(homePhone.replace("-", "")) == False:
-        return "Home Phone can only contain numbers"
-    else:
-        user.homePhone = homePhone
+    if homePhone != user.homePhone:
+        if containsOnlyDigits(homePhone.replace("-", "")) == False:
+            return "Home Phone can only contain numbers"
+        else:
+            user.homePhone = homePhone
 
     # Address
-    user.address = dict['address']
+    address = dict['address']
+    if address != user.address:
+        user.address = address
 
     # City
     city = dict['city']
-    if not city.isalpha():
-        return "City must contain only letters"
-    user.city = city
+    if city != user.city:
+        if not city.replace(" ", "").isalpha():
+            return "City must contain only letters"
+        user.city = city
 
     # State
     state = dict['state']
-    if not state.isalpha():
-        return "State must contain only letters"
-    user.state = state
+    if state != user.state:
+        if not state.replace(" ", "").isalpha():
+            return "State must contain only letters"
+        user.state = state
 
     # Zip Code
     zipCode = dict['zipcode']
-    if containsOnlyDigits(zipCode) == False:
-        return "ZipCode my be only numeric"
-    else:
-        user.zipCode = zipCode
+    if zipCode != user.zipCode:
+        if containsOnlyDigits(zipCode) == False:
+            return "ZipCode my be only numeric"
+        else:
+            user.zipCode = zipCode
 
     # Office Number
     officeNumber = dict['officenumber']
-    if containsOnlyDigits(officeNumber) == False:
-        return "Office Number must be numeric"
-    else:
-        user.officeNumber = officeNumber
+    if officeNumber != user.officeNumber:
+        if containsOnlyDigits(officeNumber) == False:
+            return "Office Number must be numeric"
+        else:
+            user.officeNumber = officeNumber
 
     # Office phone
     officePhone = dict['officephone']
-    if containsOnlyDigits(officePhone.replace("-", "")) == False:
-        return "Office Phone can only contain numbers"
-    else:
-        user.officePhone = officePhone
+    if officePhone != user.officePhone:
+        if containsOnlyDigits(officePhone.replace("-", "")) == False:
+            return "Office Phone can only contain numbers"
+        else:
+            user.officePhone = officePhone
 
     # Office days
     officeDays = dict['officedays']
-    if checkValidDays(officeDays) == False:
-        return "Invalid days of the week, please enter days in the format: MWTRF or NN for online"
-    else:
-        user.officeDays = officeDays
+    if officeDays != user.officeDays:
+        if checkValidDays(officeDays) == False:
+            return "Invalid days of the week, please enter days in the format: MWTRF or NN for online"
+        else:
+            user.officeDays = officeDays
 
     # Start Time and End Time
     officeHoursStart = dict['officestart']
     officeHoursEnd = dict['officeend']
-    if checkVaildTimes(officeHoursStart, officeHoursEnd) == False:
-        return "Invalid start or end time, please use a 4 digit military time representation"
-    else:
-        user.officeHoursStart = officeHoursStart
-        user.officeHoursEnd = officeHoursEnd
+    if (officeHoursStart != user.officeHoursStart):
+        if checkVaildTimes(officeHoursStart) == False:
+            return "Invalid start or end time, please use a 4 digit military time representation"
+        else:
+            user.officeHoursStart = officeHoursStart
+    if officeHoursEnd != user.officeHoursEnd:
+        if checkVaildTimes(officeHoursEnd) == False:
+            return "Invalid start or end time, please use a 4 digit military time representation"
+        else:
+            user.officeHoursEnd = officeHoursEnd
 
 
     # Save changes
