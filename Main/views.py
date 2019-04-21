@@ -280,4 +280,4 @@ class editPubInfoView(View):
         CU = CurrentUser()
         user = CU.getCurrentUser(request)
         message = editPubInfo(user, dict)
-        return render(request, 'editPubInfo.html', {"message": message})
+        return render(request, 'editPubInfo_success.html', {"message": message, "i": user, "dict": dict})

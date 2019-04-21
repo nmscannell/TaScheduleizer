@@ -256,6 +256,28 @@ class Test_web(TestCase):
 
         self.assertEqual(response.context['message'], "Fields successfully updated")
 
+    def test_editPubInfo_lastName(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
+        response = self.c.post('/editpubinfo/', {'firstname': 'Jean Luc', 'lastname': 'Brooks', 'email': 'picardj@uwm.edu',
+                                                'password': '90456', 'homephone': '123-456-7893',
+                                                'address': '87 Enterprise Avenue', 'city': 'Alpha', 'state': 'Quadrant',
+                                                'zipcode': '11111', 'officenumber': '54', 'officephone': '777-777-7777',
+                                                'officedays': 'W', 'officestart': '0900', 'officeend': '1000'})
+
+        self.assertEqual(response.context['message'], "Fields successfully updated")
+
+    def test_editPubInfo_two_fields(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
+        response = self.c.post('/editpubinfo/',
+                               {'firstname': 'Jean Luc', 'lastname': 'Picard', 'email': 'picardj@uwm.edu',
+                                'password': '90456', 'homephone': '123-456-7893',
+                                'address': '87 Enterprise Avenue', 'city': 'Chicago', 'state': 'Illinois',
+                                'zipcode': '11111', 'officenumber': '54', 'officephone': '777-777-7777',
+                                'officedays': 'W', 'officestart': '0900', 'officeend': '1000'})
+
+        self.assertEqual(response.context['message'], "Fields successfully updated")
+
+
     def test_editPubInfo_homephone_invalid(self):
         self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/editpubinfo/', {'firstname': 'Jean Luc', 'lastname': 'Picard', 'email': 'picardj@uwm.edu',
@@ -266,6 +288,17 @@ class Test_web(TestCase):
                                                  'officephone': '777-777-7777',
                                                  'officedays': 'W', 'officestart': '0900', 'officeend': '1000'})
         self.assertEqual(response.context['message'], "Home Phone can only contain numbers")
+
+    def test_editPubInfo_officephone_invalid(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
+        response = self.c.post('/editpubinfo/', {'firstname': 'Jean Luc', 'lastname': 'Picard', 'email': 'picardj@uwm.edu',
+                                                 'password': '90456', 'homephone': '123-456-7893',
+                                                 'address': '87 Enterprise Avenue', 'city': 'Alpha',
+                                                 'state': 'Quadrant',
+                                                 'zipcode': '11111', 'officenumber': '54',
+                                                 'officephone': '77c-777-7777',
+                                                 'officedays': 'W', 'officestart': '0900', 'officeend': '1000'})
+        self.assertEqual(response.context['message'], "Office Phone can only contain numbers")
 
     def test_editPubInfo_zipcode_invalid(self):
         self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
@@ -287,6 +320,50 @@ class Test_web(TestCase):
 
         self.assertEqual(response.context['message'], "Office Number must be numeric")
 
+    def test_editPubInfo_firstname_invalid(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
+        response = self.c.post('/editpubinfo/',
+                               {'firstname': 'Jean Luc12', 'lastname': 'Picard', 'email': 'picardj@uwm.edu',
+                                'password': '90456', 'homephone': '123-456-7893',
+                                'address': '87 Enterprise Avenue', 'city': 'Alpha', 'state': 'Quadrant',
+                                'zipcode': '11111', 'officenumber': '54', 'officephone': '777-777-7777',
+                                'officedays': 'W', 'officestart': '0900', 'officeend': '1000'})
+
+        self.assertEqual(response.context['message'], "First Name can only contain letters")
+
+    def test_editPubInfo_lastname_invalid(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
+        response = self.c.post('/editpubinfo/',
+                               {'firstname': 'Jean Luc', 'lastname': 'Picard12', 'email': 'picardj@uwm.edu',
+                                'password': '90456', 'homephone': '123-456-7893',
+                                'address': '87 Enterprise Avenue', 'city': 'Alpha', 'state': 'Quadrant',
+                                'zipcode': '11111', 'officenumber': '54', 'officephone': '777-777-7777',
+                                'officedays': 'W', 'officestart': '0900', 'officeend': '1000'})
+
+        self.assertEqual(response.context['message'], "Last name can only contain letters")
+
+    def test_editPubInfo_city_invalid(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
+        response = self.c.post('/editpubinfo/',
+                               {'firstname': 'Jean Luc', 'lastname': 'Picard', 'email': 'picardj@uwm.edu',
+                                'password': '90456', 'homephone': '123-456-7893',
+                                'address': '87 Enterprise Avenue', 'city': 'Alpha12', 'state': 'Quadrant',
+                                'zipcode': '11111', 'officenumber': '54', 'officephone': '777-777-7777',
+                                'officedays': 'W', 'officestart': '0900', 'officeend': '1000'})
+
+        self.assertEqual(response.context['message'], "City must contain only letters")
+
+    def test_editPubInfo_state_invalid(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
+        response = self.c.post('/editpubinfo/',
+                               {'firstname': 'Jean Luc', 'lastname': 'Picard', 'email': 'picardj@uwm.edu',
+                                'password': '90456', 'homephone': '123-456-7893',
+                                'address': '87 Enterprise Avenue', 'city': 'Alpha', 'state': 'Quadrant12',
+                                'zipcode': '11111', 'officenumber': '54', 'officephone': '777-777-7777',
+                                'officedays': 'W', 'officestart': '0900', 'officeend': '1000'})
+
+        self.assertEqual(response.context['message'], "State must contain only letters")
+
     def test_editPubInfo_officetimes_invalid(self):
         self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/editpubinfo/', {'firstname': 'Jean Luc', 'lastname': 'Picard', 'email': 'picardj@uwm.edu',
@@ -306,3 +383,4 @@ class Test_web(TestCase):
 
         self.assertEqual(response1.context['message'], "Invalid start or end time, please use a "
                                                       "4 digit military time representation")
+
