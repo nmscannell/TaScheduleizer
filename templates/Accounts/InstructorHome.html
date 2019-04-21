@@ -7,40 +7,6 @@
     {% load staticfiles %}
     <link rel="stylesheet" type = "text/css" href="{% static 'AccountsHome.css' %}">
 </head>
-<style>
-ul {
-  padding: 0;
-  overflow: hidden;
-  margin: 0;
-  background-color: #312f33;
-  list-style-type: none;
-}
-
-li {
-  float: left;
-  border-right:2px solid #bbb;
-}
-
-li:last-child {
-  border-right: none;
-}
-
-li a {
-    color: #fffe31;
-    text-align: center;
-    padding: 20px 24px;
-    display: block;
-    text-decoration: none;
-}
-
-li a:hover:not(.active) {
-  background-color: #3d35ff;
-}
-
-.active {
-  background-color: #a329af;
-}
-</style>
 <body>
 <h1 align="center"> {{ account }}'s Homepage </h1>
 
