@@ -38,5 +38,10 @@
     <p>{{ message }}</p>
 
 </form>
+{%  if i.title == 1 %}
+<a href="/ta">TA Home</a>
+{% else %}
+<a href="/instructor">Instructor Home</a>
+{% endif %}
 </body>
 </html>
