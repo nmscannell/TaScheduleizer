@@ -6,12 +6,16 @@
 </head>
 <body>
 {{ message }}<br>
+{% for key,value in info.items %}
+<p>{{ key }} : {{ value }}</p>
+{% endfor %}
 
 {%  if i.title == 1 %}
 <a href="/ta">TA Home</a>
 {% else %}
 <a href="/instructor">Instructor Home</a>
 {% endif %}
+<a href="/editpubinfo/">Back to edit your info</a>
 </body>
 
 </html>
