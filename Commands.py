@@ -52,13 +52,18 @@ def containsOnlyDigits(argument):
 def checkVaildTimes(startTime, endTime):
     if len(startTime) != 4 or len(endTime) != 4:
         return False
-    if not re.match('^[0-2]*$', startTime[0]) or not re.match('^[0-1]*$', endTime[0]):
+    if not re.match('^[0-2]*$', startTime[0]) or not re.match('^[0-2]*$', endTime[0]):
         return False
     for i in range(1, 3):
         if not (re.match('^[0-9]*$', startTime[i])) or not (re.match('^[0-9]*$', endTime[i])):
             return False
     return True
 
+def checkValidDays(days):
+    for i in days:
+        if i not in 'MTWRFN':
+            return False
+    return True
 
 # Creating an Account
 def createAccount(firstName, lastName, userName, title, email):
@@ -379,9 +384,17 @@ def getPrivateDataList():
 
 def editPubInfo(user, dict):
 
-    user.firstName = dict['firstName']
+    firstName = dict['firstName']
+    if not firstName.isalpha():
+        return "First Name can only contain letters"
+    user.firstName = firstName
 
-    user.lastName = dict['lastName']
+
+    lastName = dict['lastName']
+    if not lastName.isalpha():
+        return "Last name can only contain letters"
+    user.lastName = lastName
+
 
     # Email
     email = dict['email']
@@ -405,10 +418,16 @@ def editPubInfo(user, dict):
     user.address = dict['address']
 
     # City
-    user.city = dict['city']
+    city = dict['city']
+    if not city.isalpha():
+        return "City must contain only letters"
+    user.city = city
 
     # State
-    user.state = dict['state']
+    state = dict['state']
+    if not state.isalpha():
+        return "State must contain only letters"
+    user.state = state
 
     # Zip Code
     zipCode = dict['zipcode']
@@ -425,10 +444,18 @@ def editPubInfo(user, dict):
         user.officeNumber = officeNumber
 
     # Office phone
-    user.officePhone = dict['officephone']
+    officePhone = dict['officephone']
+    if containsOnlyDigits(officePhone.replace("-", "")) == False:
+        return "Office Phone can only contain numbers"
+    else:
+        user.officePhone = officePhone
 
     # Office days
-    user.officeDays = dict['officedays']
+    officeDays = dict['officedays']
+    if checkValidDays(officeDays) == False:
+        return "Invalid days of the week, please enter days in the format: MWTRF or NN for online"
+    else:
+        user.officeDays = officeDays
 
     # Start Time and End Time
     officeHoursStart = dict['officestart']
