@@ -33,5 +33,6 @@ urlpatterns = [
     path('assigntacourse/', views.instructorCourse.as_view()),
     path('assigntasection/', views.instructorCourse.as_view()),
     path('directory/', views.directoryView.as_view()),
-    path('editpubinfo/', views.editPubInfoView.as_view())
+    path('editpubinfo/', views.editPubInfoView.as_view()),
+    path('assignTACourse/', views.taCourse.as_view())
 ]
