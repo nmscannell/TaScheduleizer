@@ -30,8 +30,8 @@ urlpatterns = [
     path('courseassignments/', views.courseAssignmentsList.as_view()),
     path('deleteaccount/', views.deleteAccount.as_view()),
     path('assigninstructor/', views.instructorCourse.as_view()),
+    path('assigntacourse/', views.instructorCourse.as_view()),
+    path('assigntasection/', views.instructorCourse.as_view()),
     path('directory/', views.directoryView.as_view()),
-    path('editpubinfo/', views.editPubInfoView.as_view()),
-    path('assigntacourse/', views.editPubInfoView.as_view()),
-    path('assigntasection/', views.editPubInfoView.as_view())
+    path('editpubinfo/', views.editPubInfoView.as_view())
 ]
