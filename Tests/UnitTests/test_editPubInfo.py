@@ -302,9 +302,34 @@ class Test_editPubInfo(TestCase):
         self.assertEqual(Commands.editPubInfo(self.j, self.janeway), "The email address you have entered in not valid.  "
                                             "Please make sure you are using a uwm email address in the correct format.")
 
+    def test_change_firstname_invalid(self):
+        self.janeway['firstName'] = "jane2"
+        self.assertEqual(Commands.editPubInfo(self.j, self.janeway), "First Name can only contain letters")
+
+    def test_change_lastname_invalid(self):
+        self.janeway['lastName'] = "jane2"
+        self.assertEqual(Commands.editPubInfo(self.j, self.janeway), "Last name can only contain letters")
+
+    def test_change_city_invalid(self):
+        self.janeway['city'] = "456"
+        self.assertEqual(Commands.editPubInfo(self.j, self.janeway), "City must contain only letters")
+
+    def test_change_state_invalid(self):
+        self.janeway['state'] = "456"
+        self.assertEqual(Commands.editPubInfo(self.j, self.janeway), "State must contain only letters")
+
     def test_change_homephone_invalid(self):
         self.janeway['homephone'] = "abc-678-9807"
         self.assertEqual(Commands.editPubInfo(self.j, self.janeway), "Home Phone can only contain numbers")
+
+    def test_change_officedays_invalid(self):
+        self.janeway['officedays'] = "ABCTR"
+        self.assertEqual(Commands.editPubInfo(self.j, self.janeway),
+                         "Invalid days of the week, please enter days in the format: MWTRF or NN for online")
+
+    def test_change_officephone_invalid(self):
+        self.janeway['officephone'] = "abc-678-9807"
+        self.assertEqual(Commands.editPubInfo(self.j, self.janeway), "Office Phone can only contain numbers")
 
     def test_change_zip_invalid(self):
         self.janeway['zipcode'] = "t89r3"
