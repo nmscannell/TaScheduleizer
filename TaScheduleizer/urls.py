@@ -35,5 +35,6 @@ urlpatterns = [
     path('directory/', views.directoryView.as_view()),
     path('editpubinfo/', views.editPubInfoView.as_view()),
     path('assignTACourse/', views.taCourse.as_view()),
-    path('logout/', views.logoutView.as_view())
+    path('logout/', views.logoutView.as_view()),
+    path('createcourse/', views.createCourseView.as_view()),
 ]

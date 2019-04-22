@@ -4,7 +4,6 @@ import re
 from itertools import chain
 
 
-
 class Command():
 
     def __init__(self, opcode, arguments, function):
@@ -142,7 +141,9 @@ def createCourse(name, number, online, days, start, end):
 
     # Else the course is ok to be created
     else:
-        c = Course(name=name, number=number)
+        c = Course()
+        c.name = name
+        c.number = number
         if online.lower() == "online":
             c.onCampus = False
         else:
