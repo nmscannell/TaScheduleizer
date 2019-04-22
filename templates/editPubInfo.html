@@ -2,9 +2,50 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Edit My Information</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
 </head>
 <body>
+<h1>Edit Your Information</h1>
+<form method="post" action="/editpubinfo/">
+  {%csrf_token%}
 
+
+     <p><label for="firstname">First Name:</label>
+         <input type="text" name="firstname" id = "firstname" value="{{i.firstName }}"></p>
+     <p><label for="lastname">Last Name:</label>
+         <input type="text" name="lastname" id="lastname"  value="{{ i.lastName }}"></p>
+     <p><label for="email">Email:</label>
+         <input type="text" name="email" id="email" value="{{ i.email }}"></p>
+     <p><label for="password">Password:</label>
+         <input type="text" name="password" id="password" value="{{ i.password }}"></p>
+     <p><label for="homephone">Home Phone:</label>
+         <input type="text" name="homephone" id="homephone" maxlength="12" value="{{ i.homePhone }}"></p>
+     <p><label for="address">Address:</label>
+         <input type="text" name="address" id="address" value="{{ i.address }}"></p>
+     <p><label for="city">City:</label>
+         <input type="text" name="city" id="city" value="{{ i.city }}"></p>
+     <p>State: <input type="text" name="state" id="state" value="{{ i.state }}"></p>
+     <p>ZipCode: <input type="text" name="zipcode" id="zipcode" maxlength="5" value="{{ i.zipCode }}"></p>
+     <p>Office Number: <input type="text" name="officenumber" id="officenumber" maxlength="3" value="{{ i.officeNumber }}"></p>
+     <p>Office Phone: <input type="text" name="officephone" id="officephone" maxlength="12" value="{{ i.officePhone }}"></p>
+     <p>Office Days: <input type="text" name="officedays" id="officedays" value="{{ i.officeDays }}"></p>
+     <p>Office Hours Start Time: <input type="text" name="officestart" id="officestart" maxlength="4" value="{{ i.officeHoursStart }}"></p>
+     <p>Office Hours End Time: <input type="text" name="officeend" id="officeend" maxlength="4" value="{{ i.officeHoursEnd }}"></p>
+
+    <input type="submit"/><br>
+    <p>{{ message }}</p>
+    {% for key, value in dict %}
+        <p>{{ key }}{{ value }}</p>
+    {% endfor %}
+
+
+</form>
+{%  if i.title == 1 %}
+<a href="/ta">TA Home</a>
+{% else %}
+<a href="/instructor">Instructor Home</a>
+{% endif %}
 </body>
 </html>

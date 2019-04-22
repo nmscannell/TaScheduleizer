@@ -3,18 +3,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Assign Instructor to a Course</title>
+    <title>Assign TA to Course</title>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link rel="stylesheet" type = "text/css" href="{% static 'assignInstructor.css' %}">
+    <link rel="stylesheet" type = "text/css" href="{% static 'assignTACourse.css' %}">
 
-    <h1>Assign an Instructor to a Course</h1>
+    <h1>Assign a TA to a Course</h1>
 
 </head>
 <body>
-<form method="post" action="/assignInstructor/">
+<form method="post" action="/assignTaCourse/">
   {%csrf_token%}
 <select name = "username">
-    {%for i  in instList %}
+    {%for i  in taList %}
         <option value={{ i.username }}>{{ i }}</option>
     {% endfor %}
 </select>

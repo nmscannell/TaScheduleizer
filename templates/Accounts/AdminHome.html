@@ -3,50 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+         <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    {% load staticfiles %}
+    <link rel="stylesheet" type = "text/css" href="{% static 'AccountsHome.css' %}">
 </head>
-<style>
-ul {
-  padding: 0;
-  overflow: hidden;
-  margin: 0;
-  background-color: #312f33;
-  list-style-type: none;
-}
 
-li {
-  float: left;
-  border-right:2px solid #bbb;
-}
-
-li:last-child {
-  border-right: none;
-}
-
-li a {
-    color: #fffe31;
-    text-align: center;
-    padding: 20px 24px;
-    display: block;
-    text-decoration: none;
-}
-
-li a:hover:not(.active) {
-  background-color: #3d35ff;
-}
-
-.active {
-  background-color: #a329af;
-}
-</style>
 <body>
 <h1 align="center"> Admin Homepage </h1>
 
 <ul>
-    <li><a class="active" href=" ">Create Course</a></li>
-    <li><a href="/createaccount/">Create Account</a></li>
-     <li><a href="/deleteaccount/">Delete Accounts</a></li>
-     <li style="float:right"><a href="/login/">Logout</a></li>
-</ul>
+ <li> <a class="active" href="/administrator">Home</a></li>
+ <li> <a href=" ">Contact</a></li>
+  <li><div class="dropdown">
+    <button class="dropbtn"> Account Options
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+         <a href=" ">Create an Course(under construction)</a>
+      <a href="/createaccount">Create an Account</a>
+      <a href="/deleteaccount">Delete an Account</a>
+        <a href="/editpubinfo">Edit an Account</a>
+    </div>
+</div> </li>
+ <li><div class="dropdown">
+    <button class="dropbtn"> Accesses
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+         <a href=" ">Send Out Notifications(under construction)</a>
+      <a href=" ">Access All Data(under construction)</a>
+    </div>
+</div> </li>
 
+
+    <li style="float:right"><a href="/logout/">Logout</a></li>
+</ul>
 </body>
 </html>

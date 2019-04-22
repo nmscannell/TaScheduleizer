@@ -3,49 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+     <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    {% load staticfiles %}
+    <link rel="stylesheet" type = "text/css" href="{% static 'AccountsHome.css' %}">
 </head>
-<style>
-ul {
-  padding: 0;
-  overflow: hidden;
-  margin: 0;
-  background-color: #312f33;
-  list-style-type: none;
-}
 
-li {
-  float: left;
-  border-right:2px solid #bbb;
-}
 
-li:last-child {
-  border-right: none;
-}
-
-li a {
-    color: #fffe31;
-    text-align: center;
-    padding: 20px 24px;
-    display: block;
-    text-decoration: none;
-}
-
-li a:hover:not(.active) {
-  background-color: #3d35ff;
-}
-
-.active {
-  background-color: #a329af;
-}
-</style>
 <body>
 <h1 align="center"> {{ account }}'s Homepage! </h1>
-<ul>
-    <li><a href="/directory">View Public Information</a></li>
-    <li><a class="/editpubinfo" href=" ">Edit My Contact Information</a></li>
-    <li><a href="/ta">Home</a></li>
-    <li style="float:right"><a href="/login/">Logout</a></li>
 
+<ul>
+ <li> <a class="active" href="/ta">Home</a></li>
+ <li> <a href=" ">Contact</a></li>
+  <li><div class="dropdown">
+    <button class="dropbtn"> Account Option
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+        <a href="/editpubinfo">Edit Contact Information</a>
+    </div>
+</div> </li>
+ <li><div class="dropdown">
+    <button class="dropbtn">View Assignments
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a href="/courseassignments">View Course Assignments</a>
+    </div>
+</div> </li>
+    <li><div class="dropdown">
+    <button class="dropbtn"> Accesses
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+          <a href="/directory">Read Public contact Information</a>
+    </div>
+</div> </li>
+
+
+
+    <li style="float:right"><a href="/logout/">Logout</a></li>
 </ul>
 </body>
 </html>

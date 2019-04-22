@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Create Account</title>
+    <title>Delete Account</title>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="stylesheet" type = "text/css" href="{% static 'deleteAccount.css' %}">
 
@@ -13,16 +13,22 @@
 <body>
 <form method="post" action="/deleteaccount/">
   {%csrf_token%}
-<select name = "username" onchange="this.form.submit()">
-
+<select name = "username">
     {%for i  in stafflist %}
         <option value={{ i.username }}>{{ i }}</option>
     {% endfor %}
 </select>
-
     <input type="submit"/><br>
     <p>{{ message }}</p>
 
   </form>
+<ul>
+    {% if i.title == 3 %}
+    <li><a href="/administrator">Admin Home</a></li>
+    {% else %}
+    <li><a href="/supervisor"></a>Supervisor Home</li>
+    {% endif %}
+    <li><a href="/login/">Logout</a></li>
+</ul>
 </body>
 </html>

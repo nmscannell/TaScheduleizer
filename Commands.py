@@ -18,18 +18,20 @@ def login(userName, password):
         CurrentUser = Account.objects.get(userName=userName)
         if CurrentUser.password != password:
             raise Exception("Incorrect password")
-
+        CurrentUser.currentUser = True
     except Account.DoesNotExist:
         raise Exception("Account Not Found")
 
     return CurrentUser
 
 
-def logout():
+def logout(user):
     try:
-        CurrentUser = Account.objects.get(currentUser=True)
-        CurrentUser.currentUser = False
-        CurrentUser.save()
+        #CurrentUser = Account.objects.get(userName=userName)
+        #CurrentUser.currentUser = False
+        #CurrentUser.save()
+        user.currentUser = False
+        user.save()
         return "Successfully logged out"
     except Account.DoesNotExist:
         return "Please log in First"
@@ -37,6 +39,36 @@ def logout():
         return "Multiple account Logged in, Something went terribly wrong"
 
 
+def checkValidEmail(email):
+    str = email.split('@', 1)
+    if len(str) == 1 or str[1] != "uwm.edu":
+        return False
+    return True
+
+def containsOnlyDigits(argument):
+    if not re.match('^[0-9]*$', argument):
+        return False
+    return True
+
+
+def checkVaildTimes(time):
+    if len(time) != 4:
+        return False
+    if not re.match('^[0-2]*$', time[0]):
+        return False
+    for i in range(1, 3):
+        if not (re.match('^[0-9]*$', time[i])):
+            return False
+    return True
+
+def checkValidDays(days):
+    daysnospaces = days.replace(" ", "")
+    for i in daysnospaces:
+        if i not in 'MTWRFN':
+            return False
+    return True
+
+# Creating an Account
 def createAccount(firstName, lastName, userName, title, email):
 
     # Check that the account trying to be created does not already exist
@@ -44,11 +76,7 @@ def createAccount(firstName, lastName, userName, title, email):
         return "Account already exists"
 
     # Make sure the account is trying to be created with a UWM email address
-    str = email.split('@', 1)
-    if len(str) == 1:
-        return "The email address you have entered in not valid.  " \
-               "Please make sure you are using a uwm email address in the correct format."
-    if str[1] != "uwm.edu":
+    if checkValidEmail(email) == False:
         return "The email address you have entered in not valid.  " \
                "Please make sure you are using a uwm email address in the correct format."
 
@@ -72,10 +100,13 @@ def createAccount(firstName, lastName, userName, title, email):
         return "Account successfully created.  Temporary password is: " + A.userName + "456"
 
 
-def deleteAccount(userName):
-    if not Account.objects.get(userName=userName).exists():
+def deleteAccountCom(userName):
+
+    try:
+        a = Account.objects.get(userName=userName)
+    except Exception as e:
         return "Account does not exist"
-    Account.objects.filter(userName=userName).delete()
+    a.delete()
     return "Account successfully deleted"
 
 
@@ -110,7 +141,9 @@ def createCourse(name, number, online, days, start, end):
 
     # Else the course is ok to be created
     else:
-        c = Course(name=name, number=number)
+        c = Course()
+        c.name = name
+        c.number = number
         if online.lower() == "online":
             c.onCampus = False
         else:
@@ -356,6 +389,116 @@ def getPrivateDataList():
 
     directory.sort()
     return directory
+
+def editPubInfo(user, dict):
+
+    firstName = dict['firstName']
+    if firstName != user.firstName:
+        if not firstName.replace(" ", "").isalpha():
+            return "First Name can only contain letters"
+        user.firstName = firstName
+
+
+    lastName = dict['lastName']
+    if lastName != user.lastName:
+        if not lastName.replace(" ", "").isalpha():
+            return "Last name can only contain letters"
+        user.lastName = lastName
+
+
+    # Email
+    email = dict['email']
+    if email != user.email:
+        if checkValidEmail(email) == False:
+            return "The email address you have entered in not valid.  " \
+                "Please make sure you are using a uwm email address in the correct format."
+        else:
+            user.email = email
+
+    # Password
+    password = dict['password']
+    if password != user.password:
+        user.password = password
+
+    # Home phone
+    homePhone = dict['homephone']
+    if homePhone != str(user.homePhone):
+        if containsOnlyDigits(homePhone.replace("-", "")) == False:
+            return "Home Phone can only contain numbers"
+        else:
+            user.homePhone = homePhone
+
+    # Address
+    address = dict['address']
+    if address != user.address:
+        user.address = address
+
+    # City
+    city = dict['city']
+    if city != user.city:
+        if not city.replace(" ", "").isalpha():
+            return "City must contain only letters"
+        user.city = city
+
+    # State
+    state = dict['state']
+    if state != user.state:
+        if not state.replace(" ", "").isalpha():
+            return "State must contain only letters"
+        user.state = state
+
+    # Zip Code
+    zipCode = dict['zipcode']
+    if zipCode != str(user.zipCode):
+        if containsOnlyDigits(zipCode) == False:
+            return "ZipCode my be only numeric"
+        else:
+            user.zipCode = zipCode
+
+    # Office Number
+    officeNumber = dict['officenumber']
+    if officeNumber != str(user.officeNumber):
+        if containsOnlyDigits(officeNumber) == False:
+            return "Office Number must be numeric"
+        else:
+            user.officeNumber = officeNumber
+
+    # Office phone
+    officePhone = dict['officephone']
+    if officePhone != str(user.officePhone):
+        if containsOnlyDigits(officePhone.replace("-", "")) == False:
+            return "Office Phone can only contain numbers"
+        else:
+            user.officePhone = officePhone
+
+    # Office days
+    officeDays = dict['officedays']
+    if officeDays != user.officeDays:
+        if checkValidDays(officeDays) == False:
+            return "Invalid days of the week, please enter days in the format: MWTRF or NN for online"
+        else:
+            user.officeDays = officeDays
+
+    # Start Time and End Time
+    officeHoursStart = dict['officestart']
+    officeHoursEnd = dict['officeend']
+    if (officeHoursStart != str(user.officeHoursStart)):
+        if checkVaildTimes(officeHoursStart) == False:
+            return "Invalid start or end time, please use a 4 digit military time representation"
+        else:
+            user.officeHoursStart = officeHoursStart
+    if officeHoursEnd != str(user.officeHoursEnd):
+        if checkVaildTimes(officeHoursEnd) == False:
+            return "Invalid start or end time, please use a 4 digit military time representation"
+        else:
+            user.officeHoursEnd = officeHoursEnd
+
+
+    # Save changes
+    user.save()
+
+    return "Fields successfully updated"
+
 
 def getCommands():
     return [Command("login", 2, login), Command("logout", 0, logout),
