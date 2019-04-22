@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from UserInterface import UI
-from Commands import login, logout, displayAllCourseAssign, createAccount, getPrivateDataList, getPublicDataList, editPubInfo, assignAccCourse
+from Commands import login, logout, displayAllCourseAssign, createAccount, getPrivateDataList, getPublicDataList, editPubInfo, assignAccCourse, createCourse
 from CurrentUserHelper import CurrentUser
 from Main.models import Account, Course, Section, AccountCourse, AccountSection
 
@@ -329,3 +329,24 @@ def makeUserDictionary(user):
         'Office hours start': user.officeHoursStart,
         'Office hours end': user.officeHoursEnd }
     return dict
+
+
+class createCourseView(View):
+    def get(self,request):
+        CU = CurrentUser()
+        currentusertitle = CU.getCurrentUserTitle(request)
+        if currentusertitle > 3:
+            return render(request, 'errorPage.html', {"message": "You do not have permission to view this page"})
+
+        return render(request, 'createCourse.html')
+
+    def post(self, request):
+        name = str(request.POST["name"])
+        number = str(request.POST["number"])
+        onCampus = str(request.POST["onCampus"])
+        days = str(request.POST["days"])
+        start = str(request.POST["start"])
+        end = str(request.POST["end"])
+
+        messsage = createCourse(name, number, onCampus, days, start, end)
+        return render(request, 'createCourse.html', {"message": messsage})
