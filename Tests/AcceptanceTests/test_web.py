@@ -80,12 +80,12 @@ class Test_web(TestCase):
     login
     """
     def test_login_success(self):
-        response = self.c.post('/login/', {'username': 'jack23', 'password': '!@iamjack'})
+        response = self.c.post('/login/', {'username': 'janewayk123', 'password': '123456'})
         self.assertEqual(response.context['message'],
                          "")
 
     def test_login_wrong_password(self):
-        response = self.c.post('/login/', {'username': 'jack23', 'password': '********'})
+        response = self.c.post('/login/', {'username': 'janewayk123', 'password': '********'})
         self.assertEqual(response.context['message'],
                          "Incorrect password")
 
