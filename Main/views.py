@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from UserInterface import UI
-from Commands import login, logout, displayAllCourseAssign, createAccount, getPrivateDataList, getPublicDataList, editPubInfo, assignAccCourse, createCourse
+
+from Commands import login, logout, displayAllCourseAssign, deleteAccountCom, createAccount, getPrivateDataList, getPublicDataList, editPubInfo, assignAccCourse
 from CurrentUserHelper import CurrentUser
 from Main.models import Account, Course, Section, AccountCourse, AccountSection
 
@@ -179,7 +180,7 @@ class deleteAccount(View):
         CU = CurrentUser()
         user = CU.getCurrentUser(request)
         username = str(request.POST["username"])
-        message = deleteAccount(userName=username)
+        message = deleteAccountCom(username)
         instructorList = Account.objects.filter(title=2)
         taList = Account.objects.filter(title='1')
         staffList = instructorList | taList

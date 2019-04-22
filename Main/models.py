@@ -14,12 +14,12 @@ class Account(models.Model):
     address = models.CharField(max_length=30, default=" ")
     city = models.CharField(max_length=20, default=" ")
     state = models.CharField(max_length=20, default=" ")
-    zipCode = models.IntegerField()
-    officeNumber = models.IntegerField()
+    zipCode = models.IntegerField(default=00000)
+    officeNumber = models.IntegerField(default=000)
     officePhone = models.CharField(max_length=12, default="")
     officeDays = models.CharField(max_length=10, default=" ")
-    officeHoursStart = models.IntegerField()
-    officeHoursEnd = models.IntegerField()
+    officeHoursStart = models.IntegerField(default=0000)
+    officeHoursEnd = models.IntegerField(default=0000)
     currentUser = models.BooleanField(default=False)
 
     def __str__(self):
