@@ -346,3 +346,12 @@ class Test_editPubInfo(TestCase):
         self.janeway['officeend'] = "9999"
         self.assertEqual(Commands.editPubInfo(self.j, self.janeway), "Invalid start or end time, please use a "
                                                                      "4 digit military time representation")
+
+    def test_something(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
+        response = self.c.post('/editpubinfo/',
+                               {'firstname': 'Jean Luc', 'lastname': 'Brooks', 'email': 'picardj@uwm.edu',
+                                'password': '90456', 'homephone': '123-456-7893',
+                                'address': '87 Enterprise Avenue', 'city': 'Alpha', 'state': 'Quadrant',
+                                'zipcode': '11111', 'officenumber': '54', 'officephone': '777-777-7777',
+                                'officedays': 'W', 'officestart': '0900', 'officeend': '1000'})
