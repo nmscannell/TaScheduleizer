@@ -27,6 +27,8 @@ class Test_web(TestCase):
                                officePhone="897-654-398", officeDays="MW", officeHoursStart="1500",
                                officeHoursEnd="1600", currentUser=False)
 
+        Account.objects.create(userName="kim4", firstName="Henry", lastName = "Kim")
+
         # Set up for Course testing
         Course.objects.create(name="DataStructures", number=351, onCampus=True, classDays="TR",
                               classHoursStart=1200, classHoursEnd=1300)
@@ -132,11 +134,13 @@ class Test_web(TestCase):
 
     def test_deleteAccount_success(self):
         response = self.c.post('/deleteaccount/', {'username': 'kim4'})
+
         self.assertEqual(response.context['message'],
                          "Account successfully deleted")
 
     def test_deleteAccount_doesnotexists(self):
-        response = self.c.post('/deleteaccount/', {'username': 'henry42'})
+        response = self.c.post('/deleteaccount/', {'username':'henry42'})
+
         self.assertEqual(response.context['message'], "Account does not exist")
 
     """

@@ -101,10 +101,13 @@ def createAccount(firstName, lastName, userName, title, email):
         return "Account successfully created.  Temporary password is: " + A.userName + "456"
 
 
-def deleteAccount(userName):
-    if not Account.objects.get(userName=userName).exists():
+def deleteAccountCom(userName):
+
+    try:
+        a = Account.objects.get(userName=userName)
+    except Exception as e:
         return "Account does not exist"
-    Account.objects.filter(userName=userName).delete()
+    a.delete()
     return "Account successfully deleted"
 
 
