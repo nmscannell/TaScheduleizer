@@ -418,7 +418,7 @@ def editPubInfo(user, dict):
 
     # Home phone
     homePhone = dict['homephone']
-    if homePhone != user.homePhone:
+    if homePhone != str(user.homePhone):
         if containsOnlyDigits(homePhone.replace("-", "")) == False:
             return "Home Phone can only contain numbers"
         else:
@@ -445,7 +445,7 @@ def editPubInfo(user, dict):
 
     # Zip Code
     zipCode = dict['zipcode']
-    if zipCode != user.zipCode:
+    if zipCode != str(user.zipCode):
         if containsOnlyDigits(zipCode) == False:
             return "ZipCode my be only numeric"
         else:
@@ -453,7 +453,7 @@ def editPubInfo(user, dict):
 
     # Office Number
     officeNumber = dict['officenumber']
-    if officeNumber != user.officeNumber:
+    if officeNumber != str(user.officeNumber):
         if containsOnlyDigits(officeNumber) == False:
             return "Office Number must be numeric"
         else:
@@ -461,7 +461,7 @@ def editPubInfo(user, dict):
 
     # Office phone
     officePhone = dict['officephone']
-    if officePhone != user.officePhone:
+    if officePhone != str(user.officePhone):
         if containsOnlyDigits(officePhone.replace("-", "")) == False:
             return "Office Phone can only contain numbers"
         else:
@@ -478,12 +478,12 @@ def editPubInfo(user, dict):
     # Start Time and End Time
     officeHoursStart = dict['officestart']
     officeHoursEnd = dict['officeend']
-    if (officeHoursStart != user.officeHoursStart):
+    if (officeHoursStart != str(user.officeHoursStart)):
         if checkVaildTimes(officeHoursStart) == False:
             return "Invalid start or end time, please use a 4 digit military time representation"
         else:
             user.officeHoursStart = officeHoursStart
-    if officeHoursEnd != user.officeHoursEnd:
+    if officeHoursEnd != str(user.officeHoursEnd):
         if checkVaildTimes(officeHoursEnd) == False:
             return "Invalid start or end time, please use a 4 digit military time representation"
         else:
