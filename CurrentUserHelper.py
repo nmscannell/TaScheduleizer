@@ -8,6 +8,7 @@ class CurrentUser:
 
     def removeCurrentUser(self, request):
         request.session["currentUser"] = 0
+        del request.session["currentUser"]
 
     def getCurrentUser(self, request):
         account = request.session.get("currentUser", 0)

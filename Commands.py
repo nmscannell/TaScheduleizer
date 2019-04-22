@@ -4,6 +4,7 @@ import re
 from itertools import chain
 
 
+
 class Command():
 
     def __init__(self, opcode, arguments, function):
@@ -18,18 +19,20 @@ def login(userName, password):
         CurrentUser = Account.objects.get(userName=userName)
         if CurrentUser.password != password:
             raise Exception("Incorrect password")
-
+        CurrentUser.currentUser = True
     except Account.DoesNotExist:
         raise Exception("Account Not Found")
 
     return CurrentUser
 
 
-def logout():
+def logout(user):
     try:
-        CurrentUser = Account.objects.get(currentUser=True)
-        CurrentUser.currentUser = False
-        CurrentUser.save()
+        #CurrentUser = Account.objects.get(userName=userName)
+        #CurrentUser.currentUser = False
+        #CurrentUser.save()
+        user.currentUser = False
+        user.save()
         return "Successfully logged out"
     except Account.DoesNotExist:
         return "Please log in First"

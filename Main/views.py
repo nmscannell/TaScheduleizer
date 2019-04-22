@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from UserInterface import UI
-from Commands import login, displayAllCourseAssign, createAccount, getPrivateDataList, getPublicDataList, editPubInfo, assignAccCourse
+from Commands import login, logout, displayAllCourseAssign, createAccount, getPrivateDataList, getPublicDataList, editPubInfo, assignAccCourse
 from CurrentUserHelper import CurrentUser
 from Main.models import Account, Course, Section, AccountCourse, AccountSection
 
@@ -57,13 +57,23 @@ class loginPage(View):
             return render(request, 'loginscreen.html', {"message": str(e)})
 
 
+class logoutView(View):
+    def get(self, request):
+        CU = CurrentUser()
+        message = logout(CU.getCurrentUser(request))
+        CU.removeCurrentUser(request)
+        return render(request, "logout.html", {"message": message})
+
+
 class adminPage(View):
 
     def get(self, request):
         CU = CurrentUser()
         currentusertitle = CU.getCurrentUserTitle(request)
 
-        if currentusertitle != 3:
+        if currentusertitle == 0:
+            return render(request, 'errorPage.html', {"message": "You must log in to view this page"})
+        elif currentusertitle != 3:
             return render(request, 'errorPage.html', {"message": "Only admins may view this page"})
         return render(request, 'Accounts/AdminHome.html')
 
@@ -74,7 +84,9 @@ class supervisorPage(View):
         CU = CurrentUser()
         currentusertitle = CU.getCurrentUserTitle(request)
 
-        if currentusertitle != 4:
+        if currentusertitle == 0:
+            return render(request, 'errorPage.html', {"message": "You must log in to view this page"})
+        elif currentusertitle != 4:
             return render(request, 'errorPage.html', {"message": "Only supervisors may view this page"})
         return render(request, 'Accounts/SupervisorHome.html')
 
@@ -86,19 +98,22 @@ class instructorPage(View):
         account = CU.getCurrentUser(request)
         currentusertitle = CU.getCurrentUserTitle(request)
 
-        if currentusertitle != 2:
+        if currentusertitle == 0:
+            return render(request, 'errorPage.html', {"message": "You must log in to view this page"})
+        elif currentusertitle != 2:
             return render(request, 'errorPage.html', {"message": "Only instructors may view this page"})
         return render(request, 'Accounts/InstructorHome.html', {"account": account})
 
 
 class taPage(View):
-
     def get(self, request):
         CU = CurrentUser()
         account = CU.getCurrentUser(request)
         currentusertitle = CU.getCurrentUserTitle(request)
 
-        if currentusertitle != 1:
+        if currentusertitle == 0:
+            return render(request, 'errorPage.html', {"message": "You must log in to view this page"})
+        elif currentusertitle != 1:
             return render(request, 'errorPage.html', {"message": "Only Teaching Assistants may view this page"})
         return render(request, 'Accounts/TaHome.html', {"account": account})
 
@@ -110,7 +125,9 @@ class createAccountView(View):
         currentusertitle = CU.getCurrentUserTitle(request)
         user = CU.getCurrentUser(request)
 
-        if currentusertitle < 3:
+        if currentusertitle == 0:
+            return render(request, 'errorPage.html', {"message": "You must log in to view this page"})
+        elif currentusertitle < 3:
             return render(request, 'errorPage.html', {"message": "You do not have permission to View this page"})
 
         return render(request, 'createAccount.html', {"i": user})
@@ -150,10 +167,12 @@ class deleteAccount(View):
         instructorList = Account.objects.filter(title=2)
         taList = Account.objects.filter(title='1')
         staffList = instructorList | taList
-        # CU = CurrentUser()
-        # currentusertitle = CU.getCurrentUserTitle(request)
-        # if currentusertitle < 3:
-            # return render(request, 'errorPage.html', {"message": "You do not have permission to view this page"})
+        CU = CurrentUser()
+        currentusertitle = CU.getCurrentUserTitle(request)
+        if currentusertitle == 0:
+            return render(request, 'errorPage.html', {"message": "You must log in to view this page"})
+        elif currentusertitle < 3:
+            return render(request, 'errorPage.html', {"message": "You do not have permission to view this page"})
         return render(request, 'deleteAccount.html', {"stafflist": staffList, "i":user})
 
     def post(self, request):
@@ -172,7 +191,9 @@ class instructorCourse(View):
     def get(self, request):
         CU = CurrentUser()
         currentusertitle = CU.getCurrentUserTitle(request)
-        if currentusertitle != 4:
+        if currentusertitle == 0:
+            return render(request, 'errorPage.html', {"message": "You must log in to view this page"})
+        elif currentusertitle != 4:
             return render(request, 'errorPage.html', {"message": "You do not have permission to view this page"})
         instructorList = Account.objects.filter(title=2)
         courseList = Course.objects.all()
