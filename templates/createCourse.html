@@ -1,0 +1,29 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Course</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+</head>
+<body>
+<h1>Create A Course</h1>
+<form method="post" action="/createcourse/">
+  {%csrf_token%}
+      Course Name:
+    <input type="text" name="name"  required/><br>
+        Course Number:
+    <input type="text" name="number" required/><br>
+    <input type ="radio" name="onCampus" value="campus"/>On Campus<br>
+    <input type ="radio"name="onCampus" value="online">Online<br>
+    Days:
+    <input type="text" name="days" required/><br>
+    Start Time:
+    <input type ="text" name="start" required/><br>
+    End Time:
+    <input type="text" name="end" required/><br>
+    <input type="submit"/><br>
+  </form>
+ <p>{{ message }}</p>
+</body>
+</html>

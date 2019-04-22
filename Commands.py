@@ -4,7 +4,6 @@ import re
 from itertools import chain
 
 
-
 class Command():
 
     def __init__(self, opcode, arguments, function):
@@ -111,31 +110,40 @@ def deleteAccountCom(userName):
     return "Account successfully deleted"
 
 
-def createCourse(name, courseNumber, online, days, start, end):
+def createCourse(name, number, online, days, start, end):
     # Check that the command has the appropriate number of arguments
 
     # Course number checks
-    if containsOnlyDigits(courseNumber) == False:
+    if not re.match('^[0-9]*$', number):
         return "Course number must be numeric and three digits long"
-    if Course.objects.filter(number=courseNumber).exists():
+    if len(number) != 3:
+        return "Course number must be numeric and three digits long"
+    # Check that the course does not already exist
+    if Course.objects.filter(number=number).exists():
         return "Course already exists"
     # Location checks
     if online.lower() != "online" and online.lower() != "campus":
         return "Location is invalid, please enter campus or online."
     # Days check
-    if checkValidDays(days) == False:
-        return "Invalid days of the week, please enter days in the format: MWTRF or NN for online"
+    for i in days:
+        if i not in 'MTWRFN':
+            return "Invalid days of the week, please enter days in the format: MWTRF or NN for online"
     # Check times
     startTime = start
     endTime = end
-    if checkVaildTimes(startTime) == False:
+    if len(startTime) != 4 or len(endTime) != 4:
         return "Invalid start or end time, please use a 4 digit military time representation"
-    if checkVaildTimes(endTime) == False:
+    if not re.match('^[0-2]*$', startTime[0]) or not re.match('^[0-1]*$', endTime[0]):
+        return "Invalid start or end time, please use a 4 digit military time representation"
+    for i in range(1, 3):
+        if not (re.match('^[0-9]*$', startTime[i])) or not (re.match('^[0-9]*$', endTime[i])):
             return "Invalid start or end time, please use a 4 digit military time representation"
 
     # Else the course is ok to be created
     else:
-        c = Course(name=name, number=courseNumber)
+        c = Course()
+        c.name = name
+        c.number = number
         if online.lower() == "online":
             c.onCampus = False
         else:
