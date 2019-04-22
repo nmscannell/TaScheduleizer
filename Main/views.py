@@ -155,10 +155,11 @@ class courseAssignmentsList(View):
     def get(self, request):
         CU = CurrentUser()
         currentusertitle = CU.getCurrentUserTitle(request)
+        user = CU.getCurrentUser(request)
         if currentusertitle == 0:
             return render(request, 'errorPage.html', {"message": "You must log in to view this page"})
         courses = displayAllCourseAssign()
-        return render(request, 'courseAssignmentList.html', {"courseList": courses})
+        return render(request, 'courseAssignmentList.html', {"courseList": courses, "i": user})
 
 
 class deleteAccount(View):
@@ -272,7 +273,7 @@ class directoryView(View):
     def get(self, request):
         CU = CurrentUser()
         title = CU.getCurrentUserTitle(request)
-
+        user = CU.getCurrentUser(request)
         if title == 0:
             return render(request, 'errorPage.html', {"message": "You Must log in to View this page"})
         if title == 1 or title == 2:
@@ -280,7 +281,7 @@ class directoryView(View):
         else:
             directory = getPrivateDataList()
 
-        return render(request, 'Directory.html', {"directory": directory})
+        return render(request, 'Directory.html', {"directory": directory, "i": user})
 
 
 class editPubInfoView(View):
