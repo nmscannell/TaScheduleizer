@@ -149,46 +149,46 @@ class Test_web(TestCase):
 
     def test_createCourse_success(self):
         response = self.c.post('/createcourse/', {'name': 'ComputerNetwork', 'number': 520,
-                                                  'onCampus': True, 'classDays': 'TR',
-                                                  'classHoursStart': 1400, 'classHoursEnd': 1600})
+                                                  'onCampus': 'campus', 'days': 'TR',
+                                                  'start': 1400, 'end': 1600})
         self.assertEqual(response.context['message'],
                          "Course successfully created")
 
     def test_createCourse_invalidNumber(self):
         response = self.c.post('/createcourse/', {'name': 'ComputerNetwork', 'number': 1024,
-                                                  'onCampus': True, 'classDays': 'TR',
-                                                  'classHoursStart': 1400, 'classHoursEnd': 1600})
+                                                  'onCampus': 'campus', 'days': 'TR',
+                                                  'start': 1400, 'end': 1600})
         self.assertEqual(response.context['message'],
                          "Course number must be numeric and three digits long")
 
     def test_createCourse_course_exists(self):
-        response = self.c.post('/createcourse/', {'name': 'ComputerSecurity', 'number': 469,
-                                                  'onCampus': True, 'classDays': 'MW',
-                                                  'classHoursStart': 1200, 'classHoursEnd': 1400})
+        response = self.c.post('/createcourse/', {'name': 'ComputerSecurity', 'number': 633,
+                                                  'onCampus': 'campus', 'days': 'MW',
+                                                  'start': 1200, 'end': 1400})
         self.assertEqual(response.context['message'],
                          "Course already exists")
 
     def test_createCourse_invalid_days(self):
 
         response = self.c.post('/createcourse/', {'name': 'ComputerSecurity', 'number': 469,
-                                                  'onCampus': True, 'classDays': 'S',
-                                                  'classHoursStart': 1200, 'classHoursEnd': 1400})
+                                                  'onCampus': 'campus', 'days': 'S',
+                                                  'start': 1200, 'end': 1400})
         self.assertEqual(response.context['message'],
                          "Invalid days of the week, please enter days in the format: MWTRF or NN for online")
 
     def test_createCourse_invalid_times(self):
         response = self.c.post('/createcourse/', {'name': 'Server Side Web Programming', 'number': 452,
-                                                  'onCampus': True, 'classDays': 'TR',
-                                                  'classHoursStart': '15:00', 'classHoursEnd': '17:00'})
+                                                  'onCampus': 'campus', 'days': 'TR',
+                                                  'start': '15:00', 'end': '17:00'})
         self.assertEqual(response.context['message'],
                          "Invalid start or end time, please use a 4 digit military time representation")
 
     def test_createCourse_invalid_locations(self):
         response = self.c.post('/createcourse/', {'name': 'Server Side Web Programming', 'number': 452,
-                                                  'onCampus': 'hybrid', 'classDays': 'TR',
-                                                  'classHoursStart': 1500, 'classHoursEnd': 1700})
+                                                  'onCampus': 'hybrid', 'days': 'TR',
+                                                  'start': 1500, 'end': 1700})
         self.assertEqual(response.context['message'],
-                         "Location is invalid, please enter campus or online")
+                         "Location is invalid, please enter campus or online.")
 
     """
     createSection
