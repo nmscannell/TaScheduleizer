@@ -27,8 +27,7 @@ class Test_web(TestCase):
                                officePhone="897-654-398", officeDays="MW", officeHoursStart="1500",
                                officeHoursEnd="1600", currentUser=False)
 
-        Account.objects.create(userName="kim4", firstName="Henry", lastName = "Kim")
-
+        Account.objects.create(userName="jerry2", firstName="Jerry", lastName="Smith")
         # Set up for Course testing
         Course.objects.create(name="DataStructures", number=351, onCampus=True, classDays="TR",
                               classHoursStart=1200, classHoursEnd=1300)
@@ -71,7 +70,6 @@ class Test_web(TestCase):
         self.course1 = Course.objects.get(number="535")
         self.course2 = Course.objects.get(number="317")
         AccountCourse.objects.create(Course=self.course1, Account=self.cheng)
-
         AccountCourse.objects.create(Account=self.taman, Course=discreteMath)
 
         # set up for assign TA to Section
@@ -81,10 +79,6 @@ class Test_web(TestCase):
     """
     login
     """
-    def test_login_success(self):
-        response = self.c.post('/login/', {'username': 'janewayk123', 'password': '123456'})
-        self.assertEqual(response.context['message'],
-                         "")
 
     def test_login_wrong_password(self):
         response = self.c.post('/login/', {'username': 'janewayk123', 'password': '********'})
@@ -133,7 +127,7 @@ class Test_web(TestCase):
     """
 
     def test_deleteAccount_success(self):
-        response = self.c.post('/deleteaccount/', {'username': 'kim4'})
+        response = self.c.post('/deleteaccount/', {'username': 'jerry2'})
 
         self.assertEqual(response.context['message'],
                          "Account successfully deleted")
@@ -192,6 +186,7 @@ class Test_web(TestCase):
 
     """
     createSection
+    type is an integer field, 1 for lecture section, 0 for lab section. 
     """
     def test_createSection_success(self):
         response = self.c.post('/createssection/', {'courseNumber': 520, 'type': False, 'sectionNumber': 403,
@@ -388,3 +383,33 @@ class Test_web(TestCase):
         self.assertEqual(response1.context['message'], "Invalid start or end time, please use a "
                                                       "4 digit military time representation")
 
+
+
+    """
+    Assign Account Course tests 
+    """
+
+    def test_assignAccCourse_succes(self):
+        response = self.c.post('/assignacccourse/', {'userName':'picard304', 'courseNumber':'351'})
+        self.assertEqual(response.context['message'], "Instructor was successfully assigned to class")
+
+    def test_assignAccCourse_course_does_not_exits(self):
+        response = self.c.post('/assignacccourse/', {'userName':'picard304', 'courseNumber':'999'})
+        self.assertEqual(response.context['message'], "Invalid course number")
+
+    def test_assignAccCourse_user_does_not_exist(self):
+        response = self.c.post('assignacccourse/', {'userName':'nothing', 'courseNumber': '351'})
+        self.assertEqual(response.context['message'], "Invalid user name")
+
+
+    """
+    Viewing information tests
+    """
+
+    def test_viewPublicInfo_not_logged_in(self):
+        response = self.c.get('/directory/')
+        self.assertEqual(response.context['message'], "You Must log in to View this page")
+
+    def test_viewPublicInfo_success(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
+        response = self.c.get('/directory/')
