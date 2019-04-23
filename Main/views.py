@@ -295,8 +295,8 @@ class editPubInfoView(View):
 
     def get(self, request):
         CU = CurrentUser()
-        user = CU.getCurrentUser(request)
-        return render(request, 'editPubInfo.html', {'i': user, "editor" : user})
+        editor = CU.getCurrentUser(request)
+        return render(request, 'editPubInfo.html', {'i': editor, "editor" : editor})
 
     def post(self, request):
         dict = {
@@ -315,11 +315,12 @@ class editPubInfoView(View):
             'officestart': str(request.POST.get('officestart')),
             'officeend': str(request.POST.get('officeend'))}
         CU = CurrentUser()
-        user = CU.getCurrentUser(request)
+        editor = CU.getCurrentUser(request)
+        user = Account.objects.get(firstName=dict['firstName'], lastName=dict['lastName'])
         message = editPubInfo(user, dict)
         info = makeUserDictionary(user)
         return render(request, 'editPubInfo_success.html', {"message": message, "i": user, "info": info,
-                                                            "editor": user})
+                                                            "editor": editor})
 
 
 def makeUserDictionary(user):
@@ -382,4 +383,4 @@ class editUserInfoView(View):
         user = str(request.POST['username'])
         account = Account.objects.get(userName=user)
         info = makeUserDictionary(account)
-        return render(request, 'editPubInfo_success.html', {'i': account, "editor":editor, "info":info})
+        return render(request, 'editPubInfo.html', {'i': account, "editor":editor, "info":info})

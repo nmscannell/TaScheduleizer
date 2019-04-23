@@ -5,7 +5,7 @@ from Main.models import Course
 
 class Test_CreateCourse(TestCase):
 
-    def setUP(self):
+    def setUp(self):
         Course.objects.create(name="TemporalMechanics", number=784, onCampus=True,
                               classDays="MW", classHoursStart=1000, classHoursEnd=1100)
 
