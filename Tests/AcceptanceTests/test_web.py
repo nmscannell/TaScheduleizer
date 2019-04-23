@@ -247,7 +247,8 @@ class Test_web(TestCase):
 
     def test_editPubInfo_firstName(self):
         self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
-        response = self.c.post('/editpubinfo/', {'firstname': 'James', 'lastname': 'Picard', 'email': 'picardj@uwm.edu',
+        response = self.c.post('/editpubinfo/', {'username':'picard304', 'firstname': 'James',
+                                                 'lastname': 'Picard', 'email': 'picardj@uwm.edu',
                                                 'password': '90456', 'homephone': '123-456-7893',
                                                 'address': '87 Enterprise Avenue', 'city': 'Alpha', 'state': 'Quadrant',
                                                 'zipcode': '11111', 'officenumber': '54', 'officephone': '777-777-7777',
@@ -257,7 +258,8 @@ class Test_web(TestCase):
 
     def test_editPubInfo_lastName(self):
         self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
-        response = self.c.post('/editpubinfo/', {'firstname': 'Jean Luc', 'lastname': 'Brooks', 'email': 'picardj@uwm.edu',
+        response = self.c.post('/editpubinfo/', {'username':'picard304', 'firstname': 'Jean Luc',
+                                                 'lastname': 'Brooks', 'email': 'picardj@uwm.edu',
                                                 'password': '90456', 'homephone': '123-456-7893',
                                                 'address': '87 Enterprise Avenue', 'city': 'Alpha', 'state': 'Quadrant',
                                                 'zipcode': '11111', 'officenumber': '54', 'officephone': '777-777-7777',
@@ -268,7 +270,8 @@ class Test_web(TestCase):
     def test_editPubInfo_two_fields(self):
         self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/editpubinfo/',
-                               {'firstname': 'Jean Luc', 'lastname': 'Picard', 'email': 'picardj@uwm.edu',
+                               {'username':'picard304', 'firstname': 'Jean Luc', 'lastname': 'Picard',
+                                'email': 'picardj@uwm.edu',
                                 'password': '90456', 'homephone': '123-456-7893',
                                 'address': '87 Enterprise Avenue', 'city': 'Chicago', 'state': 'Illinois',
                                 'zipcode': '11111', 'officenumber': '54', 'officephone': '777-777-7777',
@@ -279,7 +282,8 @@ class Test_web(TestCase):
 
     def test_editPubInfo_homephone_invalid(self):
         self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
-        response = self.c.post('/editpubinfo/', {'firstname': 'Jean Luc', 'lastname': 'Picard', 'email': 'picardj@uwm.edu',
+        response = self.c.post('/editpubinfo/', {'username':'picard304', 'firstname': 'Jean Luc',
+                                                 'lastname': 'Picard', 'email': 'picardj@uwm.edu',
                                                  'password': '90456', 'homephone': 'abc-456-7893',
                                                  'address': '87 Enterprise Avenue', 'city': 'Alpha',
                                                  'state': 'Quadrant',
@@ -290,7 +294,8 @@ class Test_web(TestCase):
 
     def test_editPubInfo_officephone_invalid(self):
         self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
-        response = self.c.post('/editpubinfo/', {'firstname': 'Jean Luc', 'lastname': 'Picard', 'email': 'picardj@uwm.edu',
+        response = self.c.post('/editpubinfo/', {'username':'picard304', 'firstname': 'Jean Luc',
+                                                 'lastname': 'Picard', 'email': 'picardj@uwm.edu',
                                                  'password': '90456', 'homephone': '123-456-7893',
                                                  'address': '87 Enterprise Avenue', 'city': 'Alpha',
                                                  'state': 'Quadrant',
@@ -301,7 +306,8 @@ class Test_web(TestCase):
 
     def test_editPubInfo_zipcode_invalid(self):
         self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
-        response = self.c.post('/editpubinfo/', {'firstname': 'Jean Luc', 'lastname': 'Picard', 'email': 'picardj@uwm.edu',
+        response = self.c.post('/editpubinfo/', {'username':'picard304', 'firstname': 'Jean Luc',
+                                                 'lastname': 'Picard', 'email': 'picardj@uwm.edu',
                                                 'password': '90456', 'homephone': '123-456-7893',
                                                 'address': '87 Enterprise Avenue', 'city': 'Alpha', 'state': 'Quadrant',
                                                 'zipcode': '1111b', 'officenumber': '54', 'officephone': '777-777-7777',
@@ -311,7 +317,8 @@ class Test_web(TestCase):
 
     def test_editPubInfo_officenum_invalid(self):
         self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
-        response = self.c.post('/editpubinfo/', {'firstname': 'Jean Luc', 'lastname': 'Picard', 'email': 'picardj@uwm.edu',
+        response = self.c.post('/editpubinfo/', {'username':'picard304', 'firstname': 'Jean Luc',
+                                                 'lastname': 'Picard', 'email': 'picardj@uwm.edu',
                                                 'password': '90456', 'homephone': '123-456-7893',
                                                 'address': '87 Enterprise Avenue', 'city': 'Alpha', 'state': 'Quadrant',
                                                 'zipcode': '11111', 'officenumber': '5q4', 'officephone': '777-777-7777',
@@ -322,7 +329,8 @@ class Test_web(TestCase):
     def test_editPubInfo_firstname_invalid(self):
         self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/editpubinfo/',
-                               {'firstname': 'Jean Luc12', 'lastname': 'Picard', 'email': 'picardj@uwm.edu',
+                               {'username':'picard304', 'firstname': 'Jean Luc12', 'lastname': 'Picard',
+                                'email': 'picardj@uwm.edu',
                                 'password': '90456', 'homephone': '123-456-7893',
                                 'address': '87 Enterprise Avenue', 'city': 'Alpha', 'state': 'Quadrant',
                                 'zipcode': '11111', 'officenumber': '54', 'officephone': '777-777-7777',
@@ -333,7 +341,8 @@ class Test_web(TestCase):
     def test_editPubInfo_lastname_invalid(self):
         self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/editpubinfo/',
-                               {'firstname': 'Jean Luc', 'lastname': 'Picard12', 'email': 'picardj@uwm.edu',
+                               {'username':'picard304', 'firstname': 'Jean Luc', 'lastname': 'Picard12',
+                                'email': 'picardj@uwm.edu',
                                 'password': '90456', 'homephone': '123-456-7893',
                                 'address': '87 Enterprise Avenue', 'city': 'Alpha', 'state': 'Quadrant',
                                 'zipcode': '11111', 'officenumber': '54', 'officephone': '777-777-7777',
@@ -344,7 +353,8 @@ class Test_web(TestCase):
     def test_editPubInfo_city_invalid(self):
         self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/editpubinfo/',
-                               {'firstname': 'Jean Luc', 'lastname': 'Picard', 'email': 'picardj@uwm.edu',
+                               {'username':'picard304', 'firstname': 'Jean Luc', 'lastname': 'Picard',
+                                'email': 'picardj@uwm.edu',
                                 'password': '90456', 'homephone': '123-456-7893',
                                 'address': '87 Enterprise Avenue', 'city': 'Alpha12', 'state': 'Quadrant',
                                 'zipcode': '11111', 'officenumber': '54', 'officephone': '777-777-7777',
@@ -355,7 +365,8 @@ class Test_web(TestCase):
     def test_editPubInfo_state_invalid(self):
         self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/editpubinfo/',
-                               {'firstname': 'Jean Luc', 'lastname': 'Picard', 'email': 'picardj@uwm.edu',
+                               {'username':'picard304', 'firstname': 'Jean Luc', 'lastname': 'Picard',
+                                'email': 'picardj@uwm.edu',
                                 'password': '90456', 'homephone': '123-456-7893',
                                 'address': '87 Enterprise Avenue', 'city': 'Alpha', 'state': 'Quadrant12',
                                 'zipcode': '11111', 'officenumber': '54', 'officephone': '777-777-7777',
@@ -365,7 +376,8 @@ class Test_web(TestCase):
 
     def test_editPubInfo_officetimes_invalid(self):
         self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
-        response = self.c.post('/editpubinfo/', {'firstname': 'Jean Luc', 'lastname': 'Picard', 'email': 'picardj@uwm.edu',
+        response = self.c.post('/editpubinfo/', {'username':'picard304','firstname': 'Jean Luc',
+                                                 'lastname': 'Picard', 'email': 'picardj@uwm.edu',
                                                 'password': '90456', 'homephone': '123-456-7893',
                                                 'address': '87 Enterprise Avenue', 'city': 'Alpha', 'state': 'Quadrant',
                                                 'zipcode': '11111', 'officenumber': '54', 'officephone': '777-777-7777',
@@ -374,7 +386,8 @@ class Test_web(TestCase):
         self.assertEqual(response.context['message'], "Invalid start or end time, please use a "
                                                       "4 digit military time representation")
         response1 = self.c.post('/editpubinfo/',
-                               {'firstname': 'Jean Luc', 'lastname': 'Picard', 'email': 'picardj@uwm.edu',
+                               {'username':'picard304', 'firstname': 'Jean Luc', 'lastname': 'Picard',
+                                'email': 'picardj@uwm.edu',
                                 'password': '90456', 'homephone': '123-456-7893',
                                 'address': '87 Enterprise Avenue', 'city': 'Alpha', 'state': 'Quadrant',
                                 'zipcode': '11111', 'officenumber': '54', 'officephone': '777-777-7777',

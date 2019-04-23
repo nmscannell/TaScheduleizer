@@ -1,6 +1,8 @@
-body{
-        background-image: url(background.png);
-        background-repeat: no-repeat;
-    background-position: center;
-        color: black;
-    }
+body, html {
+  margin: 0;
+    background-image: url("background.png");
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
