@@ -2,20 +2,29 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Edit Information</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-
+    <title>Edit User Info</title>
 </head>
 <body>
-<h1>Edit Your Information</h1>
+<form>
+  {%csrf_token%}
+<select name = "username">
+<option value="None" selected>None</option>
+    {%for i  in stafflist %}
+        <option name="username" id="username" value="{{i.userName}}">{{ i }}</option>
+    {% endfor %}
+</select>
+    <input type="submit"/><br>
+    <p>{{ message }}</p>
+
+</form>
+
 <form method="post" action="/editpubinfo/">
   {%csrf_token%}
 
-
      <p><label for="firstname">First Name:</label>
-         <input type="text" name="firstname" id = "firstname" value="{{i.firstName }}"></p>
+         <input type="text" name="firstname" id = "firstname" value="{{username.firstName }}"></p>
      <p><label for="lastname">Last Name:</label>
-         <input type="text" name="lastname" id="lastname"  value="{{ i.lastName }}"></p>
+         <input type="text" name="lastname" id="lastname"  value="{{ username.lastName }}"></p>
      <p><label for="email">Email:</label>
          <input type="text" name="email" id="email" value="{{ i.email }}"></p>
      <p><label for="password">Password:</label>
@@ -39,14 +48,7 @@
     {% for key, value in dict %}
         <p>{{ key }}{{ value }}</p>
     {% endfor %}
-
-
 </form>
-
-{%  if editor.title == 1 %}<a href="/ta">TA Home</a>
-{% endif %}
-{% if editor.title == 2 %}<a href="/instructor">Instructor Home</a>
-{% endif %}
 {% if editor.title == 3 %}<a href="/administrator">Admin Home</a>
 {% endif %}
 {% if editor.title == 4 %}<a href="/superviosr">Supervisor Home</a>
