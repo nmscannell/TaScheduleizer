@@ -389,8 +389,8 @@ class Test_web(TestCase):
     Assign Account Course tests 
     """
 
-    def test_assignAccCourse_succes(self):
-        response = self.c.post('/assignacccourse/', {'userName':'picard304', 'courseNumber':'351'})
+    def test_assignAccCourse_success(self):
+        response = self.c.post('/assignacccourse/', {'userName': 'picard304', 'courseNumber':'351'})
         self.assertEqual(response.context['message'], "Instructor was successfully assigned to class")
 
     def test_assignAccCourse_course_does_not_exits(self):
