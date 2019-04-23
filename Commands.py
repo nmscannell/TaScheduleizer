@@ -45,6 +45,7 @@ def checkValidEmail(email):
         return False
     return True
 
+
 def containsOnlyDigits(argument):
     if not re.match('^[0-9]*$', argument):
         return False
@@ -61,12 +62,14 @@ def checkVaildTimes(time):
             return False
     return True
 
+
 def checkValidDays(days):
     daysnospaces = days.replace(" ", "")
     for i in daysnospaces:
         if i not in 'MTWRFN':
             return False
     return True
+
 
 # Creating an Account
 def createAccount(firstName, lastName, userName, title, email):
@@ -390,6 +393,7 @@ def getPrivateDataList():
     directory.sort()
     return directory
 
+
 def editPubInfo(user, dict):
 
     firstName = dict['firstName']
@@ -502,7 +506,7 @@ def editPubInfo(user, dict):
 
 def getCommands():
     return [Command("login", 2, login), Command("logout", 0, logout),
-            Command("createaccount", 5, createAccount), Command("deleteaccount", 1, deleteAccount),
+            Command("createaccount", 5, createAccount), Command("deleteaccount", 1, deleteAccountCom),
             Command("createcourse", 6, createCourse), Command("createsection", 6, createSection),
             Command("assignacccourse", 2, assignAccCourse),
             Command("assignaccsection", 3, assignAccSection),
