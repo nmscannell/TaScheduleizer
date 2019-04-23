@@ -1,11 +1,51 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<h1>This is an error page</h1><br/>
-{{ message }}
-</body>
+<html>
+   <head>
+     <title>This is an error page</title>
+     <style type=text/css>
+     body {
+     background-color: #000090;
+     font-family: "Lucida Console", Monaco, monospace;
+     font-weight: bold;
+     color: #FFFFFF;
+     }
+     h1 {
+     font-weight: 900;
+     }
+     </style>
+   </head>
+   <body>
+     <p>
+       <br>
+       <br>
+       <center>
+         <h1> ERROR {{ message }}
+       </center>
+       <br>
+       <br>
+       A problem has been detected and the forum has shut down to prevent damage to our website.
+       <br>
+       <br>
+       <br>
+       For our policy, Byte Me doesn't allow you to navigate other position's websites for privacy.
+       <br>
+       <br>
+       <br>
+       <br>
+        Please, write a message on the contact page or message on our SNS if you think it's wrong.
+       <br>
+       <br>
+    If you are not able to do above those methods, please call 414-444-4444.
+       <br>
+       <br>
+       <br>
+       <br>
+       <br>
+       Technical Information:
+       <br>
+       <br>
+       *** ERROR: 0x00000500 ({{ message }})
+     </p>
+   </body>
 </html>
