@@ -300,6 +300,7 @@ class editPubInfoView(View):
 
     def post(self, request):
         dict = {
+            'userName' : str(request.POST.get("username")),
             'firstName': str(request.POST.get("firstname")),
             'lastName': str(request.POST.get('lastname')),
             'email': str(request.POST.get('email')),
@@ -316,7 +317,7 @@ class editPubInfoView(View):
             'officeend': str(request.POST.get('officeend'))}
         CU = CurrentUser()
         editor = CU.getCurrentUser(request)
-        user = Account.objects.get(firstName=dict['firstName'], lastName=dict['lastName'])
+        user = Account.objects.get(userName=dict['userName'])
         message = editPubInfo(user, dict)
         info = makeUserDictionary(user)
         return render(request, 'editPubInfo_success.html', {"message": message, "i": user, "info": info,
