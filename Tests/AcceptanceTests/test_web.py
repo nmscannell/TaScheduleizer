@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.test import Client
 from Main.models import Account, Course, Section, AccountCourse, AccountSection
+from Commands import getPublicDataList, getPrivateDataList
 
 
 class Test_web(TestCase):
@@ -75,6 +76,10 @@ class Test_web(TestCase):
         # set up for assign TA to Section
         self.datastructures = Course.objects.get(name="DataStructures")
         self.tamanAccount = Account.objects.get(userName="taman")
+
+        # setup for directory view
+        self.pubDirecotry = getPublicDataList()
+        self.privateDirecotry = getPrivateDataList()
 
     """
     login
@@ -429,7 +434,7 @@ class Test_web(TestCase):
 
 
     """
-    Testing Account Home Pahes
+    Testing Account Home Pages
     """
 
     def test_viewTAHome_Success(self):
@@ -446,3 +451,23 @@ class Test_web(TestCase):
 
         self.assertEqual(response.context['account'], self.account1)
 
+    def test_directory_Ta_View(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
+
+        response = self.c.get('/directory/')
+
+        self.assertEqual(response.context['directory'], self.pubDirecotry)
+
+    def test_directory_Instructor_View(self):
+        self.c.post('/login/', {'username': 'janewayk123', 'password': '123456'})
+
+        response = self.c.get('/directory/')
+
+        self.assertEqual(response.context['directory'], self.pubDirecotry)
+
+    def test_directory_Supervisor_View(self):
+        self.c.post('/login/', {'username': 'kirkj22', 'password': '678543'})
+
+        response = self.c.get('/directory/')
+
+        self.assertEqual(response.context['directory'], self.privateDirecotry)
