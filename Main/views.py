@@ -345,13 +345,17 @@ def makeUserDictionary(user):
 class createCourseView(View):
     def get(self,request):
         CU = CurrentUser()
+        Acc = CU.getCurrentUser(request)
         currentusertitle = CU.getCurrentUserTitle(request)
-        if currentusertitle > 3:
+        if currentusertitle < 3:
             return render(request, 'errorPage.html', {"message": "You do not have permission to view this page"})
 
-        return render(request, 'createCourse.html')
+        return render(request, 'createCourse.html', {"editor": Acc})
 
     def post(self, request):
+        CU = CurrentUser()
+        Acc = CU.getCurrentUser(request)
+
         name = str(request.POST["name"])
         number = str(request.POST["number"])
         onCampus = str(request.POST["onCampus"])
@@ -360,7 +364,8 @@ class createCourseView(View):
         end = str(request.POST["end"])
 
         messsage = createCourse(name, number, onCampus, days, start, end)
-        return render(request, 'createCourse.html', {"message": messsage})
+        return render(request, 'createCourse.html', {"message": messsage, "editor": Acc})
+
 
 class editUserInfoView(View):
 
@@ -383,4 +388,4 @@ class editUserInfoView(View):
         user = str(request.POST['username'])
         account = Account.objects.get(userName=user)
         info = makeUserDictionary(account)
-        return render(request, 'editPubInfo.html', {'i': account, "editor":editor, "info":info})
+        return render(request, 'editPubInfo.html', {'i': account, "editor": editor, "info": info})

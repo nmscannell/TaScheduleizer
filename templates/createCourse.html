@@ -26,5 +26,9 @@
     <input type="submit"/><br>
   </form>
  <p>{{ message }}</p>
+{% if editor.title == 3 %}<a href="/administrator">Admin Home</a>
+{% endif %}
+{% if editor.title == 4 %}<a href="/superviosr">Supervisor Home</a>
+{% endif %}
 </body>
 </html>
