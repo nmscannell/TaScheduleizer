@@ -261,6 +261,7 @@ class Test_web(TestCase):
 
         self.assertEqual(response.context['message'], "Fields successfully updated")
 
+
     def test_editPubInfo_lastName(self):
         self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/editpubinfo/', {'username':'picard304', 'firstname': 'Jean Luc',
@@ -407,16 +408,19 @@ class Test_web(TestCase):
     Assign Account Course tests 
     """
 
-    def test_assignAccCourse_success(self):
-        response = self.c.post('/assignacccourse/', {'userName': 'picard304', 'courseNumber':'351'})
+    def test_assignInsCourse_success(self):
+        self.c.post('/login/', {'username': 'kirkj22', 'password': '678543'})
+        response = self.c.post('/assigninstructor/', {'username': 'picard304', 'course':'DataStructures'})
         self.assertEqual(response.context['message'], "Instructor was successfully assigned to class")
 
-    def test_assignAccCourse_course_does_not_exits(self):
-        response = self.c.post('/assignacccourse/', {'userName':'picard304', 'courseNumber':'999'})
+    def test_assignInsCourse_course_does_not_exits(self):
+        self.c.post('/login/', {'username': 'kirkj22', 'password': '678543'})
+        response = self.c.post('/assigninstructor/', {'username':'picard304', 'course':'Dance'})
         self.assertEqual(response.context['message'], "Invalid course number")
 
-    def test_assignAccCourse_user_does_not_exist(self):
-        response = self.c.post('assignacccourse/', {'userName':'nothing', 'courseNumber': '351'})
+    def test_assignInsCourse_user_does_not_exist(self):
+        self.c.post('/login/', {'username': 'kirkj22', 'password': '678543'})
+        response = self.c.post('/assigninstructor/', {'username':'shane22', 'course': 'DataStructures'})
         self.assertEqual(response.context['message'], "Invalid user name")
 
 
@@ -471,3 +475,4 @@ class Test_web(TestCase):
         response = self.c.get('/directory/')
 
         self.assertEqual(response.context['directory'], self.privateDirecotry)
+

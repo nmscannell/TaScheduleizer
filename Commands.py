@@ -209,16 +209,16 @@ def createSection(courseNumber, type, sectionNumber, days, start, end):
         return "Lab successfully created"
 
 
-def assignAccCourse(userName, courseNumber):
+def assignAccCourse(userName, courseName):
     # Check if the course is valid
-    if not Course.objects.filter(number=courseNumber).exists():
+    if not Course.objects.filter(name=courseName).exists():
         return "Invalid course number"
     # Check if the user name is valid
     if not Account.objects.filter(userName=userName).exists():
         return "Invalid user name"
 
     instructor = Account.objects.get(userName=userName)
-    course = Course.objects.get(number=courseNumber)
+    course = Course.objects.get(number=Course.objects.get(name=courseName).number)
     # title represented as an integer where 4=supervisor 3=administrator
     # 2=Instructor 1=TA. 0=No current User
     # Check if the account is an instructor

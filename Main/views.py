@@ -207,8 +207,8 @@ class instructorCourse(View):
     def post(self, request):
         username = str(request.POST["username"])
         course = str(request.POST["course"])
-        num = Course.objects.get(name=course).number
-        message = assignAccCourse(userName=username, courseNumber=num)
+        #num = Course.objects.get(name=course).number
+        message = assignAccCourse(userName=username, courseName=course)
         return render(request, 'assignInstructor.html', {"message": message})
 
 
@@ -225,8 +225,8 @@ class taCourse(View):
     def post(self, request):
         username = str(request.POST["username"])
         course = str(request.POST["course"])
-        num = Course.objects.get(name=course).number
-        message = assignAccCourse(userName=username, courseNumber=num)
+        #num = Course.objects.get(name=course).number
+        message = assignAccCourse(userName=username, courseName=course)
         return render(request, 'assignTACourse.html', {"message": message})
 
 
