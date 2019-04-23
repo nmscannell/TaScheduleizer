@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 from UserInterface import UI
 
-from Commands import login, logout, displayAllCourseAssign, deleteAccountCom, createAccount, getPrivateDataList, getPublicDataList, editPubInfo, assignAccCourse
+from Commands import login, logout, displayAllCourseAssign, deleteAccountCom, createAccount,createCourse, getPrivateDataList, getPublicDataList, editPubInfo, assignAccCourse
 from CurrentUserHelper import CurrentUser
 from Main.models import Account, Course, Section, AccountCourse, AccountSection
 
@@ -226,6 +226,10 @@ class taCourse(View):
         message = assignAccCourse(userName=username, courseNumber=num)
         return render(request, 'assignTACourse.html', {"message": message})
 
+
+class assignAccountSectionView(View):
+    def get(self, request):
+        return render(request, 'assignTASection.html')
 """  
 
 This one will be a bit challenging. Supervisor can assign any TA for any course to a certain section. Instructors can
