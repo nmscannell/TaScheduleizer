@@ -1,9 +1,11 @@
 from django.test import TestCase
 from Main.models import Account
-
+from django.test import Client
 
 class TestAccount(TestCase):
     def setUp(self):
+
+
         self.account1 = Account.objects.create(userName="cwhitley", firstName="Chip", lastName="Whitley",
                                                email="cwhitley@uwm.edu", title=1, address="123 Fake Street",
                                                city="Springfield", state="IL", zipCode="90210", officeNumber=102,

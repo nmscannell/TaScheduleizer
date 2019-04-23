@@ -35,13 +35,20 @@
          <input type="text" name="address" id="address" value="{{ i.address }}"></p>
      <p><label for="city">City:</label>
          <input type="text" name="city" id="city" value="{{ i.city }}"></p>
-     <p>State: <input type="text" name="state" id="state" value="{{ i.state }}"></p>
-     <p>ZipCode: <input type="text" name="zipcode" id="zipcode" maxlength="5" value="{{ i.zipCode }}"></p>
-     <p>Office Number: <input type="text" name="officenumber" id="officenumber" maxlength="3" value="{{ i.officeNumber }}"></p>
-     <p>Office Phone: <input type="text" name="officephone" id="officephone" maxlength="12" value="{{ i.officePhone }}"></p>
-     <p>Office Days: <input type="text" name="officedays" id="officedays" value="{{ i.officeDays }}"></p>
-     <p>Office Hours Start Time: <input type="text" name="officestart" id="officestart" maxlength="4" value="{{ i.officeHoursStart }}"></p>
-     <p>Office Hours End Time: <input type="text" name="officeend" id="officeend" maxlength="4" value="{{ i.officeHoursEnd }}"></p>
+     <p><label for="state">State:</label>
+         <input type="text" name="state" id="state" value="{{ i.state }}"></p>
+     <p><label for="zipcode">ZipCode:</label>
+         <input type="text" name="zipcode" id="zipcode" maxlength="5" value="{{ i.zipCode }}"></p>
+     <p><label for="officenumber">Office Number:</label>
+         <input type="text" name="officenumber" id="officenumber" maxlength="3" value="{{ i.officeNumber }}"></p>
+     <p><label for="officephone">Office Phone:</label>
+         <input type="text" name="officephone" id="officephone" maxlength="12" value="{{ i.officePhone }}"></p>
+     <p><label for="officedays">Office Days:</label>
+         <input type="text" name="officedays" id="officedays" value="{{ i.officeDays }}"></p>
+     <p><label for="officestart">Office Hours Start Time:</label>
+         <input type="text" name="officestart" id="officestart" maxlength="4" value="{{ i.officeHoursStart }}"></p>
+     <p><label for="officeend">Office Hours End Time:</label>
+        <input type="text" name="officeend" id="officeend" maxlength="4" value="{{ i.officeHoursEnd }}"></p>
 
     <input type="submit"/><br>
     <p>{{ message }}</p>
