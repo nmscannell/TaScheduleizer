@@ -275,6 +275,7 @@ class taSection(View):
         return render(request, 'assignTASection.html', {"message": message})
  """
 
+
 class directoryView(View):
 
     def get(self, request):
