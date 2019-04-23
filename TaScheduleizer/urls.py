@@ -37,4 +37,5 @@ urlpatterns = [
     path('assignTACourse/', views.taCourse.as_view()),
     path('logout/', views.logoutView.as_view()),
     path('createcourse/', views.createCourseView.as_view()),
+    path('edituserinfo/', views.editUserInfoView.as_view())
 ]

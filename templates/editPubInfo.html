@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Edit My Information</title>
+    <title>Edit Information</title>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
 </head>
 <body>
-<h1>Edit Your Information</h1>
+<h1>Edit Information</h1>
 <form method="post" action="/editpubinfo/">
   {%csrf_token%}
 
@@ -42,10 +42,14 @@
 
 
 </form>
-{%  if i.title == 1 %}
-<a href="/ta">TA Home</a>
-{% else %}
-<a href="/instructor">Instructor Home</a>
+
+{%  if editor.title == 1 %}<a href="/ta">TA Home</a>
+{% endif %}
+{% if editor.title == 2 %}<a href="/instructor">Instructor Home</a>
+{% endif %}
+{% if editor.title == 3 %}<a href="/administrator">Admin Home</a>
+{% endif %}
+{% if editor.title == 4 %}<a href="/superviosr">Supervisor Home</a>
 {% endif %}
 </body>
 </html>

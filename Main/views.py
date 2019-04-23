@@ -2,7 +2,10 @@ from django.shortcuts import render, redirect
 from django.views import View
 from UserInterface import UI
 
-from Commands import login, logout, displayAllCourseAssign, deleteAccountCom, createAccount, getPrivateDataList, getPublicDataList, editPubInfo, assignAccCourse
+
+from Commands import login, logout, displayAllCourseAssign, deleteAccountCom, \
+    createAccount, getPrivateDataList, getPublicDataList, editPubInfo, assignAccCourse, createCourse
+
 from CurrentUserHelper import CurrentUser
 from Main.models import Account, Course, Section, AccountCourse, AccountSection
 
@@ -226,6 +229,10 @@ class taCourse(View):
         message = assignAccCourse(userName=username, courseNumber=num)
         return render(request, 'assignTACourse.html', {"message": message})
 
+
+class assignAccountSectionView(View):
+    def get(self, request):
+        return render(request, 'assignTASection.html')
 """  
 
 This one will be a bit challenging. Supervisor can assign any TA for any course to a certain section. Instructors can
@@ -288,8 +295,8 @@ class editPubInfoView(View):
 
     def get(self, request):
         CU = CurrentUser()
-        user = CU.getCurrentUser(request)
-        return render(request, 'editPubInfo.html', {'i': user})
+        editor = CU.getCurrentUser(request)
+        return render(request, 'editPubInfo.html', {'i': editor, "editor" : editor})
 
     def post(self, request):
         dict = {
@@ -308,10 +315,12 @@ class editPubInfoView(View):
             'officestart': str(request.POST.get('officestart')),
             'officeend': str(request.POST.get('officeend'))}
         CU = CurrentUser()
-        user = CU.getCurrentUser(request)
+        editor = CU.getCurrentUser(request)
+        user = Account.objects.get(firstName=dict['firstName'], lastName=dict['lastName'])
         message = editPubInfo(user, dict)
         info = makeUserDictionary(user)
-        return render(request, 'editPubInfo_success.html', {"message": message, "i": user, "info": info})
+        return render(request, 'editPubInfo_success.html', {"message": message, "i": user, "info": info,
+                                                            "editor": editor})
 
 
 def makeUserDictionary(user):
@@ -352,3 +361,26 @@ class createCourseView(View):
 
         messsage = createCourse(name, number, onCampus, days, start, end)
         return render(request, 'createCourse.html', {"message": messsage})
+
+class editUserInfoView(View):
+
+    def get(self, request):
+        CU = CurrentUser()
+        currentusertitle = CU.getCurrentUserTitle(request)
+        editor = CU.getCurrentUser(request)
+        if currentusertitle > 3:
+            return render(request, 'errorPage.html', {"message": "You do not have permission to view this page"})
+
+        instructorList = Account.objects.filter(title=2)
+        taList = Account.objects.filter(title='1')
+        staffList = instructorList | taList
+        return render(request, 'editUserInfo.html', {"stafflist" : staffList, "editor":editor})
+
+    def post(self, request):
+
+        CU = CurrentUser()
+        editor = CU.getCurrentUser(request)
+        user = str(request.POST['username'])
+        account = Account.objects.get(userName=user)
+        info = makeUserDictionary(account)
+        return render(request, 'editPubInfo.html', {'i': account, "editor":editor, "info":info})

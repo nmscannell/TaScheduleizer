@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit User Info</title>
+</head>
+<body>
+<form method="post" action="/edituserinfo/">
+  {%csrf_token%}
+<select name = "username">
+<option value="None" selected>None</option>
+    {%for i  in stafflist %}
+        <option name="username" id="username" value="{{i.userName}}">{{ i }}</option>
+    {% endfor %}
+</select>
+    <input type="submit"/><br>
+    <p>{{ message }}</p>
+
+    {% for key, value in dict %}
+        <p>{{ key }}{{ value }}</p>
+    {% endfor %}
+
+</form>
+
+
+
+{% if editor.title == 3 %}<a href="/administrator">Admin Home</a>
+{% endif %}
+{% if editor.title == 4 %}<a href="/superviosr">Supervisor Home</a>
+{% endif %}
+</body>
+</html>

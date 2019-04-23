@@ -13,10 +13,13 @@
 <p>{{ i }}</p>
 {% endfor %}
 
-{%  if i.title == 1 %}
-<a href="/ta">TA Home</a>
-{% else %}
-<a href="/instructor">Instructor Home</a>
+{%  if i.title == 1 %}<a href="/ta">TA Home</a>
+{% endif %}
+{% if i.title == 2 %}<a href="/instructor">Instructor Home</a>
+{% endif %}
+{% if i.title == 3 %}<a href="/administrator">Admin Home</a>
+{% endif %}
+{% if i.title == 4 %}<a href="/superviosr">Supervisor Home</a>
 {% endif %}
 </body>
 </html>

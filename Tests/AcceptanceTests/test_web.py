@@ -27,8 +27,7 @@ class Test_web(TestCase):
                                officePhone="897-654-398", officeDays="MW", officeHoursStart="1500",
                                officeHoursEnd="1600", currentUser=False)
 
-        Account.objects.create(userName="kim4", firstName="Henry", lastName = "Kim")
-
+        Account.objects.create(userName="jerry2", firstName="Jerry", lastName="Smith")
         # Set up for Course testing
         Course.objects.create(name="DataStructures", number=351, onCampus=True, classDays="TR",
                               classHoursStart=1200, classHoursEnd=1300)
@@ -71,7 +70,6 @@ class Test_web(TestCase):
         self.course1 = Course.objects.get(number="535")
         self.course2 = Course.objects.get(number="317")
         AccountCourse.objects.create(Course=self.course1, Account=self.cheng)
-
         AccountCourse.objects.create(Account=self.taman, Course=discreteMath)
 
         # set up for assign TA to Section
@@ -81,10 +79,6 @@ class Test_web(TestCase):
     """
     login
     """
-    def test_login_success(self):
-        response = self.c.post('/login/', {'username': 'janewayk123', 'password': '123456'})
-        self.assertEqual(response.context['message'],
-                         "")
 
     def test_login_wrong_password(self):
         response = self.c.post('/login/', {'username': 'janewayk123', 'password': '********'})
@@ -133,7 +127,7 @@ class Test_web(TestCase):
     """
 
     def test_deleteAccount_success(self):
-        response = self.c.post('/deleteaccount/', {'username': 'kim4'})
+        response = self.c.post('/deleteaccount/', {'username': 'jerry2'})
 
         self.assertEqual(response.context['message'],
                          "Account successfully deleted")
@@ -149,49 +143,50 @@ class Test_web(TestCase):
 
     def test_createCourse_success(self):
         response = self.c.post('/createcourse/', {'name': 'ComputerNetwork', 'number': 520,
-                                                  'onCampus': True, 'classDays': 'TR',
-                                                  'classHoursStart': 1400, 'classHoursEnd': 1600})
+                                                  'onCampus': 'campus', 'days': 'TR',
+                                                  'start': 1400, 'end': 1600})
         self.assertEqual(response.context['message'],
                          "Course successfully created")
 
     def test_createCourse_invalidNumber(self):
         response = self.c.post('/createcourse/', {'name': 'ComputerNetwork', 'number': 1024,
-                                                  'onCampus': True, 'classDays': 'TR',
-                                                  'classHoursStart': 1400, 'classHoursEnd': 1600})
+                                                  'onCampus': 'campus', 'days': 'TR',
+                                                  'start': 1400, 'end': 1600})
         self.assertEqual(response.context['message'],
                          "Course number must be numeric and three digits long")
 
     def test_createCourse_course_exists(self):
-        response = self.c.post('/createcourse/', {'name': 'ComputerSecurity', 'number': 469,
-                                                  'onCampus': True, 'classDays': 'MW',
-                                                  'classHoursStart': 1200, 'classHoursEnd': 1400})
+        response = self.c.post('/createcourse/', {'name': 'ComputerSecurity', 'number': 633,
+                                                  'onCampus': 'campus', 'days': 'MW',
+                                                  'start': 1200, 'end': 1400})
         self.assertEqual(response.context['message'],
                          "Course already exists")
 
     def test_createCourse_invalid_days(self):
 
         response = self.c.post('/createcourse/', {'name': 'ComputerSecurity', 'number': 469,
-                                                  'onCampus': True, 'classDays': 'S',
-                                                  'classHoursStart': 1200, 'classHoursEnd': 1400})
+                                                  'onCampus': 'campus', 'days': 'S',
+                                                  'start': 1200, 'end': 1400})
         self.assertEqual(response.context['message'],
                          "Invalid days of the week, please enter days in the format: MWTRF or NN for online")
 
     def test_createCourse_invalid_times(self):
         response = self.c.post('/createcourse/', {'name': 'Server Side Web Programming', 'number': 452,
-                                                  'onCampus': True, 'classDays': 'TR',
-                                                  'classHoursStart': '15:00', 'classHoursEnd': '17:00'})
+                                                  'onCampus': 'campus', 'days': 'TR',
+                                                  'start': '15:00', 'end': '17:00'})
         self.assertEqual(response.context['message'],
                          "Invalid start or end time, please use a 4 digit military time representation")
 
     def test_createCourse_invalid_locations(self):
         response = self.c.post('/createcourse/', {'name': 'Server Side Web Programming', 'number': 452,
-                                                  'onCampus': 'hybrid', 'classDays': 'TR',
-                                                  'classHoursStart': 1500, 'classHoursEnd': 1700})
+                                                  'onCampus': 'hybrid', 'days': 'TR',
+                                                  'start': 1500, 'end': 1700})
         self.assertEqual(response.context['message'],
-                         "Location is invalid, please enter campus or online")
+                         "Location is invalid, please enter campus or online.")
 
     """
     createSection
+    type is an integer field, 1 for lecture section, 0 for lab section. 
     """
     def test_createSection_success(self):
         response = self.c.post('/createssection/', {'courseNumber': 520, 'type': False, 'sectionNumber': 403,
@@ -388,3 +383,33 @@ class Test_web(TestCase):
         self.assertEqual(response1.context['message'], "Invalid start or end time, please use a "
                                                       "4 digit military time representation")
 
+
+
+    """
+    Assign Account Course tests 
+    """
+
+    def test_assignAccCourse_succes(self):
+        response = self.c.post('/assignacccourse/', {'userName':'picard304', 'courseNumber':'351'})
+        self.assertEqual(response.context['message'], "Instructor was successfully assigned to class")
+
+    def test_assignAccCourse_course_does_not_exits(self):
+        response = self.c.post('/assignacccourse/', {'userName':'picard304', 'courseNumber':'999'})
+        self.assertEqual(response.context['message'], "Invalid course number")
+
+    def test_assignAccCourse_user_does_not_exist(self):
+        response = self.c.post('assignacccourse/', {'userName':'nothing', 'courseNumber': '351'})
+        self.assertEqual(response.context['message'], "Invalid user name")
+
+
+    """
+    Viewing information tests
+    """
+
+    def test_viewPublicInfo_not_logged_in(self):
+        response = self.c.get('/directory/')
+        self.assertEqual(response.context['message'], "You Must log in to View this page")
+
+    def test_viewPublicInfo_success(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
+        response = self.c.get('/directory/')
