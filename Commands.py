@@ -122,7 +122,7 @@ def createCourse(name, number, online, days, start, end):
     if len(number) != 3:
         return "Course number must be numeric and three digits long"
     # Check that the course does not already exist
-    if Course.objects.filter(number=number).exists():
+    if Course.objects.filter(number=number).exists() or Course.objects.filter(name=name).exists:
         return "Course already exists"
     # Location checks
     if online.lower() != "online" and online.lower() != "campus":

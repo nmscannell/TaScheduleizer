@@ -13,7 +13,7 @@
 <form method="post" action="/editpubinfo/">
   {%csrf_token%}
 
-     <p><label for="username">User Name</label>
+     <p><label for="username">User Name:</label>
          <input type="text" name="username" id="username" value="{{ i.userName }}" readonly></p>
      <p><label for="firstname">First Name:</label>
          <input type="text" name="firstname" id = "firstname" value="{{i.firstName }}"></p>
