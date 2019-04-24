@@ -8,31 +8,27 @@
     <link rel="stylesheet" type = "text/css" href="{% static 'login.css' %}">
 </head>
 <body>
-<div class="login">
+<div class="form-box">
     <div class="head">SIGN IN</div>
  <form class="form" method="post" action="/login/", id="login-form"> <!--Its super important that action matches the url of the page-->
   {%csrf_token%}
       <div class="form-group">
           <label class="label-control">
-            <span class="label-text">username</span>
+            <span class="label-text">Username</span>
           </label>
-  <input type="text" name="username" id="username"  placeholder="UserName" required/><br>
+  <input type="text" name="username" class="form-control" />
              </div>
        <div class="form-group">
           <label class="label-control">
             <span class="label-text">Password</span>
           </label>
-  <input type="password" name="password" id="password"  placeholder="Password" required/><br>
+    <input type="password" name="password" class="form-control" />
        </div>
-  <input type="submit" value="Login" id="btn"/><br>
+     <input type="submit" value="Login" class="btn" />
       <p class="error">{{ message }}</p>
       <p class="text-p">Do you want to log in at the command line?    <a href=http://127.0.0.1:8000/command>Move to the command line page</a> </p>
     </form>
   </div>
-
-  </form><br>
-
-    </div>
 </body>
 </html>
 
