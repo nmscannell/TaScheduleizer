@@ -9,7 +9,6 @@ class TestAssignAccCourse(TestCase):
                                address="14 Voyager Drive", city="Delta", state="Quadrant", zipCode="00000",
                                officeNumber="456", officePhone="555-555-5555", officeDays="TR",
                                officeHoursStart="1300", officeHoursEnd="1400", currentUser=False)
-
         Account.objects.create(userName="picard304", firstName="Jean Luc", lastName="Picard", password="90456",
                                email="picardj@uwm.com", title=1, address="87 Enterprise Avenue",
                                city="Alpha", state="Quadrant", zipCode="11111", officeNumber="54",

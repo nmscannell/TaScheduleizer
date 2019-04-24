@@ -235,7 +235,12 @@ def assignAccCourse(userName, courseName):
 
 def assignAccSection(userName, courseNumber, sectionNumber):
     if not Account.objects.filter(userName=userName).exists():
-        return "Invalid account name"
+        return "Invalid user name"
+
+    ta = Account.objects.get(userName=userName)
+
+    if ta.title > 2:
+        return "User is not an instructor or TA"
 
     if not Course.objects.filter(number=courseNumber).exists():
         return "Invalid course number"
@@ -245,18 +250,13 @@ def assignAccSection(userName, courseNumber, sectionNumber):
     if not Section.objects.filter(number=sectionNumber, course=course).exists():
         return "Invalid lab section"
 
-    ta = Account.objects.get(userName=userName)
-
-    if ta.title > 2:
-        return "User is not an instructor or TA"
-
     if not AccountCourse.objects.filter(Account=ta, Course=Course.objects.get(number=courseNumber)).exists():
         return "User must be assigned to the course first"
 
     lab = Section.objects.get(number=sectionNumber, course=course)
 
     if AccountSection.objects.filter(Section=lab).exists():
-        return "Lab section already assigned"
+        return "Course section already assigned"
 
     p = AccountSection()
     p.Account = ta
