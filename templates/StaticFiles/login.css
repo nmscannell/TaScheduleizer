@@ -25,7 +25,7 @@ body, html {
     100%{   color: #000;    }
 }
 
- .login{
+ .form-box{
      position: center;
   max-width: 500px;
        background: white;
