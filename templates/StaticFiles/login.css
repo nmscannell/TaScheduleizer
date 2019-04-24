@@ -166,3 +166,16 @@ input.btn[type="submit"]:hover {
 .text-p a{
   color: #175690;
 }
+
+#password
+{
+    border-color: black;
+    height : 30px;
+    width: 415px;
+}
+#username
+{
+    border-color: black;
+    height: 30px;
+    width: 415px;
+}
