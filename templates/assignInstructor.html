@@ -18,7 +18,7 @@
         <option value={{ i.userName }}>{{ i }}</option>
     {% endfor %}
 </select>
-<select name = "course">
+<select name = "course", id="course">
     {%for i  in courseList %}
         <option value={{ i.name }}>{{ i }}</option>
     {% endfor %}
@@ -28,4 +28,6 @@
 
   </form>
 </body>
+<a href="/supervisor">Supervisor Home</a>
+
 </html>

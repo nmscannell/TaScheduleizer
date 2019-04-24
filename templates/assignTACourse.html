@@ -11,11 +11,11 @@
 
 </head>
 <body>
-<form method="post" action="/assignTaCourse/">
+<form method="post" action="/assigntacourse/">
   {%csrf_token%}
 <select name = "username">
     {%for i  in taList %}
-        <option value={{ i.username }}>{{ i }}</option>
+        <option value={{ i.userName }}>{{ i }}</option>
     {% endfor %}
 </select>
 <select name = "course">
