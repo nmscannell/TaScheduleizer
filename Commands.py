@@ -212,7 +212,7 @@ def createSection(courseNumber, type, sectionNumber, days, start, end):
 def assignAccCourse(userName, courseName):
     # Check if the course is valid
     if not Course.objects.filter(name=courseName).exists():
-        return "Invalid course number"
+        return "Invalid course name"
     # Check if the user name is valid
     if not Account.objects.filter(userName=userName).exists():
         return "Invalid user name"
@@ -224,11 +224,13 @@ def assignAccCourse(userName, courseName):
     # Check if the account is an instructor
     # Check if the course is already assigned
     # Otherwise(if there are no errors found), an instructor can be assigned to a course
+    if instructor.title > 2:
+        return "User is not an instructor or TA"
     a = AccountCourse()
     a.Account = instructor
     a.Course = course
     a.save()
-    return "Instructor was successfully assigned to class"
+    return "User was successfully assigned to course"
 
 
 def assignAccSection(userName, courseNumber, sectionNumber):
@@ -245,8 +247,11 @@ def assignAccSection(userName, courseNumber, sectionNumber):
 
     ta = Account.objects.get(userName=userName)
 
+    if ta.title > 2:
+        return "User is not an instructor or TA"
+
     if not AccountCourse.objects.filter(Account=ta, Course=Course.objects.get(number=courseNumber)).exists():
-        return "TA must be assigned to the Course first"
+        return "User must be assigned to the course first"
 
     lab = Section.objects.get(number=sectionNumber, course=course)
 
@@ -258,7 +263,7 @@ def assignAccSection(userName, courseNumber, sectionNumber):
     p.Section = lab
     p.save()
 
-    return "TA successfully assigned"
+    return "User successfully assigned to course section"
 
 
 def displayAllCourseAssign():
