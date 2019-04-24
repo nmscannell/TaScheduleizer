@@ -37,8 +37,8 @@ class TestAssignAccCourse(TestCase):
         self.assertEqual(assignAccCourse("picard304", "Political Turmoil in the Klingon Empire"), "User was successfully assigned to course")
 
     def test_assign_invalid_course(self):
-        self.assertEqual(assignAccCourse("janewayk123", "Ethics of the Prime Directive"), "Invalid course name")
-        self.assertEqual(assignAccCourse("picard304", "How to Deal with Children"), "Invalid course name")
+        self.assertEqual(assignAccCourse("janewayk123", "Ethics of the Prime Directive"), "Course does not exist")
+        self.assertEqual(assignAccCourse("picard304", "How to Deal with Children"), "Course does not exist")
 
     def test_assign_nonexistent_acct(self):
         self.assertEqual(assignAccCourse("tuvix009", "Temporal Mechanics"), "Invalid user name")
