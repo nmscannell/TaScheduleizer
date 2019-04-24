@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.test import Client
 from Main.models import Account, Course, Section, AccountCourse, AccountSection
-from Commands import getPublicDataList, getPrivateDataList
+from Commands import getPublicDataList, getPrivateDataList, displayAllCourseAssign
 
 
 class Test_web(TestCase):
@@ -90,7 +90,7 @@ class Test_web(TestCase):
         self.assertEqual(response.context['message'],
                          "Incorrect password")
 
-    def test_login_username_not_existed(self):
+    def test_login_username_does_not_exist(self):
         response = self.c.post('/login/', {'username': 'ariana02', 'password': '0192pg'})
         self.assertEqual(response.context['message'],
                          "Account Not Found")
@@ -416,13 +416,17 @@ class Test_web(TestCase):
     def test_assignInsCourse_course_does_not_exits(self):
         self.c.post('/login/', {'username': 'kirkj22', 'password': '678543'})
         response = self.c.post('/assigninstructor/', {'username':'picard304', 'course':'Dance'})
-        self.assertEqual(response.context['message'], "Invalid course number")
+        self.assertEqual(response.context['message'], "Course does not exist")
 
     def test_assignInsCourse_user_does_not_exist(self):
         self.c.post('/login/', {'username': 'kirkj22', 'password': '678543'})
         response = self.c.post('/assigninstructor/', {'username':'shane22', 'course': 'DataStructures'})
         self.assertEqual(response.context['message'], "Invalid user name")
 
+    def test_assignTACourse_user_does_not_exist(self):
+        self.c.post('/login/', {'username': 'kirkj22', 'password': '678543'})
+        response = self.c.post('/assigntacourse/', {'username': 'shane22', 'course': 'DataStructures'})
+        self.assertEqual(response.context['message'], "Invalid user name")
 
     """
     Viewing information tests
@@ -476,3 +480,38 @@ class Test_web(TestCase):
 
         self.assertEqual(response.context['directory'], self.privateDirecotry)
 
+    def test_courseAssignments_view(self):
+        self.c.post('/login/', {'username': 'kirkj22', 'password': '678543'})
+        response = self.c.get('/courseassignments/')
+        self.list = displayAllCourseAssign()
+
+        self.assertEqual(response.context['courseList'], self.list)
+
+
+    """
+    Send out Notification tests 
+    """
+
+    def test_sendOutNotification_ins_success(self):
+        self.c.post('/login/', {'username': 'kirkj22', 'password': '678543'})
+        response = self.c.post('/assigninstructor/', {'username': 'janewayk123', 'course':'DataStructures'})
+        self.assertEqual(response.context['message'], "Instructor was successfully assigned to class, "
+                                                      "Notification sent successfully")
+
+    def test_sendOutNotification_TA_success(self):
+        self.c.post('/login/', {'username': 'kirkj22', 'password': '678543'})
+        response = self.c.post('/assigninstructor/', {'username': 'picard304', 'course':'DataStructures'})
+        self.assertEqual(response.context['message'], "Instructor was successfully assigned to class, "
+                                                      "Notification sent successfully")
+
+    def test_sendOutNotification_TA_not_success(self):
+        self.c.post('/login/', {'username': 'kirkj22', 'password': '678543'})
+        response = self.c.post('/assigninstructor/', {'username': 'picard304', 'course':'DataStructures'})
+        self.assertEqual(response.context['message'], "Instructor was successfully assigned to class, "
+                                                      "But failed to send notification")
+
+    def test_sendOutNotification_ins_not_success(self):
+        self.c.post('/login/', {'username': 'kirkj22', 'password': '678543'})
+        response = self.c.post('/assigninstructor/', {'username': 'janewayk123', 'course': 'DataStructures'})
+        self.assertEqual(response.context['message'], "Instructor was successfully assigned to class, "
+                                                      "But failed to send notification")
