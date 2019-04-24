@@ -8,16 +8,32 @@
     <link rel="stylesheet" type = "text/css" href="{% static 'login.css' %}">
 </head>
 <body>
- <form class="form" method="post" action="/login/"> <!--Its super important that action matches the url of the page-->
+<div class="login">
+    <div class="head">SIGN IN</div>
+ <form class="form" method="post" action="/login/", id="login-form"> <!--Its super important that action matches the url of the page-->
   {%csrf_token%}
-     <!--<font size="15">User name:</font>-->
-  <input type="text" name="username" id="username" placeholder="UserName" required/><br>
-   <!--  <font size="15"> Password  :</font>-->
-  <input type="password" name="password" id="password" placeholder="Password" required/><br>
-  <input type="submit" value="Login" id="submit"/><br>
+      <div class="form-group">
+          <label class="label-control">
+            <span class="label-text">username</span>
+          </label>
+  <input type="text" name="username" id="username"  required/><br>
+             </div>
+       <div class="form-group">
+          <label class="label-control">
+            <span class="label-text">Password</span>
+          </label>
+  <input type="password" name="password" id="password"  required/><br>
+       </div>
+  <input type="submit" value="Login" id="btn"/><br>
+      <p class="error">{{ message }}</p>
+      <p class="text-p">Do you want to log in at the command line?    <a href=http://127.0.0.1:8000/command>Move to the command line page</a> </p>
+    </form>
+  </div>
+
   </form><br>
- <p class="error">{{ message }}</p>
-<p><b>Do you want to log in at the command line?</b></p>
-   <a href=http://127.0.0.1:8000/command>Move to the command line page</a>
+
+    </div>
 </body>
 </html>
+
+
