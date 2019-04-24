@@ -5,4 +5,10 @@ body, html {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  text-align: center;
+}
+
+p{
+    font-size: 20pt;
+    white-space: pre-wrap;
 }
