@@ -38,6 +38,11 @@ form{
     color: white;
     position: center;
 }
+.error{
+    color: red;
+    font-size: 20pt;
+    font-weight: bolder;
+}
 .blinking{
     animation: blinkingText 0.8s infinite;
     font-weight: bolder;

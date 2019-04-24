@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.test import Client
 from Main.models import Account, Course, Section, AccountCourse, AccountSection
-from Commands import getPublicDataList, getPrivateDataList
+from Commands import getPublicDataList, getPrivateDataList, displayAllCourseAssign
 
 
 class Test_web(TestCase):
@@ -476,3 +476,9 @@ class Test_web(TestCase):
 
         self.assertEqual(response.context['directory'], self.privateDirecotry)
 
+    def test_courseAssignments_view(self):
+        self.c.post('/login/', {'username': 'kirkj22', 'password': '678543'})
+        response = self.c.get('/courseassignments/')
+        self.list = displayAllCourseAssign()
+
+        self.assertEqual(response.context['courseList'], self.list)
