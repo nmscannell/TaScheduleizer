@@ -205,10 +205,9 @@ class instructorCourse(View):
         return render(request, 'assignInstructor.html', {"instList": instructorList, "courseList": courseList})
 
     def post(self, request):
-        username = str(request.POST["username"])
-        course = str(request.POST["course"])
-        #num = Course.objects.get(name=course).number
-        message = assignAccCourse(userName=username, courseName=course)
+        username = str(request.POST.get("username"))
+        course = str(request.POST.get("course"))
+        message = assignAccCourse(username, course)
         return render(request, 'assignInstructor.html', {"message": message})
 
 
@@ -318,7 +317,7 @@ class editPubInfoView(View):
             'officeend': str(request.POST.get('officeend'))}
         CU = CurrentUser()
         editor = CU.getCurrentUser(request)
-        print(dict['userName'])
+
         user = Account.objects.get(userName=dict['userName'].replace(" ", ""))
         message = editPubInfo(user, dict)
         info = makeUserDictionary(user)

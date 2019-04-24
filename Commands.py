@@ -212,7 +212,7 @@ def createSection(courseNumber, type, sectionNumber, days, start, end):
 def assignAccCourse(userName, courseName):
     # Check if the course is valid
     if not Course.objects.filter(name=courseName).exists():
-        return "Invalid course number"
+        return "Course does not exist"
     # Check if the user name is valid
     if not Account.objects.filter(userName=userName).exists():
         return "Invalid user name"
