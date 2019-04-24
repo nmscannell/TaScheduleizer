@@ -1,11 +1,11 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<a lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Delete Account</title>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link rel="stylesheet" type = "text/css" href="{% static 'deleteAccount.css' %}">
+    <link rel="stylesheet" type = "text/css" href="{% static 'background.css' %}">
 
     <h1>Delete an Account</h1>
 
@@ -15,12 +15,20 @@
   {%csrf_token%}
 <select name = "username">
     {%for i  in stafflist %}
-        <option value={{ i.username }}>{{ i }}</option>
+        <option name="username" id="username" value="{{ i.userName }}">{{ i }}</option>
     {% endfor %}
 </select>
     <input type="submit"/><br>
     <p>{{ message }}</p>
 
-  </form>
+</form>
+
+{% if i.title == 3 %}
+    <a href="/administrator">Admin Home</a>
+{% else %}
+    <a href="/supervisor">Supervisor Home</a>
+{% endif %}
+
+
 </body>
 </html>

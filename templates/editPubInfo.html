@@ -2,16 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Edit My Information</title>
+    <title>Edit Information</title>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
+     {% load staticfiles %}
+     <link rel="stylesheet" type = "text/css" href="{% static 'background.css' %}">
 
 </head>
 <body>
-<h1>Edit Your Information</h1>
+<h1>Edit Information</h1>
 <form method="post" action="/editpubinfo/">
   {%csrf_token%}
 
-
+     <p><label for="username">User Name</label>
+         <input type="text" name="username" id="username" value="{{ i.userName }}" disabled></p>
      <p><label for="firstname">First Name:</label>
          <input type="text" name="firstname" id = "firstname" value="{{i.firstName }}"></p>
      <p><label for="lastname">Last Name:</label>
@@ -42,10 +45,14 @@
 
 
 </form>
-{%  if i.title == 1 %}
-<a href="/ta">TA Home</a>
-{% else %}
-<a href="/instructor">Instructor Home</a>
+
+{%  if editor.title == 1 %}<a href="/ta">TA Home</a>
+{% endif %}
+{% if editor.title == 2 %}<a href="/instructor">Instructor Home</a>
+{% endif %}
+{% if editor.title == 3 %}<a href="/administrator">Admin Home</a>
+{% endif %}
+{% if editor.title == 4 %}<a href="/supervisor">Supervisor Home</a>
 {% endif %}
 </body>
 </html>

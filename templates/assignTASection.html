@@ -5,13 +5,13 @@
     <meta charset="UTF-8">
     <title>Assign TA to Lab Section</title>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link rel="stylesheet" type = "text/css" href="{% static 'assignTASection.css' %}">
+    <link rel="stylesheet" type = "text/css" href="{% static 'background.css' %}">
 
     <h1>Assign a TA to a Lab Section</h1>
 
 </head>
 <body>
-<form method="post" action="/assigntasection/">
+<form method="post" action="/assignTaSection/">
   {%csrf_token%}
 <select name = "username">
     {%for i  in taList %}

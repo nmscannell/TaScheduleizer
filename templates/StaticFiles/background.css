@@ -1,19 +1,8 @@
-body
-{
-    text-align: center;
-}
-    body, html {
+body, html {
   margin: 0;
     background-image: url("background.png");
   height: 100%;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-
-}
-p
-{
-    font-size: 20pt;
-    white-space: pre-wrap;
-    color: red;
 }

@@ -18,18 +18,20 @@ def login(userName, password):
         CurrentUser = Account.objects.get(userName=userName)
         if CurrentUser.password != password:
             raise Exception("Incorrect password")
-
+        CurrentUser.currentUser = True
     except Account.DoesNotExist:
         raise Exception("Account Not Found")
 
     return CurrentUser
 
 
-def logout():
+def logout(user):
     try:
-        CurrentUser = Account.objects.get(currentUser=True)
-        CurrentUser.currentUser = False
-        CurrentUser.save()
+        #CurrentUser = Account.objects.get(userName=userName)
+        #CurrentUser.currentUser = False
+        #CurrentUser.save()
+        user.currentUser = False
+        user.save()
         return "Successfully logged out"
     except Account.DoesNotExist:
         return "Please log in First"
@@ -42,6 +44,7 @@ def checkValidEmail(email):
     if len(str) == 1 or str[1] != "uwm.edu":
         return False
     return True
+
 
 def containsOnlyDigits(argument):
     if not re.match('^[0-9]*$', argument):
@@ -59,11 +62,14 @@ def checkVaildTimes(time):
             return False
     return True
 
+
 def checkValidDays(days):
-    for i in days:
+    daysnospaces = days.replace(" ", "")
+    for i in daysnospaces:
         if i not in 'MTWRFN':
             return False
     return True
+
 
 # Creating an Account
 def createAccount(firstName, lastName, userName, title, email):
@@ -97,10 +103,13 @@ def createAccount(firstName, lastName, userName, title, email):
         return "Account successfully created.  Temporary password is: " + A.userName + "456"
 
 
-def deleteAccount(userName):
-    if not Account.objects.get(userName=userName).exists():
+def deleteAccountCom(userName):
+
+    try:
+        a = Account.objects.get(userName=userName)
+    except Exception as e:
         return "Account does not exist"
-    Account.objects.filter(userName=userName).delete()
+    a.delete()
     return "Account successfully deleted"
 
 
@@ -135,7 +144,9 @@ def createCourse(name, number, online, days, start, end):
 
     # Else the course is ok to be created
     else:
-        c = Course(name=name, number=number)
+        c = Course()
+        c.name = name
+        c.number = number
         if online.lower() == "online":
             c.onCampus = False
         else:
@@ -198,16 +209,16 @@ def createSection(courseNumber, type, sectionNumber, days, start, end):
         return "Lab successfully created"
 
 
-def assignAccCourse(userName, courseNumber):
+def assignAccCourse(userName, courseName):
     # Check if the course is valid
-    if not Course.objects.filter(number=courseNumber).exists():
+    if not Course.objects.filter(name=courseName).exists():
         return "Invalid course number"
     # Check if the user name is valid
     if not Account.objects.filter(userName=userName).exists():
         return "Invalid user name"
 
     instructor = Account.objects.get(userName=userName)
-    course = Course.objects.get(number=courseNumber)
+    course = Course.objects.get(number=Course.objects.get(name=courseName).number)
     # title represented as an integer where 4=supervisor 3=administrator
     # 2=Instructor 1=TA. 0=No current User
     # Check if the account is an instructor
@@ -382,6 +393,7 @@ def getPrivateDataList():
     directory.sort()
     return directory
 
+
 def editPubInfo(user, dict):
 
     firstName = dict['firstName']
@@ -414,7 +426,7 @@ def editPubInfo(user, dict):
 
     # Home phone
     homePhone = dict['homephone']
-    if homePhone != user.homePhone:
+    if homePhone != str(user.homePhone):
         if containsOnlyDigits(homePhone.replace("-", "")) == False:
             return "Home Phone can only contain numbers"
         else:
@@ -441,7 +453,7 @@ def editPubInfo(user, dict):
 
     # Zip Code
     zipCode = dict['zipcode']
-    if zipCode != user.zipCode:
+    if zipCode != str(user.zipCode):
         if containsOnlyDigits(zipCode) == False:
             return "ZipCode my be only numeric"
         else:
@@ -449,7 +461,7 @@ def editPubInfo(user, dict):
 
     # Office Number
     officeNumber = dict['officenumber']
-    if officeNumber != user.officeNumber:
+    if officeNumber != str(user.officeNumber):
         if containsOnlyDigits(officeNumber) == False:
             return "Office Number must be numeric"
         else:
@@ -457,7 +469,7 @@ def editPubInfo(user, dict):
 
     # Office phone
     officePhone = dict['officephone']
-    if officePhone != user.officePhone:
+    if officePhone != str(user.officePhone):
         if containsOnlyDigits(officePhone.replace("-", "")) == False:
             return "Office Phone can only contain numbers"
         else:
@@ -474,12 +486,12 @@ def editPubInfo(user, dict):
     # Start Time and End Time
     officeHoursStart = dict['officestart']
     officeHoursEnd = dict['officeend']
-    if (officeHoursStart != user.officeHoursStart):
+    if (officeHoursStart != str(user.officeHoursStart)):
         if checkVaildTimes(officeHoursStart) == False:
             return "Invalid start or end time, please use a 4 digit military time representation"
         else:
             user.officeHoursStart = officeHoursStart
-    if officeHoursEnd != user.officeHoursEnd:
+    if officeHoursEnd != str(user.officeHoursEnd):
         if checkVaildTimes(officeHoursEnd) == False:
             return "Invalid start or end time, please use a 4 digit military time representation"
         else:
@@ -494,7 +506,7 @@ def editPubInfo(user, dict):
 
 def getCommands():
     return [Command("login", 2, login), Command("logout", 0, logout),
-            Command("createaccount", 5, createAccount), Command("deleteaccount", 1, deleteAccount),
+            Command("createaccount", 5, createAccount), Command("deleteaccount", 1, deleteAccountCom),
             Command("createcourse", 6, createCourse), Command("createsection", 6, createSection),
             Command("assignacccourse", 2, assignAccCourse),
             Command("assignaccsection", 3, assignAccSection),

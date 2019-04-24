@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>Create Account</title>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link rel="stylesheet" type = "text/css" href="{% static 'createAccount.css' %}">
+    <link rel="stylesheet" type = "text/css" href="{% static 'background.css' %}">
 
     <h1>Create an Account</h1>
 
@@ -28,12 +28,14 @@
     <input type="submit"/><br>
     <p>{{ message }}</p>
 
-  </form>
-<ul>
-    <li><a class="active" href=" ">Edit the Contact Information</a></li>
-    <li><a href="/courseassignments">View Course Assignments</a></li>
-    <li><a href=" ">View TA assignments</a></li>
-    <li><a href="/login/">Logout</a></li>
-</ul>
+</form>
+
+    {% if i.title == 3 %}
+        <a href="/administrator">Admin Home</a>
+    {% else %}
+        <a href="/supervisor">Supervisor Home</a>
+    {% endif %}
+
+
 </body>
 </html>

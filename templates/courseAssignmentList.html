@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>Course Assignments</title>
+      {% load staticfiles %}
     <link rel="stylesheet" type = "text/css" href="{% static 'courseAssignmentList.css' %}">
 </head>
 <body>
@@ -12,5 +13,16 @@
 {% for i in courseList %}
     <p>{{ i }}</p><br>
 {% endfor %}
+
+{%  if i.title == 1 %}
+<a href="/ta/">TA Home</a>
+{% endif %}
+{% if i.title == 2 %}
+<a href="/instructor/">Instructor Home</a>
+{% endif %}
+{% if i.title == 3 %}<a href="/administrator/">Admin Home</a>
+{% endif %}
+{% if i.title == 4 %}<a href="/supervisor/">Supervisor Home</a>
+{% endif %}
 </body>
 </html>

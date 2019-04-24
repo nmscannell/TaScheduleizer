@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.test import Client
 from Main.models import Account, Course, Section, AccountCourse, AccountSection
+from Commands import getPublicDataList, getPrivateDataList
 
 
 class Test_web(TestCase):
@@ -9,24 +10,25 @@ class Test_web(TestCase):
 
         self.c = Client()
 
-        Account.objects.create(userName="janewayk123", firstName="Kathryn", lastName="Janeway", password="123456",
+        self.account1 = Account.objects.create(userName="janewayk123", firstName="Kathryn", lastName="Janeway", password="123456",
                                email="janewayk@uwm.com", title=2,
                                address="14 Voyager Drive", city="Delta", state="Quadrant", zipCode="00000",
                                officeNumber="456", officePhone="555-555-5555", officeDays="TR",
                                officeHoursStart="1300", officeHoursEnd="1400", currentUser=False)
 
-        Account.objects.create(userName="picard304", firstName="Jean Luc", lastName="Picard", password="90456",
+        self.account2 = Account.objects.create(userName="picard304", firstName="Jean Luc", lastName="Picard", password="90456",
                                email="picardj@uwm.com", title=1, address="87 Enterprise Avenue",
                                city="Alpha", state="Quadrant", zipCode="11111", officeNumber="54",
                                officePhone="777-777-7777", officeDays="W", officeHoursStart="0900",
                                officeHoursEnd="1000", homePhone='123-456-7893', currentUser=False)
 
-        Account.objects.create(userName="kirkj22", firstName="James", lastName="Kirk", password="678543",
+        self.account3 = Account.objects.create(userName="kirkj22", firstName="James", lastName="Kirk", password="678543",
                                email="kirkj22@uwm.com", title=4, address="789 Enterprise Avenue",
                                city="Alpha", state="Quadrant", zipCode="89765", officeNumber="987",
                                officePhone="897-654-398", officeDays="MW", officeHoursStart="1500",
                                officeHoursEnd="1600", currentUser=False)
 
+        Account.objects.create(userName="jerry2", firstName="Jerry", lastName="Smith")
         # Set up for Course testing
         Course.objects.create(name="DataStructures", number=351, onCampus=True, classDays="TR",
                               classHoursStart=1200, classHoursEnd=1300)
@@ -69,23 +71,22 @@ class Test_web(TestCase):
         self.course1 = Course.objects.get(number="535")
         self.course2 = Course.objects.get(number="317")
         AccountCourse.objects.create(Course=self.course1, Account=self.cheng)
-
         AccountCourse.objects.create(Account=self.taman, Course=discreteMath)
 
         # set up for assign TA to Section
         self.datastructures = Course.objects.get(name="DataStructures")
         self.tamanAccount = Account.objects.get(userName="taman")
 
+        # setup for directory view
+        self.pubDirecotry = getPublicDataList()
+        self.privateDirecotry = getPrivateDataList()
+
     """
     login
     """
-    def test_login_success(self):
-        response = self.c.post('/login/', {'username': 'jack23', 'password': '!@iamjack'})
-        self.assertEqual(response.context['message'],
-                         "")
 
     def test_login_wrong_password(self):
-        response = self.c.post('/login/', {'username': 'jack23', 'password': '********'})
+        response = self.c.post('/login/', {'username': 'janewayk123', 'password': '********'})
         self.assertEqual(response.context['message'],
                          "Incorrect password")
 
@@ -131,12 +132,14 @@ class Test_web(TestCase):
     """
 
     def test_deleteAccount_success(self):
-        response = self.c.post('/deleteaccount/', {'username': 'kim4'})
+        response = self.c.post('/deleteaccount/', {'username': 'jerry2'})
+
         self.assertEqual(response.context['message'],
                          "Account successfully deleted")
 
     def test_deleteAccount_doesnotexists(self):
-        response = self.c.post('/deleteaccount/', {'username': 'henry42'})
+        response = self.c.post('/deleteaccount/', {'username':'henry42'})
+
         self.assertEqual(response.context['message'], "Account does not exist")
 
     """
@@ -145,49 +148,50 @@ class Test_web(TestCase):
 
     def test_createCourse_success(self):
         response = self.c.post('/createcourse/', {'name': 'ComputerNetwork', 'number': 520,
-                                                  'onCampus': True, 'classDays': 'TR',
-                                                  'classHoursStart': 1400, 'classHoursEnd': 1600})
+                                                  'onCampus': 'campus', 'days': 'TR',
+                                                  'start': 1400, 'end': 1600})
         self.assertEqual(response.context['message'],
                          "Course successfully created")
 
     def test_createCourse_invalidNumber(self):
         response = self.c.post('/createcourse/', {'name': 'ComputerNetwork', 'number': 1024,
-                                                  'onCampus': True, 'classDays': 'TR',
-                                                  'classHoursStart': 1400, 'classHoursEnd': 1600})
+                                                  'onCampus': 'campus', 'days': 'TR',
+                                                  'start': 1400, 'end': 1600})
         self.assertEqual(response.context['message'],
                          "Course number must be numeric and three digits long")
 
     def test_createCourse_course_exists(self):
-        response = self.c.post('/createcourse/', {'name': 'ComputerSecurity', 'number': 469,
-                                                  'onCampus': True, 'classDays': 'MW',
-                                                  'classHoursStart': 1200, 'classHoursEnd': 1400})
+        response = self.c.post('/createcourse/', {'name': 'ComputerSecurity', 'number': 633,
+                                                  'onCampus': 'campus', 'days': 'MW',
+                                                  'start': 1200, 'end': 1400})
         self.assertEqual(response.context['message'],
                          "Course already exists")
 
     def test_createCourse_invalid_days(self):
 
         response = self.c.post('/createcourse/', {'name': 'ComputerSecurity', 'number': 469,
-                                                  'onCampus': True, 'classDays': 'S',
-                                                  'classHoursStart': 1200, 'classHoursEnd': 1400})
+                                                  'onCampus': 'campus', 'days': 'S',
+                                                  'start': 1200, 'end': 1400})
         self.assertEqual(response.context['message'],
                          "Invalid days of the week, please enter days in the format: MWTRF or NN for online")
 
     def test_createCourse_invalid_times(self):
         response = self.c.post('/createcourse/', {'name': 'Server Side Web Programming', 'number': 452,
-                                                  'onCampus': True, 'classDays': 'TR',
-                                                  'classHoursStart': '15:00', 'classHoursEnd': '17:00'})
+                                                  'onCampus': 'campus', 'days': 'TR',
+                                                  'start': '15:00', 'end': '17:00'})
         self.assertEqual(response.context['message'],
                          "Invalid start or end time, please use a 4 digit military time representation")
 
     def test_createCourse_invalid_locations(self):
         response = self.c.post('/createcourse/', {'name': 'Server Side Web Programming', 'number': 452,
-                                                  'onCampus': 'hybrid', 'classDays': 'TR',
-                                                  'classHoursStart': 1500, 'classHoursEnd': 1700})
+                                                  'onCampus': 'hybrid', 'days': 'TR',
+                                                  'start': 1500, 'end': 1700})
         self.assertEqual(response.context['message'],
-                         "Location is invalid, please enter campus or online")
+                         "Location is invalid, please enter campus or online.")
 
     """
     createSection
+    type is an integer field, 1 for lecture section, 0 for lab section. 
     """
     def test_createSection_success(self):
         response = self.c.post('/createssection/', {'courseNumber': 520, 'type': False, 'sectionNumber': 403,
@@ -248,7 +252,8 @@ class Test_web(TestCase):
 
     def test_editPubInfo_firstName(self):
         self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
-        response = self.c.post('/editpubinfo/', {'firstname': 'James', 'lastname': 'Picard', 'email': 'picardj@uwm.edu',
+        response = self.c.post('/editpubinfo/', {'username':'picard304', 'firstname': 'James',
+                                                 'lastname': 'Picard', 'email': 'picardj@uwm.edu',
                                                 'password': '90456', 'homephone': '123-456-7893',
                                                 'address': '87 Enterprise Avenue', 'city': 'Alpha', 'state': 'Quadrant',
                                                 'zipcode': '11111', 'officenumber': '54', 'officephone': '777-777-7777',
@@ -256,9 +261,11 @@ class Test_web(TestCase):
 
         self.assertEqual(response.context['message'], "Fields successfully updated")
 
+
     def test_editPubInfo_lastName(self):
         self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
-        response = self.c.post('/editpubinfo/', {'firstname': 'Jean Luc', 'lastname': 'Brooks', 'email': 'picardj@uwm.edu',
+        response = self.c.post('/editpubinfo/', {'username':'picard304', 'firstname': 'Jean Luc',
+                                                 'lastname': 'Brooks', 'email': 'picardj@uwm.edu',
                                                 'password': '90456', 'homephone': '123-456-7893',
                                                 'address': '87 Enterprise Avenue', 'city': 'Alpha', 'state': 'Quadrant',
                                                 'zipcode': '11111', 'officenumber': '54', 'officephone': '777-777-7777',
@@ -269,7 +276,8 @@ class Test_web(TestCase):
     def test_editPubInfo_two_fields(self):
         self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/editpubinfo/',
-                               {'firstname': 'Jean Luc', 'lastname': 'Picard', 'email': 'picardj@uwm.edu',
+                               {'username':'picard304', 'firstname': 'Jean Luc', 'lastname': 'Picard',
+                                'email': 'picardj@uwm.edu',
                                 'password': '90456', 'homephone': '123-456-7893',
                                 'address': '87 Enterprise Avenue', 'city': 'Chicago', 'state': 'Illinois',
                                 'zipcode': '11111', 'officenumber': '54', 'officephone': '777-777-7777',
@@ -280,7 +288,8 @@ class Test_web(TestCase):
 
     def test_editPubInfo_homephone_invalid(self):
         self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
-        response = self.c.post('/editpubinfo/', {'firstname': 'Jean Luc', 'lastname': 'Picard', 'email': 'picardj@uwm.edu',
+        response = self.c.post('/editpubinfo/', {'username':'picard304', 'firstname': 'Jean Luc',
+                                                 'lastname': 'Picard', 'email': 'picardj@uwm.edu',
                                                  'password': '90456', 'homephone': 'abc-456-7893',
                                                  'address': '87 Enterprise Avenue', 'city': 'Alpha',
                                                  'state': 'Quadrant',
@@ -291,7 +300,8 @@ class Test_web(TestCase):
 
     def test_editPubInfo_officephone_invalid(self):
         self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
-        response = self.c.post('/editpubinfo/', {'firstname': 'Jean Luc', 'lastname': 'Picard', 'email': 'picardj@uwm.edu',
+        response = self.c.post('/editpubinfo/', {'username':'picard304', 'firstname': 'Jean Luc',
+                                                 'lastname': 'Picard', 'email': 'picardj@uwm.edu',
                                                  'password': '90456', 'homephone': '123-456-7893',
                                                  'address': '87 Enterprise Avenue', 'city': 'Alpha',
                                                  'state': 'Quadrant',
@@ -302,7 +312,8 @@ class Test_web(TestCase):
 
     def test_editPubInfo_zipcode_invalid(self):
         self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
-        response = self.c.post('/editpubinfo/', {'firstname': 'Jean Luc', 'lastname': 'Picard', 'email': 'picardj@uwm.edu',
+        response = self.c.post('/editpubinfo/', {'username':'picard304', 'firstname': 'Jean Luc',
+                                                 'lastname': 'Picard', 'email': 'picardj@uwm.edu',
                                                 'password': '90456', 'homephone': '123-456-7893',
                                                 'address': '87 Enterprise Avenue', 'city': 'Alpha', 'state': 'Quadrant',
                                                 'zipcode': '1111b', 'officenumber': '54', 'officephone': '777-777-7777',
@@ -312,7 +323,8 @@ class Test_web(TestCase):
 
     def test_editPubInfo_officenum_invalid(self):
         self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
-        response = self.c.post('/editpubinfo/', {'firstname': 'Jean Luc', 'lastname': 'Picard', 'email': 'picardj@uwm.edu',
+        response = self.c.post('/editpubinfo/', {'username':'picard304', 'firstname': 'Jean Luc',
+                                                 'lastname': 'Picard', 'email': 'picardj@uwm.edu',
                                                 'password': '90456', 'homephone': '123-456-7893',
                                                 'address': '87 Enterprise Avenue', 'city': 'Alpha', 'state': 'Quadrant',
                                                 'zipcode': '11111', 'officenumber': '5q4', 'officephone': '777-777-7777',
@@ -323,7 +335,8 @@ class Test_web(TestCase):
     def test_editPubInfo_firstname_invalid(self):
         self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/editpubinfo/',
-                               {'firstname': 'Jean Luc12', 'lastname': 'Picard', 'email': 'picardj@uwm.edu',
+                               {'username':'picard304', 'firstname': 'Jean Luc12', 'lastname': 'Picard',
+                                'email': 'picardj@uwm.edu',
                                 'password': '90456', 'homephone': '123-456-7893',
                                 'address': '87 Enterprise Avenue', 'city': 'Alpha', 'state': 'Quadrant',
                                 'zipcode': '11111', 'officenumber': '54', 'officephone': '777-777-7777',
@@ -334,7 +347,8 @@ class Test_web(TestCase):
     def test_editPubInfo_lastname_invalid(self):
         self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/editpubinfo/',
-                               {'firstname': 'Jean Luc', 'lastname': 'Picard12', 'email': 'picardj@uwm.edu',
+                               {'username':'picard304', 'firstname': 'Jean Luc', 'lastname': 'Picard12',
+                                'email': 'picardj@uwm.edu',
                                 'password': '90456', 'homephone': '123-456-7893',
                                 'address': '87 Enterprise Avenue', 'city': 'Alpha', 'state': 'Quadrant',
                                 'zipcode': '11111', 'officenumber': '54', 'officephone': '777-777-7777',
@@ -345,7 +359,8 @@ class Test_web(TestCase):
     def test_editPubInfo_city_invalid(self):
         self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/editpubinfo/',
-                               {'firstname': 'Jean Luc', 'lastname': 'Picard', 'email': 'picardj@uwm.edu',
+                               {'username':'picard304', 'firstname': 'Jean Luc', 'lastname': 'Picard',
+                                'email': 'picardj@uwm.edu',
                                 'password': '90456', 'homephone': '123-456-7893',
                                 'address': '87 Enterprise Avenue', 'city': 'Alpha12', 'state': 'Quadrant',
                                 'zipcode': '11111', 'officenumber': '54', 'officephone': '777-777-7777',
@@ -356,7 +371,8 @@ class Test_web(TestCase):
     def test_editPubInfo_state_invalid(self):
         self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/editpubinfo/',
-                               {'firstname': 'Jean Luc', 'lastname': 'Picard', 'email': 'picardj@uwm.edu',
+                               {'username':'picard304', 'firstname': 'Jean Luc', 'lastname': 'Picard',
+                                'email': 'picardj@uwm.edu',
                                 'password': '90456', 'homephone': '123-456-7893',
                                 'address': '87 Enterprise Avenue', 'city': 'Alpha', 'state': 'Quadrant12',
                                 'zipcode': '11111', 'officenumber': '54', 'officephone': '777-777-7777',
@@ -366,7 +382,8 @@ class Test_web(TestCase):
 
     def test_editPubInfo_officetimes_invalid(self):
         self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
-        response = self.c.post('/editpubinfo/', {'firstname': 'Jean Luc', 'lastname': 'Picard', 'email': 'picardj@uwm.edu',
+        response = self.c.post('/editpubinfo/', {'username':'picard304','firstname': 'Jean Luc',
+                                                 'lastname': 'Picard', 'email': 'picardj@uwm.edu',
                                                 'password': '90456', 'homephone': '123-456-7893',
                                                 'address': '87 Enterprise Avenue', 'city': 'Alpha', 'state': 'Quadrant',
                                                 'zipcode': '11111', 'officenumber': '54', 'officephone': '777-777-7777',
@@ -375,7 +392,8 @@ class Test_web(TestCase):
         self.assertEqual(response.context['message'], "Invalid start or end time, please use a "
                                                       "4 digit military time representation")
         response1 = self.c.post('/editpubinfo/',
-                               {'firstname': 'Jean Luc', 'lastname': 'Picard', 'email': 'picardj@uwm.edu',
+                               {'username':'picard304', 'firstname': 'Jean Luc', 'lastname': 'Picard',
+                                'email': 'picardj@uwm.edu',
                                 'password': '90456', 'homephone': '123-456-7893',
                                 'address': '87 Enterprise Avenue', 'city': 'Alpha', 'state': 'Quadrant',
                                 'zipcode': '11111', 'officenumber': '54', 'officephone': '777-777-7777',
@@ -383,4 +401,78 @@ class Test_web(TestCase):
 
         self.assertEqual(response1.context['message'], "Invalid start or end time, please use a "
                                                       "4 digit military time representation")
+
+
+
+    """
+    Assign Account Course tests 
+    """
+
+    def test_assignInsCourse_success(self):
+        self.c.post('/login/', {'username': 'kirkj22', 'password': '678543'})
+        response = self.c.post('/assigninstructor/', {'username': 'picard304', 'course':'DataStructures'})
+        self.assertEqual(response.context['message'], "Instructor was successfully assigned to class")
+
+    def test_assignInsCourse_course_does_not_exits(self):
+        self.c.post('/login/', {'username': 'kirkj22', 'password': '678543'})
+        response = self.c.post('/assigninstructor/', {'username':'picard304', 'course':'Dance'})
+        self.assertEqual(response.context['message'], "Invalid course number")
+
+    def test_assignInsCourse_user_does_not_exist(self):
+        self.c.post('/login/', {'username': 'kirkj22', 'password': '678543'})
+        response = self.c.post('/assigninstructor/', {'username':'shane22', 'course': 'DataStructures'})
+        self.assertEqual(response.context['message'], "Invalid user name")
+
+
+    """
+    Viewing information tests
+    """
+
+    def test_viewPublicInfo_not_logged_in(self):
+        response = self.c.get('/directory/')
+        self.assertEqual(response.context['message'], "You Must log in to View this page")
+
+    def test_viewPublicInfo_success(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
+        response = self.c.get('/directory/')
+
+
+    """
+    Testing Account Home Pages
+    """
+
+    def test_viewTAHome_Success(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
+
+        response = self.c.get('/ta/')
+
+        self.assertEqual(response.context['account'], self.account2)
+
+    def test_viewInstructorHome_success(self):
+        self.c.post('/login/', {'username': 'janewayk123', 'password': '123456'})
+
+        response = self.c.get('/instructor/')
+
+        self.assertEqual(response.context['account'], self.account1)
+
+    def test_directory_Ta_View(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
+
+        response = self.c.get('/directory/')
+
+        self.assertEqual(response.context['directory'], self.pubDirecotry)
+
+    def test_directory_Instructor_View(self):
+        self.c.post('/login/', {'username': 'janewayk123', 'password': '123456'})
+
+        response = self.c.get('/directory/')
+
+        self.assertEqual(response.context['directory'], self.pubDirecotry)
+
+    def test_directory_Supervisor_View(self):
+        self.c.post('/login/', {'username': 'kirkj22', 'password': '678543'})
+
+        response = self.c.get('/directory/')
+
+        self.assertEqual(response.context['directory'], self.privateDirecotry)
 

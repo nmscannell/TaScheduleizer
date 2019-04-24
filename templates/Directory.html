@@ -5,12 +5,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>Directory</title>
-    <link rel="stylesheet" type = "text/css" href="{% static 'courseAssignmentList.css' %}">
+    <link rel="stylesheet" type = "text/css" href="{% static 'background.css' %}">
 </head>
 <body>
 <h1>Directory</h1>
 {% for i in directory %}
 <p>{{ i }}</p>
 {% endfor %}
+
+{%  if i.title == 1 %}<a href="/ta/">TA Home</a>
+{% endif %}
+{% if i.title == 2 %}<a href="/instructor/">Instructor Home</a>
+{% endif %}
+{% if i.title == 3 %}<a href="/administrator/">Admin Home</a>
+{% endif %}
+{% if i.title == 4 %}<a href="/supervisor/">Supervisor Home</a>
+{% endif %}
 </body>
 </html>

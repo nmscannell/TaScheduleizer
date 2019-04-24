@@ -2,16 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Edit Pub Info Success</title>
+    <title>Edit Pub Info </title>
 </head>
 <body>
 {{ message }}<br>
+{% for key,value in info.items %}
+<p>{{ key }} : {{ value }}</p>
+{% endfor %}
 
-{%  if i.title == 1 %}
-<a href="/ta">TA Home</a>
-{% else %}
-<a href="/instructor">Instructor Home</a>
+{%  if editor.title == 1 %}
+    <a href="/ta">TA Home</a>
+    {% elif editor.title == 2 %}
+        <a href="/instructor">Instructor Home</a>
+    {% elif editor.title == 3 %}
+        <a href="/administrator">Admin Home</a>
+    {% else %}
+        <a href="/superviosr">Supervisor Home</a>
 {% endif %}
+<br>
+
 </body>
 
 </html>
