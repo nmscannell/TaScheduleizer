@@ -228,10 +228,6 @@ class taCourse(View):
         message = assignAccCourse(userName=username, courseName=course)
         return render(request, 'assignTACourse.html', {"message": message})
 
-
-class assignAccountSectionView(View):
-    def get(self, request):
-        return render(request, 'assignTASection.html')
 """  
 
 This one will be a bit challenging. Supervisor can assign any TA for any course to a certain section. Instructors can
@@ -295,6 +291,9 @@ class editPubInfoView(View):
 
     def get(self, request):
         CU = CurrentUser()
+        title = CU.getCurrentUser(request)
+        if not title:
+            return render(request, 'errorPage.html', {"message": "You Must log in to View this page"})
         editor = CU.getCurrentUser(request)
         return render(request, 'editPubInfo.html', {'i': editor, "editor" : editor})
 
