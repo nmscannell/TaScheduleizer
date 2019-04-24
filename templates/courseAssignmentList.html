@@ -16,7 +16,8 @@
 
 {%  if i.title == 1 %}
 <a href="/ta/">TA Home</a>
-{% else %}
+{% endif %}
+{% if i.title == 2 %}
 <a href="/instructor/">Instructor Home</a>
 {% endif %}
 {% if i.title == 3 %}<a href="/administrator/">Admin Home</a>
