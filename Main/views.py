@@ -318,7 +318,8 @@ class editPubInfoView(View):
             'officeend': str(request.POST.get('officeend'))}
         CU = CurrentUser()
         editor = CU.getCurrentUser(request)
-        user = Account.objects.get(userName=dict['userName'])
+        print(dict['userName'])
+        user = Account.objects.get(userName=dict['userName'].replace(" ", ""))
         message = editPubInfo(user, dict)
         info = makeUserDictionary(user)
         return render(request, 'editPubInfo_success.html', {"message": message, "i": user, "info": info,
