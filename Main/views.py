@@ -374,7 +374,7 @@ class editUserInfoView(View):
         CU = CurrentUser()
         currentusertitle = CU.getCurrentUserTitle(request)
         editor = CU.getCurrentUser(request)
-        if currentusertitle > 3:
+        if currentusertitle < 3:
             return render(request, 'errorPage.html', {"message": "You do not have permission to view this page"})
 
         instructorList = Account.objects.filter(title=2)

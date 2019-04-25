@@ -224,16 +224,23 @@ def assignAccCourse(userName, courseName):
     # Check if the account is an instructor
     # Check if the course is already assigned
     # Otherwise(if there are no errors found), an instructor can be assigned to a course
+    if instructor.title > 2:
+        return "User is not an instructor or TA"
     a = AccountCourse()
     a.Account = instructor
     a.Course = course
     a.save()
-    return "Instructor was successfully assigned to class"
+    return "User was successfully assigned to course"
 
 
 def assignAccSection(userName, courseNumber, sectionNumber):
     if not Account.objects.filter(userName=userName).exists():
-        return "Invalid account name"
+        return "Invalid user name"
+
+    ta = Account.objects.get(userName=userName)
+
+    if ta.title > 2:
+        return "User is not an instructor or TA"
 
     if not Course.objects.filter(number=courseNumber).exists():
         return "Invalid course number"
@@ -243,22 +250,20 @@ def assignAccSection(userName, courseNumber, sectionNumber):
     if not Section.objects.filter(number=sectionNumber, course=course).exists():
         return "Invalid lab section"
 
-    ta = Account.objects.get(userName=userName)
-
     if not AccountCourse.objects.filter(Account=ta, Course=Course.objects.get(number=courseNumber)).exists():
-        return "TA must be assigned to the Course first"
+        return "User must be assigned to the course first"
 
     lab = Section.objects.get(number=sectionNumber, course=course)
 
     if AccountSection.objects.filter(Section=lab).exists():
-        return "Lab section already assigned"
+        return "Course section already assigned"
 
     p = AccountSection()
     p.Account = ta
     p.Section = lab
     p.save()
 
-    return "TA successfully assigned"
+    return "User successfully assigned to course section"
 
 
 def displayAllCourseAssign():
