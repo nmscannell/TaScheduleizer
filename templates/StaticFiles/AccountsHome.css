@@ -82,3 +82,12 @@ li a:hover:not(.active) {
 .dropdown:hover .dropdown-content {
   display: block;
 }
+
+.footer {
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   color: white;
+   text-align: center;
+}
