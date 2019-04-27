@@ -91,3 +91,19 @@ li a:hover:not(.active) {
    color: black;
    text-align: center;
 }
+#heading{
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 4em;
+    color: darkgreen;
+    letter-spacing: 0.15em;
+    text-shadow:
+    0 0 5px yellow,
+    0 0 10px yellow,
+    0 0 20px yellow,
+    0 0 40px yellow,
+    0 0 80px yellow,
+    0 0 90px yellow,
+    0 0 100px yellow,
+    0 0 150px yellow;
+}
