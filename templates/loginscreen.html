@@ -9,7 +9,7 @@
 </head>
 <body>
 <div class="form-box">
-    <div class="head">SIGN IN</div>
+    <div class="head">" "</div>
  <form class="form" method="post" action="/login/", id="login-form"> <!--Its super important that action matches the url of the page-->
   {%csrf_token%}
       <div class="form-group">
@@ -26,7 +26,7 @@
        </div>
      <input type="submit" value="Login" class="btn" />
       <p class="error">{{ message }}</p>
-      <p class="text-p">Do you want to log in at the command line?    <a href=http://127.0.0.1:8000/command>Move to the command line page</a> </p>
+     <input type="checkbox" name="remember"> Stay Signed in
     </form>
   </div>
 </body>

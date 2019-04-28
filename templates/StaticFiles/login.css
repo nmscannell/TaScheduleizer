@@ -11,6 +11,7 @@ body, html {
     color: red;
     font-size: 20pt;
     font-weight: bolder;
+     text-align: center;
 }
 .blinking{
     animation: blinkingText 0.8s infinite;
@@ -44,7 +45,10 @@ form#login-form {
   padding: 50px 0;
   text-align: center;
   text-transform: uppercase;
-  background: #ff7f31;
+  background: #ffecfe;
+     background-image: url("logo.png");
+      background-repeat: no-repeat;
+    background-position: center;
 }
 .form-group {
   margin-bottom: 15px;
