@@ -5,12 +5,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>Directory</title>
-    <link rel="stylesheet" type = "text/css" href="{% static 'background.css' %}">
+    <link rel="stylesheet" type = "text/css" href="{% static 'courseAssignmentList.css' %}">
 </head>
 <body>
-<h1>Directory</h1>
-{% for i in directory %}
-<p>{{ i }}</p>
+<h1 id="heading">Directory</h1><br>
+{% for j in directory %}
+ <table>
+    <thread>
+        <tr class="topCell">
+            <th colspan="3">{{ j }} </th>
+            <th>{{ j.displayTitle }}</th>
+        </tr>
+    <tr class="midCell">
+        <th > Email: {{ j.email }}: </th>
+        <th colspan="4">Home Phone:
+        {% if  i.title < 3 %}
+                Redacted<br>
+            {% endif %}
+            {%  if i.title >= 3 %}
+                {{ j.homePhone }}<br>
+            {% endif %}
+        </th>
+    </tr>
+        <tr>
+        <td colspan="2">
+            <strong>Address:</strong><br>
+            {% if  i.title < 3 %}
+                Redacted<br>
+            {% endif %}
+            {%  if i.title >= 3 %}
+                {{ j.address }}<br>
+                {{ j.city }} {{ j.state }} {{ j.zipCode }}<br>
+            {% endif %}
+        </td>
+        <td colspan="2">
+            <strong>Something:</strong><br>
+
+        </td>
+        </tr>
+        <tr>
+
+        </tr>
+    </thread>
+    </table><br>
+
 {% endfor %}
 
 {%  if i.title == 1 %}<a href="/ta/">TA Home</a>

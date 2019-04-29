@@ -25,6 +25,14 @@ class Account(models.Model):
     def __str__(self):
         return self.firstName + " " + self.lastName
 
+    def displayTitle(self):
+        t = ""
+        if self.title == 1:
+            t = "TA"
+        else:
+            t = "Instructor"
+        return t
+
     def displayPrivate(self):
         t=""
         if self.title == 1:
