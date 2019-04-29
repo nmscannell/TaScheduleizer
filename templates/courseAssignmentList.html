@@ -9,16 +9,16 @@
     <link rel="stylesheet" type = "text/css" href="{% static 'courseAssignmentList.css' %}">
 </head>
 <body>
-<h1>Course Assignments</h1>
+<h1 id="heading">Course Assignments</h1><br>
 
 
 {% for i in courseList %}
     <table>
     <thread>
-        <tr>
+        <tr class="topCell">
             <th colspan="4">{{ i.name }} CS{{ i.number }}</th>
         </tr>
-    <tr>
+    <tr class="midCell">
         <th> Days: {{ i.classDays }}</th>
         <th>Start: {{ i.classHoursStart }}</th>
         <th>End: {{ i.classHoursEnd }}</th>
@@ -58,8 +58,7 @@
             {% endfor %}
         </tr>
     </thread>
-
-    </table>
+    </table><br>
 {% endfor %}
 
 {%  if i.title == 1 %}
