@@ -141,7 +141,8 @@ li a:hover:not(.active) {
 }
 
 .instagram {
-  background: #125688;
+background: radial-gradient(circle at 30% 107%, #fdf895 0%, #fdfa9a 5%, #fd553d 45%, #d621a8 60%, #285AEB 90%);
+    background: -webkit-radial-gradient(circle at 30% 107%, #fdf895 0%, #fdfa9a 5%, #fd553d 45%, #d621a8 60%, #285AEB 90%);
   color: white;
 }
 
