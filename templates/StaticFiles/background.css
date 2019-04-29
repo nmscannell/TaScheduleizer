@@ -52,3 +52,16 @@ table{
     background-color: white;
     color: red;
 }
+
+.blinking{
+    text-align: center;
+    background-color: white;
+    animation: blinkingText 0.8s infinite;
+    font-weight: bolder;
+    color: red;
+}
+@keyframes blinkingText{
+    0%{     color: red;    }
+    50%{    color: transparent; }
+     100%{   color: red;    }
+}
