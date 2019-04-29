@@ -120,10 +120,10 @@ li a:hover:not(.active) {
 .sns a {
   display: block;
   text-align: center;
-  padding: 5px;
+  padding: 16px;
   transition: all 0.2s ease;
   color: white;
-  font-size: 20px;
+  font-size: 30px;
 }
 
 .sns a:hover {
