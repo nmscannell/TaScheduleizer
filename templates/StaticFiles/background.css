@@ -54,7 +54,10 @@ table{
 }
 
 .blinking{
+    margin-left: auto;
+    margin-right: auto;
     text-align: center;
+    width: 300px;
     background-color: white;
     animation: blinkingText 0.8s infinite;
     font-weight: bolder;
@@ -64,4 +67,27 @@ table{
     0%{     color: red;    }
     50%{    color: transparent; }
      100%{   color: red;    }
+}
+
+input.btn[type="submit"] {
+  background: #6498fe;
+  border:none;
+  border-radius: 2px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  letter-spacing: 3px;
+  margin: 5px 0;
+  outline: medium none;
+  overflow: hidden;
+  padding: 10px;
+  text-transform: uppercase;
+  transition: all 0.15s ease-in-out 0s;
+  width: 200px;
+  box-shadow: 0 1px 2px 0px rgba(0,0,0,0.16), 0 1px 2px 0px rgba(0,0,0,0.23);
+}
+input.btn[type="submit"]:hover {
+  background: #4b81eb;
+  box-shadow: 0 2px 4px 0px rgba(0,0,0,0.16), 0 2px 4px 0px rgba(0,0,0,0.23);
 }
