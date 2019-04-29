@@ -11,7 +11,34 @@
 <h1>Create A Course</h1>
 <form method="post" action="/createcourse/">
   {%csrf_token%}
-      Course Name:
+   <table>
+       <TR>
+           <TD>Course Name</TD>
+           <TD><input type="text" name="name"  required/></TD>
+       </TR>
+       <TR>
+           <TD>Course Number</TD>
+           <TD><input type="text" name="number" required/></TD>
+       </TR>
+       <TR>
+           <TD><input type ="radio" name="onCampus" value="campus"/>On Campus</TD>
+           <TD><input type ="radio"name="onCampus" value="online"/>Online</TD>
+       </TR>
+       <TR>
+           <TD>Days</TD>
+           <TD><input type="text" name="days" required/></TD>
+       </TR>
+       <TR>
+           <TD>Start Time</TD>
+           <TD> <input type ="text" name="start" required/></TD>
+       </TR>
+       <TR>
+           <TD>End Time</TD>
+           <TD><input type="text" name="end" required/></TD>
+       </TR>
+   </table>
+<p><input type="submit"/></p>
+      <!--Course Name:
     <input type="text" name="name"  required/><br>
         Course Number:
     <input type="text" name="number" required/><br>
@@ -23,7 +50,7 @@
     <input type ="text" name="start" required/><br>
     End Time:
     <input type="text" name="end" required/><br>
-    <input type="submit"/><br>
+    <input type="submit"/><br>-->
   </form>
  <p>{{ message }}</p>
 {% if editor.title == 3 %}<a href="/administrator">Admin Home</a>

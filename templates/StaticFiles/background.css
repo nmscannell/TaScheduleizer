@@ -12,3 +12,9 @@ p{
     font-size: 20pt;
     white-space: pre-wrap;
 }
+
+table{
+    margin-left: auto;
+    margin-right: auto;
+
+}
