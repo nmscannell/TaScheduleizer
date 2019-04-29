@@ -9,11 +9,74 @@
 
 </head>
 <body>
-<h1>Edit Information</h1>
+<h1 id="heading">Edit Information</h1><br>
 <form method="post" action="/editpubinfo/">
   {%csrf_token%}
 
-     <p><label for="username">User Name:</label>
+<table>
+       <TR class="cell1">
+           <TD>User Name</TD>
+           <TD><input type="text" name="username" value="{{ i.userName }}" required/></TD>
+       </TR>
+       <TR class="cell2">
+           <TD>First Name</TD>
+           <TD><input type="text" name="firstname" value="{{i.firstName }}" required/></TD>
+       </TR>
+       <TR class="cell1">
+           <TD>Last Name</TD>
+           <TD><input type="text" name="lastname" value="{{ i.lastName }}" required/></TD>
+       </TR>
+       <TR class="cell2">
+           <TD>Email</TD>
+           <TD><input type="email" name="email"  value="{{ i.email }}" required/></TD>
+       </TR>
+       <TR class="cell1">
+           <TD>Password</TD>
+           <TD> <input type ="text" name="password" value="{{ i.password }}" required/></TD>
+       </TR>
+     <TR class="cell2">
+           <TD>Home Phone</TD>
+           <TD> <input type ="text" name="homephone" value="{{ i.homePhone }}" required/></TD>
+       </TR>
+     <TR class="cell1">
+           <TD>Address</TD>
+           <TD> <input type ="text" name="address" value="{{ i.address }}" required/></TD>
+       </TR>
+     <TR class="cell2">
+           <TD>City</TD>
+           <TD> <input type ="text" name="city" value="{{ i.city }}" required/></TD>
+       </TR>
+     <TR class="cell1">
+           <TD>State</TD>
+           <TD> <input type ="text" name="state" value="{{ i.state }}" required/></TD>
+       </TR>
+     <TR class="cell2">
+           <TD>Zip Code</TD>
+           <TD> <input type ="text" name="zipcode" value="{{ i.zipCode }}" required/></TD>
+       </TR>
+     <TR class="cell1">
+           <TD>Office Number</TD>
+           <TD> <input type ="text" name="officenumber" value="{{ i.officeNumber }}" required/></TD>
+       </TR>
+     <TR class="cell2">
+           <TD>Office Phone</TD>
+           <TD> <input type ="text" name="officephone" value="{{ i.officePhone }}" required/></TD>
+       </TR>
+     <TR class="cell1">
+           <TD>Office Days</TD>
+           <TD> <input type ="text" name="officedays" value="{{ i.officeDays }}" required/></TD>
+       </TR>
+     <TR class="cell2">
+           <TD>Office Hours Start</TD>
+           <TD> <input type ="text" name="officestart" value="{{ i.officeHoursStart }}" required/></TD>
+       </TR>
+     <TR class="cell1">
+           <TD>Office Hours End</TD>
+           <TD> <input type ="text" name="officeend" value="{{ i.officeHoursEnd }}" required/></TD>
+       </TR>
+   </table>
+    <input class="btn" type="submit"/><br>
+   <!--  <p><label for="username">User Name:</label>
          <input type="text" name="username" id="username" value="{{ i.userName }}" readonly></p>
      <p><label for="firstname">First Name:</label>
          <input type="text" name="firstname" id = "firstname" value="{{i.firstName }}"></p>
@@ -37,7 +100,7 @@
      <p>Office Hours Start Time: <input type="text" name="officestart" id="officestart" maxlength="4" value="{{ i.officeHoursStart }}"></p>
      <p>Office Hours End Time: <input type="text" name="officeend" id="officeend" maxlength="4" value="{{ i.officeHoursEnd }}"></p>
 
-    <input type="submit"/><br>
+    <input type="submit"/><br> -->
     <p>{{ message }}</p>
     {% for key, value in dict %}
         <p>{{ key }}{{ value }}</p>
