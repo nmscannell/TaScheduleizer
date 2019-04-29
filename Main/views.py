@@ -161,8 +161,14 @@ class courseAssignmentsList(View):
         user = CU.getCurrentUser(request)
         if currentusertitle == 0:
             return render(request, 'errorPage.html', {"message": "You must log in to view this page"})
-        courses = displayAllCourseAssign()
-        return render(request, 'courseAssignmentList.html', {"courseList": courses, "i": user})
+
+        sectionList = Section.objects.all()
+        courses = Course.objects.all()
+        accountList = AccountCourse.objects.all()
+        accountsec = AccountSection.objects.all()
+        return render(request, 'courseAssignmentList.html', {"courseList": courses, "i": user,
+                                                             "accountList": accountList, "sectionList": sectionList,
+                                                             'accountSec': accountsec})
 
 
 class deleteAccount(View):
