@@ -67,3 +67,4 @@ class TestCreateSection(TestCase):
         self.assertEqual(createSection("784", "1", "401", "W", "13m0", "1500"), "Invalid start or end time, please use a 4 digit military time representation")
         self.assertEqual(createSection("784", "1", "401", "W", "8300", "1500"), "Invalid start or end time, please use a 4 digit military time representation")
         self.assertEqual(createSection("784", "1", "401", "W", "1300", "3500"), "Invalid start or end time, please use a 4 digit military time representation")
+        self.assertEqual(createSection("784", "1", "401", "W", "1300", "1100"), "End time must be after start time.")
