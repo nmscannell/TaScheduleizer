@@ -669,5 +669,91 @@ class Test_web(TestCase):
         response = self.c.get('/assigntacourse/')
         self.assertEqual(response.context['message'], "You do not have permission to view this page")
 
+    def test_directory_nologin(self):
+        response = self.c.get('/directory/')
+        self.assertEqual(response.context['message'], "You must log in to view this page")
 
+    def test_editPubInfo_nologin(self):
+        response = self.c.get('/editpubinfo/')
+        self.assertEqual(response.context['message'], "You must log in to view this page")
+
+    def test_createCourse_nologin(self):
+        response = self.c.get('/createcourse/')
+        self.assertEqual(response.context['message'], "You must log in to view this page")
+
+    def test_createCourse_Talogin(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
+        response = self.c.get('/createcourse/')
+        self.assertEqual(response.context['message'], "You do not have permission to view this page")
+
+    def teat_createCourse_InstructorLogin(self):
+        self.c.post('/login/', {'username': 'janewayk123', 'password': '123456'})
+        response = self.c.get('/createcourse/')
+        self.assertEqual(response.context['message'], "You do not have permission to view this page")
+
+    def test_editUserInfo_nologin(self):
+        response = self.c.get('/edituserinfo/')
+        self.assertEqual(response.context['message'], "You must log in to view this page")
+
+    def test_editUserInfo_TaLogin(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
+        response = self.c.get('/edituserinfo/')
+        self.assertEqual(response.context['message'], "You do not have permission to view this page")
+
+    def test_editUserInfo_InstructorLogin(self):
+        self.c.post('/login/', {'username': 'janewayk123', 'password': '123456'})
+        response = self.c.get('/edituserinfo/')
+        self.assertEqual(response.context['message'], "You do not have permission to view this page")
+
+    def test_deleteAccount_nologin(self):
+        response = self.c.get('/deleteaccount/')
+        self.assertEqual(response.context['message'], "You must log in to view this page")
+
+    def test_deleteAccount_TaLogin(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
+        response = self.c.get('/deleteaccount/')
+        self.assertEqual(response.context['message'], "You do not have permission to view this page")
+
+    def test_deleteAccount_InstructorLogin(self):
+        self.c.post('/login/', {'username': 'janewayk123', 'password': '123456'})
+        response = self.c.get('/deleteaccount/')
+        self.assertEqual(response.context['message'], "You do not have permission to view this page")
+
+    def test_deleteCourse_nologin(self):
+        response = self.c.get('/deletecourse/')
+        self.assertEqual(response.context['message'], "You must log in to view this page")
+
+    def test_deleteCourse_TaLogin(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
+        response = self.c.get('/deletecourse/')
+        self.assertEqual(response.context['message'], "You do not have permission to view this page")
+
+    def test_deleteCourse_InstructorLogin(self):
+        self.c.post('/login/', {'username': 'janewayk123', 'password': '123456'})
+        response = self.c.get('/deletecourse/')
+        self.assertEqual(response.context['message'], "You do not have permission to view this page")
+
+    """
+    Delete Account tests Start here
+    """
+
+    def test_deleteAccount_Success(self):
+        response = self.c.post('/deleteaccount/', {'username': 'janewayk123'})
+        self.assertEqual(response.context['message'], "Account successfully deleted")
+
+    def test_deleteAccount_accountNotFound(self):
+        response = self.c.post('/deleteaccount/', {'username': 'secretAccount'})
+        self.assertEqual(response.context['message'], "Account does not exist")
+
+    """
+    Delete Course tests
+    """
+
+    def test_deleteCourse_Success(self):
+        response = self.c.post('/deletecourse/', {'name': 'TemporalMechanics'})
+        self.assertEqual(response.context['message'], "Course successfully deleted")
+
+    def test_deleteCourse_notFound(self):
+        response = self.c.post('/deletecourse/', {'name': 'secretCourse'})
+        self.assertEqual(response.context['message'], "Course not found")
 
