@@ -82,3 +82,76 @@ li a:hover:not(.active) {
 .dropdown:hover .dropdown-content {
   display: block;
 }
+
+.footer {
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   color: black;
+   text-align: center;
+}
+#heading{
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 2em;
+    color: darkgreen;
+    letter-spacing: 0.15em;
+    text-shadow:
+    0 0 5px yellow,
+    0 0 10px yellow,
+    0 0 20px yellow,
+    0 0 40px yellow,
+    0 0 80px yellow,
+    0 0 90px yellow,
+    0 0 100px yellow,
+    0 0 150px yellow;
+}
+
+
+
+.sns {
+  position: fixed;
+  top: 40%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.sns a {
+  display: block;
+  text-align: center;
+  padding: 10px;
+  transition: all 0.2s ease;
+  color: white;
+  font-size: 30px;
+}
+
+.sns a:hover {
+  background-color: #3d35ff;
+}
+
+.facebook {
+  background: #3B5998;
+  color: white;
+}
+
+.twitter {
+  background: #55ACEE;
+  color: white;
+}
+
+.instagram {
+background: radial-gradient(circle at 30% 107%, #fdf895 0%, #fdfa9a 5%, #fd553d 45%, #d621a8 60%, #285AEB 90%);
+    background: -webkit-radial-gradient(circle at 30% 107%, #fdf895 0%, #fdfa9a 5%, #fd553d 45%, #d621a8 60%, #285AEB 90%);
+  color: white;
+}
+
+.youtube {
+  background: #bb0000;
+  color: white;
+}
+
+.content {
+  margin-left: 75px;
+  font-size: 30px;
+}

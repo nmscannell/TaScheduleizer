@@ -9,9 +9,56 @@
     <link rel="stylesheet" type = "text/css" href="{% static 'courseAssignmentList.css' %}">
 </head>
 <body>
-<h1>Course Assignments</h1>
+<h1 id="heading">Course Assignments</h1><br>
+
+
 {% for i in courseList %}
-    <p>{{ i }}</p><br>
+    <table>
+    <thread>
+        <tr class="topCell">
+            <th colspan="4">{{ i.name }} CS{{ i.number }}</th>
+        </tr>
+    <tr class="midCell">
+        <th> Days: {{ i.classDays }}</th>
+        <th>Start: {{ i.classHoursStart }}</th>
+        <th>End: {{ i.classHoursEnd }}</th>
+    </tr>
+        <tr>
+        <td colspan="2">
+            <strong>Instructors:</strong><br>
+            <!--Figure out how get the instructors to list here -->
+            {% for j in accountList %}
+            {% if j.Course.name == i.name and j.Account.title == 2%}
+                {{ j.Account }}<br>
+            {% endif %}
+            {% endfor %}
+        </td>
+        <td colspan="2">
+            <strong>Teaching Assistants:</strong><br>
+            <!--List Tas here -->
+            {% for j in accountList %}
+            {% if j.Course.name == i.name and j.Account.title == 1%}
+                {{ j.Account }}<br>
+            {% endif %}
+            {% endfor %}
+        </td>
+        </tr>
+        <tr>
+            {% for p in sectionList %}
+                {% if p.course.name == i.name %}
+                    <td>
+                    <strong>{{ p }}</strong><br>
+                    {% for r in accountSec %}
+                        {% if r.Section == p %}
+                            {{ r.Account }}<br>
+                        {% endif %}
+                    {% endfor %}
+                    </td>
+                {% endif %}
+            {% endfor %}
+        </tr>
+    </thread>
+    </table><br>
 {% endfor %}
 
 {%  if i.title == 1 %}

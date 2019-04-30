@@ -7,26 +7,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="stylesheet" type = "text/css" href="{% static 'background.css' %}">
 
-    <h1>Create an Account</h1>
+    <h1 id="heading">Create an Account</h1><br>
 
 </head>
 <body>
 <form method="post" action="/createaccount/">
   {%csrf_token%}
 
-      First Name:
-    <input type="text" name="firstname" id="firstname" required/><br>
-        Last Name:
-    <input type="text" name="lastname" id="lastname" required/><br>
-        UserName:
-    <input type="text" name="username" id="username" required/><br>
-        Email:
-    <input type="email" name="email" id="email" required/><br>
+    <table>
+       <TR class="cell1">
+           <TD>First Name</TD>
+           <TD><input type="text" name="firstname"  required/></TD>
+       </TR>
+       <TR class="cell2">
+           <TD>Last Name</TD>
+           <TD><input type="text" name="lastname" required/></TD>
+       </TR>
+       <TR class="cell1">
+           <TD><input type ="radio" name="title" value="ta"/>TA</TD>
+           <TD><input type ="radio"name="title" value="instructor"/>Instructor</TD>
+       </TR>
+       <TR class="cell2">
+           <TD>UserName</TD>
+           <TD><input type="text" name="username" required/></TD>
+       </TR>
+       <TR class="cell1">
+           <TD>Email</TD>
+           <TD> <input type ="email" name="email" required/></TD>
+       </TR>
+   </table>
 
-    <input type="radio" name="title" value="TA"  checked>TA<br>
-    <input type="radio" name="title" value="Instructor">Instructor<br>
-    <input type="submit"/><br>
-    <p>{{ message }}</p>
+<P><input type="submit" class="btn"/></P>
+
+    <p class="blinking">{{ message }}</p>
 
 </form>
 

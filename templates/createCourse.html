@@ -8,24 +8,38 @@
        <link rel="stylesheet" type = "text/css" href="{% static 'background.css' %}">
 </head>
 <body>
-<h1>Create A Course</h1>
+<h1 id="heading">Create A Course</h1><br>
 <form method="post" action="/createcourse/">
   {%csrf_token%}
-      Course Name:
-    <input type="text" name="name"  required/><br>
-        Course Number:
-    <input type="text" name="number" required/><br>
-    <input type ="radio" name="onCampus" value="campus"/>On Campus<br>
-    <input type ="radio"name="onCampus" value="online">Online<br>
-    Days:
-    <input type="text" name="days" required/><br>
-    Start Time:
-    <input type ="text" name="start" required/><br>
-    End Time:
-    <input type="text" name="end" required/><br>
-    <input type="submit"/><br>
+   <table>
+       <TR class="cell1">
+           <TD>Course Name</TD>
+           <TD><input type="text" name="name"  required/></TD>
+       </TR>
+       <TR class="cell2">
+           <TD>Course Number</TD>
+           <TD><input type="text" name="number" required/></TD>
+       </TR>
+       <TR class="cell1">
+           <TD><input type ="radio" name="onCampus" value="campus"/>On Campus</TD>
+           <TD><input type ="radio"name="onCampus" value="online"/>Online</TD>
+       </TR>
+       <TR class="cell2">
+           <TD>Days</TD>
+           <TD><input type="text" name="days" required/></TD>
+       </TR>
+       <TR class="cell1">
+           <TD>Start Time</TD>
+           <TD> <input type ="text" name="start" required/></TD>
+       </TR>
+       <TR class="cell2">
+           <TD>End Time</TD>
+           <TD><input type="text" name="end" required/></TD>
+       </TR>
+   </table>
+<p><input type="submit" class="btn"/></p>
   </form>
- <p>{{ message }}</p>
+ <p class="blinking">{{ message }}</p>
 {% if editor.title == 3 %}<a href="/administrator">Admin Home</a>
 {% endif %}
 {% if editor.title == 4 %}<a href="/supervisor">Supervisor Home</a>
