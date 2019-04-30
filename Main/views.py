@@ -221,6 +221,8 @@ class taCourse(View):
     def get(self, request):
         CU = CurrentUser()
         currentusertitle = CU.getCurrentUserTitle(request)
+        if currentusertitle == 0:
+            return render(request, 'errorPage.html', {"message": "You must log in to view this page"})
         if currentusertitle != 4:
             return render(request, 'errorPage.html', {"message": "You do not have permission to view this page"})
         taList = Account.objects.filter(title=1)
