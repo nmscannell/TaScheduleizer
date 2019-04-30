@@ -271,10 +271,10 @@ def assignAccSection(userName, courseNumber, sectionNumber):
     if not Section.objects.filter(number=sectionNumber, course=course).exists():
         return "Invalid lab section"
 
-    if not re.match('^4[0-9]{2}$', sectionNumber) and account.title == 2:
+    if account.title == 2 and not re.match('^4[0-9]{2}$', sectionNumber):
         return "Instructors must be assigned to 400 level sections."
 
-    if not re.match('^2[0-9]{2}$', sectionNumber) and account.title == 1:
+    if account.title == 1 and not re.match('^2[0-9]{2}$', sectionNumber):
         return "TAs must be assigned to 200 level sections."
 
     lab = Section.objects.get(number=sectionNumber, course=course)
