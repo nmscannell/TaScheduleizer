@@ -160,26 +160,39 @@ def createCourse(name, number, online, days, start, end):
 
 def createSection(courseNumber, type, sectionNumber, days, start, end):
     # Course number checks
-    if not re.match('^[0-9]*$', courseNumber):
+
+    if not re.match('^[0-9]{3}$', courseNumber):
         return "Course number must be numeric and three digits long"
-    if len(courseNumber) > 3 or len(courseNumber) < 3:
-        return "Course number must be numeric and three digits long"
+#    if len(courseNumber) > 3 or len(courseNumber) < 3:
+#        return "Course number must be numeric and three digits long"
 
     # Make sure course that the lab is being created for exists ok
     try:
         c = Course.objects.get(number=courseNumber)
     except Course.DoesNotExist:
-        return "The Course you are trying to create a lab for does not exist"
+        return "The course does not exist."
 
-    # Make sure the course is not online
-    if c.onCampus == False:
-        return "You cannot create a lab for an online course"
+    if type != "0" and type != "1":
+        return "Invalid section type."
 
     # Section number checks
-    if not re.match('^[0-9]*$', sectionNumber):
-        return "Section number must be numeric and three digits long"
-    if len(sectionNumber) > 3 or len(sectionNumber) < 3:
-        return "Section number must be numeric and three digits long"
+#    if not re.match('^2[0-9]{2}$', sectionNumber) and not re.match('^4[0-9]{2}$', sectionNumber):
+ #       return "Section number must be 200 or 400 level, numeric, and three digits long."
+
+    if type == "0" and not re.match('^2[0-9]{2}$', sectionNumber):
+        return "Lab section number must be 200 level, numeric, and three digits long."
+
+    if type == "1" and not re.match('^4[0-9]{2}$', sectionNumber):
+        return "Lecture section number must be 400 level, numeric, and three digits long."
+
+    # Make sure the course is not online
+    if c.onCampus == False and re.match('^2[0-9]{2}$', sectionNumber):
+        return "You cannot create a lab section for an online course."
+
+#    if not re.match('^[0-9]*$', sectionNumber):
+#        return "Section number must be numeric and three digits long"
+#    if len(sectionNumber) > 3 or len(sectionNumber) < 3:
+#        return "Section number must be numeric and three digits long"
 
     # Days check
     for i in days:
@@ -197,7 +210,7 @@ def createSection(courseNumber, type, sectionNumber, days, start, end):
 
     # Make sure the lab does not already exist
     if Section.objects.filter(course=c, number=sectionNumber).exists():
-        return "Lab already exists, lab not added"
+        return "Section already exists; section not added."
     else:
         l = Section.objects.create(course=c)
         l.type = type
@@ -206,7 +219,7 @@ def createSection(courseNumber, type, sectionNumber, days, start, end):
         l.startTime = start
         l.endTime = end
         l.save()
-        return "Lab successfully created"
+        return "Section successfully created."
 
 
 def assignAccCourse(userName, courseName):
