@@ -705,3 +705,35 @@ class Test_web(TestCase):
         response = self.c.get('/edituserinfo/')
         self.assertEqual(response.context['message'], "You do not have permission to view this page")
 
+    def test_deleteAccount_nologin(self):
+        response = self.c.get('/deleteaccount/')
+        self.assertEqual(response.context['message'], "You must log in to view this page")
+
+    def test_deleteAccount_TaLogin(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
+        response = self.c.get('/deleteaccount/')
+        self.assertEqual(response.context['message'], "You do not have permission to view this page")
+
+    def test_deleteAccount_InstructorLogin(self):
+        self.c.post('/login/', {'username': 'janewayk123', 'password': '123456'})
+        response = self.c.get('/deleteaccount/')
+        self.assertEqual(response.context['message'], "You do not have permission to view this page")
+
+    def test_deleteCourse_nologin(self):
+        response = self.c.get('/deletecourse/')
+        self.assertEqual(response.context['message'], "You must log in to view this page")
+
+    def test_deleteCourse_TaLogin(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
+        response = self.c.get('/deletecourse/')
+        self.assertEqual(response.context['message'], "You do not have permission to view this page")
+
+    def test_deleteCourse_InstructorLogin(self):
+        self.c.post('/login/', {'username': 'janewayk123', 'password': '123456'})
+        response = self.c.get('/deletecourse/')
+        self.assertEqual(response.context['message'], "You do not have permission to view this page")
+
+    """
+    Delete Account tests Start here
+    """
+
