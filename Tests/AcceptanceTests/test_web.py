@@ -737,3 +737,23 @@ class Test_web(TestCase):
     Delete Account tests Start here
     """
 
+    def test_deleteAccount_Success(self):
+        response = self.c.post('/deleteaccount/', {'username': 'janewayk123'})
+        self.assertEqual(response.context['message'], "Account successfully deleted")
+
+    def test_deleteAccount_accountNotFound(self):
+        response = self.c.post('/deleteaccount/', {'username': 'secretAccount'})
+        self.assertEqual(response.context['message'], "Account does not exist")
+
+    """
+    Delete Course tests
+    """
+
+    def test_deleteCourse_Success(self):
+        response = self.c.post('/deletecourse/', {'name': 'TemporalMechanics'})
+        self.assertEqual(response.context['message'], "Course successfully deleted")
+
+    def test_deleteCourse_notFound(self):
+        response = self.c.post('/deletecourse/', {'name': 'secretCourse'})
+        self.assertEqual(response.context['message'], "Course not found")
+
