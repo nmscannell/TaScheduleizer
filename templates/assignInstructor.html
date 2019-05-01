@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="stylesheet" type = "text/css" href="{% static 'background.css' %}">
         <link rel="stylesheet" type = "text/css" href="{% static 'accountsHome.css' %}">
+     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+          integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 
      <h1 id="heading">Assign an Instructor to a Course</h1>
 
@@ -26,17 +28,31 @@
 
 <form method="post" action="/assigninstructor/">
   {%csrf_token%}
+
+<div class="box">
+
 <select name = "username">
     {%for i  in instList %}
         <option value="{{ i.userName }}">{{ i }}</option>
     {% endfor %}
 </select>
+
 <select name = "course">
     {%for i  in courseList %}
         <option value="{{ i.name }}">{{ i }}</option>
     {% endfor %}
 </select>
-    <input type="submit"/><br>
+</div>
+
+<br>
+<br>
+<br>
+<br>
+
+
+
+</div>
+   <input type="submit" class="btn"/><br>
     <p>{{ message }}</p>
 
   </form>

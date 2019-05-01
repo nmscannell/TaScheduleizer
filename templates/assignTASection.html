@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="stylesheet" type = "text/css" href="{% static 'background.css' %}">
         <link rel="stylesheet" type = "text/css" href="{% static 'accountsHome.css' %}">
+     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+          integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 
     <h1 id="heading">Assign a TA to a Lab Section</h1>
 
@@ -26,6 +28,9 @@
 
 <form method="post" action="/assignTaSection/">
   {%csrf_token%}
+
+<div class="box">
+
 <select name = "username">
     {%for i  in taList %}
         <option value={{ i.username }}>{{ i }}</option>
@@ -36,7 +41,14 @@
         <option value={{ i.name }}>{{ i }}</option>
     {% endfor %}
 </select>
-    <input type="submit"/><br>
+</div>
+
+<br>
+<br>
+<br>
+<br>
+
+      <input type="submit" class="btn"/><br>
     <p>{{ message }}</p>
 
   </form>
