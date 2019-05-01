@@ -6,9 +6,22 @@
     <title>Create Course</title>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
        <link rel="stylesheet" type = "text/css" href="{% static 'background.css' %}">
+        <link rel="stylesheet" type = "text/css" href="{% static 'accountsHome.css' %}">
 </head>
 <body>
 <h1>Create a Course Section</h1><br>
+
+
+<ul>
+ <li> <a class="active" href="javascript:history.go(-1)">Home</a></li>
+ <li> <a href=" ">Contact</a></li>
+    <li style="float:right"><a href="/logout/">Logout</a></li>
+</ul>
+
+<br>
+<br>
+
+
 <form method="post" action="/createsection/">
   {%csrf_token%}
    <table>

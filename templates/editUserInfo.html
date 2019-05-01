@@ -4,9 +4,22 @@
     <meta charset="UTF-8">
          {% load staticfiles %}
      <link rel="stylesheet" type = "text/css" href="{% static 'background.css' %}">
+        <link rel="stylesheet" type = "text/css" href="{% static 'accountsHome.css' %}">
     <title>Edit User Info</title>
 </head>
 <body>
+
+
+<ul>
+ <li> <a class="active" href="javascript:history.go(-1)">Home</a></li>
+ <li> <a href=" ">Contact</a></li>
+    <li style="float:right"><a href="/logout/">Logout</a></li>
+</ul>
+
+<br>
+<br>
+
+
 <form method="post" action="/edituserinfo/">
   {%csrf_token%}
 <select name = "username">

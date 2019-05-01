@@ -7,9 +7,22 @@
     <title>Course Assignments</title>
       {% load staticfiles %}
     <link rel="stylesheet" type = "text/css" href="{% static 'courseAssignmentList.css' %}">
+        <link rel="stylesheet" type = "text/css" href="{% static 'accountsHome.css' %}">
 </head>
 <body>
 <h1 id="heading">Course Assignments</h1><br>
+
+
+
+
+<ul>
+ <li> <a class="active" href="javascript:history.go(-1)">Home</a></li>
+ <li> <a href=" ">Contact</a></li>
+    <li style="float:right"><a href="/logout/">Logout</a></li>
+</ul>
+
+<br>
+<br>
 
 
 {% for i in courseList %}
