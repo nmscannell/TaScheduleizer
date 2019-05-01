@@ -40,6 +40,8 @@ class Test_web(TestCase):
 
         Section.objects.create(course=Course.objects.get(number="351"), number=804)
 
+        Section.objects.create(course=Course.objects.get(number="351"), number=404)
+
         Section.objects.create(course=Course.objects.get(number="458"), number=804)
 
         # Set up for section testing
@@ -202,56 +204,83 @@ class Test_web(TestCase):
     createSection
     type is an integer field, 1 for lecture section, 0 for lab section. 
     """
-    def test_createSection_success(self):
-        response = self.c.post('/createssection/', {'courseNumber': 520, 'type': False, 'sectionNumber': 403,
-                                                    'classDays': 'TR', 'classHoursStart': 1400,
-                                                    'classHoursEnd': 1600})
-        self.assertEqual(response.context['message'],
-                         "Lab successfully created")
+    def test_createSection_Lab_success(self):
+        response = self.c.post('/createsection/', {'course': 351, 'type': 0, 'number': 201,
+                                                    'days': 'TR', 'start': 1400,
+                                                    'end': 1600})
 
-    def test_createSection_invalidNumber(self):
-        response = self.c.post('/createsection/', {'courseNumber': 5923, 'type': False, 'sectionNumber': 403,
-                                                    'classDays': 'TR', 'classHoursStart': 1400,
-                                                    'classHoursEnd': 1600})
-        self.assertEqual(response.context['message'],
-                         "Course number must be numeric and three digits long")
+        self.assertEqual(response.context['message'], "Section successfully created.")
 
-    def test_createSection_course_not_exists(self):
-        response = self.c.post('/createsection/', {'courseNumber': 536, 'type': False, 'sectionNumber': '803',
-                                                    'classDays': 'MW', 'classHoursStart': 1600,
-                                                    'classHoursEnd': 1800})
-        self.assertEqual(response.context['message'],
-                         "The Course you are trying to create a lab for does not exist")
+    def test_createSection_Lec_success(self):
+        response = self.c.post('/createsection/', {'course': 351, 'type': 1, 'number': 401,
+                                                   'days': 'TR', 'start': 1400,
+                                                   'end': 1600})
 
-    def test_createSection_not_onsite_class(self):
+        self.assertEqual(response.context['message'], "Section successfully created.")
 
-        response = self.c.post('/createsection/', {'courseNumber': '315', 'type': True,
-                                                   'sectionNumber': '802', 'classDays': 'MW',
-                                                  'classHoursStart': 1200, 'classHoursEnd': 1400})
-        self.assertEqual(response.context['message'],
-                         "You cannot create a lab for an online course")
+    def test_createSection_Lec_invalidNumber(self):
+        response = self.c.post('/createsection/', {'course': 351, 'type': 1, 'number': 201,
+                                                   'days': 'TR', 'start': 1400,
+                                                   'end': 1600})
 
-    def test_create_section_invalid_sectNum(self):
-        response = self.c.post('/createsection/', {'courseNumber': '315', 'type': True,
-                                                   'sectionNumber': 1232, 'classDays': 'MW',
-                                                   'classHoursStart': 1200, 'classHoursEnd': 1400})
-        self.assertEqual(response.context['message'],
-                         "Section number must be numeric and three digits long")
+        self.assertEqual(response.context['message'], "Lecture section number must be 400 level, numeric, and three digits long.")
 
-    def test_create_section_invalid_days(self):
-        response = self.c.post('/createsection/', {'courseNumber': '250', 'type': True,
-                                                   'sectionNumber': '804', 'classDays': 'S',
-                                                   'classHoursStart': 1300, 'classHoursEnd': 1600})
-        self.assertEqual(response.context['message'],
+    def test_createSection_Lab_invalidNumber(self):
+        response = self.c.post('/createsection/', {'course': 351, 'type': 0, 'number': 401,
+                                                   'days': 'TR', 'start': 1400,
+                                                   'end': 1600})
 
-                         "Invalid days of the week, please enter days in the format: MWTRF")
+        self.assertEqual(response.context['message'], "Lab section number must be 200 level, numeric, and three digits long.")
 
-    def test_create_section_invalid_times(self):
-        response = self.c.post('/createsection/', {'courseNumber': '251', 'type': True,
-                                                   'sectionNumber': '802', 'classDays': 'MW',
-                                                   'classHoursStart': '17:00', 'classHoursEnd': '20:00'})
+    def test_createSection_Lab_invalidCourseNumber(self):
+        response = self.c.post('/createsection/', {'course': 3551, 'type': 0, 'number': 201,
+                                                   'days': 'TR', 'start': 1400,
+                                                   'end': 1600})
+
+        self.assertEqual(response.context['message'], "Course number must be numeric and three digits long")
+
+    def test_createSection_onlineCourse(self):
+        response = self.c.post('/createsection/', {'course': 564, 'type': 1, 'number': 401,
+                                                   'days': 'TR', 'start': 1400,
+                                                   'end': 1600})
+
+        self.assertEqual(response.context['message'], "You cannot create a lab section for an online course.")
+
+    def test_createSection_invalidDays(self):
+        response = self.c.post('/createsection/', {'course': 351, 'type': 0, 'number': 201,
+                                                   'days': 'TRQ', 'start': 1400,
+                                                   'end': 1600})
+
+        self.assertEqual(response.context['message'], "Invalid days of the week, please enter days in the format: MWTRF")
+
+    def test_createSection_invalidStart(self):
+        response = self.c.post('/createsection/', {'course': 351, 'type': 0, 'number': 201,
+                                                   'days': 'TR', 'start': "Now",
+                                                   'end': 1600})
+
         self.assertEqual(response.context['message'],
                          "Invalid start or end time, please use a 4 digit military time representation")
+
+    def test_createSection_invalidEnd(self):
+        response = self.c.post('/createsection/', {'course': 351, 'type': 0, 'number': 201,
+                                                   'days': 'TR', 'start': 1400,
+                                                   'end': "Never"})
+
+        self.assertEqual(response.context['message'], "Invalid start or end time, please use a 4 digit military time representation")
+
+    def teat_createSection_invalidTime(self):
+        response = self.c.post('/createsection/', {'course': 351, 'type': 1, 'number': 401,
+                                                   'days': 'TR', 'start': 1400,
+                                                   'end': 1300})
+
+        self.assertEqual(response.context['message'], "End time must be after start time.")
+
+    def test_createSection_exists(self):
+        response = self.c.post('/createsection/', {'course': 351, 'type': 1, 'number': 404,
+                                                   'days': 'TR', 'start': 1400,
+                                                   'end': 1600})
+
+        self.assertEqual(response.context['message'], "Section already exists; section not added.")
 
     """
     editPubInfo
@@ -777,3 +806,4 @@ class Test_web(TestCase):
     def test_deleteCourse_notFound(self):
         response = self.c.post('/deletecourse/', {'name': 'secretCourse'})
         self.assertEqual(response.context['message'], "Course not found")
+
