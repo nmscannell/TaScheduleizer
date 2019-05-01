@@ -6,10 +6,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
      {% load staticfiles %}
      <link rel="stylesheet" type = "text/css" href="{% static 'background.css' %}">
+        <link rel="stylesheet" type = "text/css" href="{% static 'accountsHome.css' %}">
 
 </head>
 <body>
-<h1 id="heading">Edit Information</h1><br>
+<h1 id="heading">Edit Information</h1>
+
+
+<ul>
+ <li> <a class="active" href="javascript:history.go(-1)">Home</a></li>
+ <li> <a href=" ">Contact</a></li>
+    <li style="float:right"><a href="/logout/">Logout</a></li>
+</ul>
+
+<br>
+<br>
+
+
 <form method="post" action="/editpubinfo/">
   {%csrf_token%}
 

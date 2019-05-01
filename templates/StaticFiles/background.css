@@ -91,3 +91,41 @@ input.btn[type="submit"]:hover {
   background: #4b81eb;
   box-shadow: 0 2px 4px 0px rgba(0,0,0,0.16), 0 2px 4px 0px rgba(0,0,0,0.23);
 }
+
+.box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+}
+.box select {
+background: #312f33;
+color: #fffe31;
+    padding: 10px;
+    width: 250px;
+    height: 50px;
+    border: none;
+    font-size: 20px;
+    box-shadow: 0 5px 25px rgba(0,0,0,.5);
+    -webkit-appearance: button;
+    outline:none;
+}
+.box:before{
+    content: '\f358';
+    font-family: "Font Awesome 5 Free";
+    position:absolute;
+    top: 0;
+    right: 0;
+    width: 50px;
+    height: 50px;
+    background: #808080;
+    line-height: 50px;
+    color: #fff;
+    font-size:28px;
+    text-align: center;
+    pointer-events: none;
+}
+.box:hover:before{
+    background: #0472ca;
+}

@@ -4,17 +4,35 @@
     <meta charset="UTF-8">
          {% load staticfiles %}
      <link rel="stylesheet" type = "text/css" href="{% static 'background.css' %}">
+        <link rel="stylesheet" type = "text/css" href="{% static 'accountsHome.css' %}">
+     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     <title>Edit User Info</title>
 </head>
 <body>
+
+<h1 id="heading">Edit Information</h1>
+
+
+<ul>
+ <li> <a class="active" href="javascript:history.go(-1)">Home</a></li>
+ <li> <a href=" ">Contact</a></li>
+    <li style="float:right"><a href="/logout/">Logout</a></li>
+</ul>
+
+<br>
+<br>
+
+
 <form method="post" action="/edituserinfo/">
   {%csrf_token%}
+<div class="box">
 <select name = "username">
 <option value="None" selected>None</option>
     {%for i  in stafflist %}
         <option name="username" id="username" value="{{i.userName}}">{{ i }}</option>
     {% endfor %}
 </select>
+</div>
     <input type="submit"/><br>
     <p>{{ message }}</p>
 
