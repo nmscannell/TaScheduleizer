@@ -424,6 +424,11 @@ def getPrivateDataList():
 
 
 def editPubInfo(user, dict):
+    startdefault = Account._meta.get_field('officeHoursStart').get_default()
+    enddefault = Account._meta.get_field('officeHoursEnd').get_default()
+    daysdefault = Account._meta.get_field('officeDays').get_default()
+    officeHoursStart = dict['officestart']
+    officeHoursEnd = dict['officeend']
 
     firstName = dict['firstName']
     if firstName != user.firstName:
@@ -513,8 +518,14 @@ def editPubInfo(user, dict):
             user.officeDays = officeDays
 
     # Start Time and End Time
-    officeHoursStart = dict['officestart']
-    officeHoursEnd = dict['officeend']
+    if officeHoursStart != str(startdefault) and officeHoursEnd == str(enddefault):
+        return "You must enter both a start and end time for office hours"
+    if officeHoursEnd != str(startdefault) and officeHoursStart == str(startdefault):
+        return "You must enter both a start and end time for office hours"
+    if officeHoursEnd != str(enddefault) and officeHoursStart != str(startdefault) and officeDays == str(daysdefault):
+        return "You must enter office days if you enter office hours"
+    if officeDays != str(daysdefault) and (officeHoursStart == str(startdefault) or officeHoursEnd == str(enddefault)):
+        return "You must enter office hours if you enter office days"
     if (officeHoursStart != str(user.officeHoursStart)):
         if checkVaildTimes(officeHoursStart) == False:
             return "Invalid start or end time, please use a 4 digit military time representation"
