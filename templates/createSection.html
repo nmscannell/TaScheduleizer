@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Course</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+       <link rel="stylesheet" type = "text/css" href="{% static 'background.css' %}">
+</head>
+<body>
+<h1>Create a Course Section</h1><br>
+<form method="post" action="/createsection/">
+  {%csrf_token%}
+   <table>
+       <TR class="cell1">
+           <TD>Course</TD>
+           <TD><select name = "course">
+            {%for i  in courseList %}
+            <option name="course" value="{{ i.name }}">{{ i }}</option>
+            {% endfor %}
+            </select></TD>
+       </TR>
+       <TR class="cell2">
+           <TD><input type ="radio" name="type" value="1"/>Lecture</TD>
+           <TD><input type ="radio"name="type" value="0"/>Lab</TD>
+       </TR>
+          <TR class="cell1">
+           <TD>Section Number</TD>
+           <TD><input type="text" name="number" required/></TD>
+       </TR>
+       <TR class="cell2">
+           <TD>Days</TD>
+           <TD><input type="text" name="days" required/></TD>
+       </TR>
+       <TR class="cell1">
+           <TD>Start Time</TD>
+           <TD> <input type ="text" name="start" required/></TD>
+       </TR>
+       <TR class="cell2">
+           <TD>End Time</TD>
+           <TD><input type="text" name="end" required/></TD>
+       </TR>
+   </table>
+<p><input type="submit" class="btn"/></p>
+  </form>
+ <p>{{ message }}</p>
+{% if editor.title == 3 %}<a href="/administrator">Admin Home</a>
+{% endif %}
+{% if editor.title == 4 %}<a href="/supervisor">Supervisor Home</a>
+{% endif %}
+</body>
+</html>

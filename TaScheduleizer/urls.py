@@ -31,10 +31,12 @@ urlpatterns = [
     path('deleteaccount/', views.deleteAccount.as_view()),
     path('assigninstructor/', views.instructorCourse.as_view()),
     path('assigntacourse/', views.taCourse.as_view()),
-    path('assigntasection/', views.instructorCourse.as_view()),
+    path('assignsection/', views.sectionAssignment.as_view()),
+    path('findcourse/', views.accountSection.as_view()),
     path('directory/', views.directoryView.as_view()),
     path('editpubinfo/', views.editPubInfoView.as_view()),
     path('logout/', views.logoutView.as_view()),
     path('createcourse/', views.createCourseView.as_view()),
-    path('edituserinfo/', views.editUserInfoView.as_view())
+    path('edituserinfo/', views.editUserInfoView.as_view()),
+    path('createsection/', views.createSection.as_view())
 ]

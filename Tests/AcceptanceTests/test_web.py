@@ -152,22 +152,19 @@ class Test_web(TestCase):
         response = self.c.post('/createcourse/', {'name': 'ComputerNetwork', 'number': 520,
                                                   'onCampus': 'campus', 'days': 'TR',
                                                   'start': 1400, 'end': 1600})
-        self.assertEqual(response.context['message'],
-                         "Course successfully created")
+        self.assertEqual(response.context['message'], "Course successfully created")
 
     def test_createCourse_invalidNumber(self):
         response = self.c.post('/createcourse/', {'name': 'ComputerNetwork', 'number': 1024,
                                                   'onCampus': 'campus', 'days': 'TR',
                                                   'start': 1400, 'end': 1600})
-        self.assertEqual(response.context['message'],
-                         "Course number must be numeric and three digits long")
+        self.assertEqual(response.context['message'], "Course number must be numeric and three digits long")
 
     def test_createCourse_course_exists(self):
         response = self.c.post('/createcourse/', {'name': 'ComputerSecurity', 'number': 633,
                                                   'onCampus': 'campus', 'days': 'MW',
                                                   'start': 1200, 'end': 1400})
-        self.assertEqual(response.context['message'],
-                         "Course already exists")
+        self.assertEqual(response.context['message'], "Course already exists")
 
     def test_createCourse_invalid_days(self):
 
@@ -188,8 +185,18 @@ class Test_web(TestCase):
         response = self.c.post('/createcourse/', {'name': 'Server Side Web Programming', 'number': 452,
                                                   'onCampus': 'hybrid', 'days': 'TR',
                                                   'start': 1500, 'end': 1700})
-        self.assertEqual(response.context['message'],
-                         "Location is invalid, please enter campus or online.")
+        self.assertEqual(response.context['message'], "Location is invalid, please enter campus or online.")
+
+    def test_createCourse_times_out_of_order(self):
+        response = self.c.post('/createcourse/', {'name': 'Warp Theory', 'number': 332, 'onCampus': 'campus',
+                                                  'days': 'MW', 'start': 1300, 'end': 1200})
+        self.assertEqual(response.context['message'], "The course end time must be after the course start time")
+
+    def test_createCourse_name_exists(self):
+        response = self.c.post('/createcourse/', {'name': 'DataStructures', 'number': 332, 'onCampus': 'campus',
+                                                  'days': 'MW', 'start': 1100, 'end': 1200})
+        self.assertEqual(response.context['message'], "A course with this name already exists")
+
 
     """
     createSection
@@ -411,7 +418,7 @@ class Test_web(TestCase):
     def test_assignInsCourse_success(self):
         self.c.post('/login/', {'username': 'kirkj22', 'password': '678543'})
         response = self.c.post('/assigninstructor/', {'username': 'picard304', 'course':'DataStructures'})
-        self.assertEqual(response.context['message'], "Instructor was successfully assigned to class")
+        self.assertEqual(response.context['message'], "User was successfully assigned to course")
 
     def test_assignInsCourse_course_does_not_exits(self):
         self.c.post('/login/', {'username': 'kirkj22', 'password': '678543'})
@@ -434,7 +441,7 @@ class Test_web(TestCase):
 
     def test_viewPublicInfo_not_logged_in(self):
         response = self.c.get('/directory/')
-        self.assertEqual(response.context['message'], "You Must log in to View this page")
+        self.assertEqual(response.context['message'], "You must log in to view this page")
 
     def test_viewPublicInfo_success(self):
         self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
@@ -705,16 +712,16 @@ class Test_web(TestCase):
         response = self.c.get('/edituserinfo/')
         self.assertEqual(response.context['message'], "You do not have permission to view this page")
 
-    def test_deleteAccount_nologin(self):
+    def test_deleteAccount_nologin2(self):
         response = self.c.get('/deleteaccount/')
         self.assertEqual(response.context['message'], "You must log in to view this page")
 
-    def test_deleteAccount_TaLogin(self):
+    def test_deleteAccount_TaLogin2(self):
         self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.get('/deleteaccount/')
         self.assertEqual(response.context['message'], "You do not have permission to view this page")
 
-    def test_deleteAccount_InstructorLogin(self):
+    def test_deleteAccount_InstructorLogin2(self):
         self.c.post('/login/', {'username': 'janewayk123', 'password': '123456'})
         response = self.c.get('/deleteaccount/')
         self.assertEqual(response.context['message'], "You do not have permission to view this page")
@@ -756,4 +763,3 @@ class Test_web(TestCase):
     def test_deleteCourse_notFound(self):
         response = self.c.post('/deletecourse/', {'name': 'secretCourse'})
         self.assertEqual(response.context['message'], "Course not found")
-

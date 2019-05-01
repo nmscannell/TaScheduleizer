@@ -3,31 +3,26 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Assign Instructor to a Course</title>
+    <title>Assign a User to Course Section</title>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="stylesheet" type = "text/css" href="{% static 'background.css' %}">
 
-    <h1>Assign an Instructor to a Course</h1>
+    <h1>Assign a Uesr to a Course Section</h1>
+    <h3>Choose a course.</h3>
 
 </head>
 <body>
-<form method="post" action="/assigninstructor/">
+<form method="post" action="/findcourse/">
   {%csrf_token%}
-<select name = "username">
-    {%for i  in instList %}
-        <option value="{{ i.userName }}">{{ i }}</option>
-    {% endfor %}
-</select>
 <select name = "course">
     {%for i  in courseList %}
-        <option value="{{ i.name }}"">{{ i }}</option>
+        <option value="{{ i.name }}">{{ i }}</option>
     {% endfor %}
 </select>
     <input type="submit"/><br>
-    <p>{{ message }}</p>
-
   </form>
-<a href="/supervisor">Supervisor Home</a>
+{% if i.title == 4%}<a href="/supervisor">Supervisor Home</a>
+{% endif %}
+{% if i.title == 2 %}<a href="/instructor">Instructor Home</a> {% endif %}
 </body>
-
 </html>
