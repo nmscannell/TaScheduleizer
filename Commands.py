@@ -79,7 +79,7 @@ def createAccount(firstName, lastName, userName, title, email):
         return "Account already exists"
 
     # Make sure the account is trying to be created with a UWM email address
-    if checkValidEmail(email) == False:
+    if not checkValidEmail(email):
         return "The email address you have entered in not valid.  " \
                "Please make sure you are using a uwm email address in the correct format."
 
@@ -117,30 +117,26 @@ def createCourse(name, number, online, days, start, end):
     # Check that the command has the appropriate number of arguments
 
     # Course number checks
-    if not re.match('^[0-9]*$', number):
+    if not containsOnlyDigits(number):
         return "Course number must be numeric and three digits long"
     if len(number) != 3:
         return "Course number must be numeric and three digits long"
     # Check that the course does not already exist
     if Course.objects.filter(number=number).exists():
         return "Course already exists"
+    if Course.objects.filter(name=name).exists():
+        return "A course with this name already exists"
     # Location checks
     if online.lower() != "online" and online.lower() != "campus":
         return "Location is invalid, please enter campus or online."
     # Days check
-    for i in days:
-        if i not in 'MTWRFN':
-            return "Invalid days of the week, please enter days in the format: MWTRF or NN for online"
+    if not checkValidDays(days):
+        return "Invalid days of the week, please enter days in the format: MWTRF or NN for online"
     # Check times
-    startTime = start
-    endTime = end
-    if len(startTime) != 4 or len(endTime) != 4:
+    if not checkVaildTimes(start) or not checkVaildTimes(end):
         return "Invalid start or end time, please use a 4 digit military time representation"
-    if not re.match('^[0-2]*$', startTime[0]) or not re.match('^[0-1]*$', endTime[0]):
-        return "Invalid start or end time, please use a 4 digit military time representation"
-    for i in range(1, 3):
-        if not (re.match('^[0-9]*$', startTime[i])) or not (re.match('^[0-9]*$', endTime[i])):
-            return "Invalid start or end time, please use a 4 digit military time representation"
+    if start > end:
+        return "The course end time must be after the course start time"
 
     # Else the course is ok to be created
     else:
@@ -237,6 +233,9 @@ def assignAccCourse(userName, courseName):
 
     instructor = Account.objects.get(userName=userName)
     course = Course.objects.get(number=Course.objects.get(name=courseName).number)
+
+    if AccountCourse.objects.filter(Account=instructor, Course=course).exists():
+        return "Instructor already assigned to course"
     # title represented as an integer where 4=supervisor 3=administrator
     # 2=Instructor 1=TA. 0=No current User
     # Check if the account is an instructor

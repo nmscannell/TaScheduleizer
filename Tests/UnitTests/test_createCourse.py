@@ -67,3 +67,14 @@ class Test_CreateCourse(TestCase):
                          "Invalid start or end time, please use a 4 digit military time representation")
         self.assertEqual(Commands.createCourse("InterspeciesEthics", "207", "Campus", "M", "1200", "6079"),
                          "Invalid start or end time, please use a 4 digit military time representation")
+
+    def test_times_out_of_order(self):
+        self.assertEqual(Commands.createCourse("InterspeciesEthics", "207", "Campus", "M", "1200", "0900"),
+                         "The course end time must be after the course start time")
+        self.assertEqual(Commands.createCourse("InterspeciesEthics", "207", "Campus", "M", "1400", "1200"),
+                         "The course end time must be after the course start time")
+
+    def test_course_with_name_exists(self):
+        self.assertEqual(Commands.createCourse("WarpTheory", "207", "Campus", "TR", "1400", "1500"),
+                         "A course with this name already exists")
+
