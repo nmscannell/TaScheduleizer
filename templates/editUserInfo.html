@@ -5,6 +5,7 @@
          {% load staticfiles %}
      <link rel="stylesheet" type = "text/css" href="{% static 'background.css' %}">
         <link rel="stylesheet" type = "text/css" href="{% static 'accountsHome.css' %}">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Edit User Info</title>
 </head>
 <body>
@@ -24,12 +25,14 @@
 
 <form method="post" action="/edituserinfo/">
   {%csrf_token%}
+<div class="box">
 <select name = "username">
 <option value="None" selected>None</option>
     {%for i  in stafflist %}
         <option name="username" id="username" value="{{i.userName}}">{{ i }}</option>
     {% endfor %}
 </select>
+</div>
     <input type="submit"/><br>
     <p>{{ message }}</p>
 
