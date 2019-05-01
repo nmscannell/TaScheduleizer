@@ -17,3 +17,43 @@ p
     white-space: pre-wrap;
     color: red;
 }
+
+.topCell
+{
+    background-color: pink;
+}
+
+.midCell
+{
+    background-color: powderblue;
+}
+
+th{
+    height: 25px;
+    width: 500px;
+}
+
+table,td {
+    background-color: white;
+    border: 1px solid black;
+     margin-left: auto;
+    margin-right: auto;
+    height: 50px;
+    width: 500px;
+}
+#heading{
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 2em;
+    color: darkgreen;
+    letter-spacing: 0.15em;
+    text-shadow:
+    0 0 5px yellow,
+    0 0 10px yellow,
+    0 0 20px yellow,
+    0 0 40px yellow,
+    0 0 80px yellow,
+    0 0 90px yellow,
+    0 0 100px yellow,
+    0 0 150px yellow;
+}
