@@ -512,11 +512,8 @@ def editPubInfo(user, dict):
     # Office days
     officeDays = dict['officedays']
     if officeDays != user.officeDays:
-        if checkValidDays(officeDays) == False:
+        if not checkValidDays(officeDays):
             return "Invalid days of the week, please enter days in the format: MWTRF or NN for online"
-        else:
-            user.officeDays = officeDays
-
     # Start Time and End Time
     if officeHoursStart != str(startdefault) and officeHoursEnd == str(enddefault):
         return "You must enter both a start and end time for office hours"
@@ -527,7 +524,7 @@ def editPubInfo(user, dict):
     if officeDays != str(daysdefault) and (officeHoursStart == str(startdefault) or officeHoursEnd == str(enddefault)):
         return "You must enter office hours if you enter office days"
     if (officeHoursStart != str(user.officeHoursStart)):
-        if checkVaildTimes(officeHoursStart) == False:
+        if not checkVaildTimes(officeHoursStart):
             return "Invalid start or end time, please use a 4 digit military time representation"
         else:
             user.officeHoursStart = officeHoursStart
@@ -536,7 +533,7 @@ def editPubInfo(user, dict):
             return "Invalid start or end time, please use a 4 digit military time representation"
         else:
             user.officeHoursEnd = officeHoursEnd
-
+    user.officeDays = officeDays
 
     # Save changes
     user.save()
