@@ -221,6 +221,8 @@ class taCourse(View):
     def get(self, request):
         CU = CurrentUser()
         currentusertitle = CU.getCurrentUserTitle(request)
+        if currentusertitle == 0:
+            return render(request, 'errorPage.html', {"message": "You must log in to view this page"})
         if currentusertitle != 4:
             return render(request, 'errorPage.html', {"message": "You do not have permission to view this page"})
         taList = Account.objects.filter(title=1)
@@ -284,7 +286,7 @@ class directoryView(View):
         title = CU.getCurrentUserTitle(request)
         user = CU.getCurrentUser(request)
         if title == 0:
-            return render(request, 'errorPage.html', {"message": "You Must log in to View this page"})
+            return render(request, 'errorPage.html', {"message": "You must log in to view this page"})
 
         talist = Account.objects.filter(title=1)
         inslist = Account.objects.filter(title=2)
@@ -300,7 +302,7 @@ class editPubInfoView(View):
         CU = CurrentUser()
         title = CU.getCurrentUser(request)
         if not title:
-            return render(request, 'errorPage.html', {"message": "You Must log in to View this page"})
+            return render(request, 'errorPage.html', {"message": "You must log in to view this page"})
         editor = CU.getCurrentUser(request)
         return render(request, 'editPubInfo.html', {'i': editor, "editor" : editor})
 
@@ -355,6 +357,8 @@ class createCourseView(View):
         CU = CurrentUser()
         Acc = CU.getCurrentUser(request)
         currentusertitle = CU.getCurrentUserTitle(request)
+        if currentusertitle == 0:
+            return render(request, 'errorPage.html', {"message": "You must log in to view this page"})
         if currentusertitle < 3:
             return render(request, 'errorPage.html', {"message": "You do not have permission to view this page"})
 
@@ -381,6 +385,8 @@ class editUserInfoView(View):
         CU = CurrentUser()
         currentusertitle = CU.getCurrentUserTitle(request)
         editor = CU.getCurrentUser(request)
+        if currentusertitle == 0:
+            return render(request, 'errorPage.html', {"message": "You must log in to view this page"})
         if currentusertitle < 3:
             return render(request, 'errorPage.html', {"message": "You do not have permission to view this page"})
 

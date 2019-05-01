@@ -200,13 +200,18 @@ def createSection(courseNumber, type, sectionNumber, days, start, end):
             return "Invalid days of the week, please enter days in the format: MWTRF"
 
     # Time checks
-    if len(start) != 4 or len(end) != 4:
+    if not re.match('^[0-2][0-9]{3}$', start) or not re.match('^[0-2][0-9]{3}$', end):
         return "Invalid start or end time, please use a 4 digit military time representation"
-    if not re.match('^[0-2]*$', start[0]) or not re.match('^[0-2]*$', end[0]):
-        return "Invalid start or end time, please use a 4 digit military time representation"
-    for i in range(1, 3):
-        if not (re.match('^[0-9]*$', start[i])) or not (re.match('^[0-9]*$', end[i])):
-            return "Invalid start or end time, please use a 4 digit military time representation"
+    if end < start:
+        return "End time must be after start time."
+
+#    if len(start) != 4 or len(end) != 4:
+#        return "Invalid start or end time, please use a 4 digit military time representation"
+#    if not re.match('^[0-2]*$', start[0]) or not re.match('^[0-2]*$', end[0]):
+#        return "Invalid start or end time, please use a 4 digit military time representation"
+#    for i in range(1, 3):
+#        if not (re.match('^[0-9]*$', start[i])) or not (re.match('^[0-9]*$', end[i])):
+#            return "Invalid start or end time, please use a 4 digit military time representation"
 
     # Make sure the lab does not already exist
     if Section.objects.filter(course=c, number=sectionNumber).exists():
@@ -266,10 +271,10 @@ def assignAccSection(userName, courseNumber, sectionNumber):
     if not Section.objects.filter(number=sectionNumber, course=course).exists():
         return "Invalid lab section"
 
-    if not re.match('^4[0-9]{2}$', sectionNumber) and account.title == 2:
+    if account.title == 2 and not re.match('^4[0-9]{2}$', sectionNumber):
         return "Instructors must be assigned to 400 level sections."
 
-    if not re.match('^2[0-9]{2}$', sectionNumber) and account.title == 1:
+    if account.title == 1 and not re.match('^2[0-9]{2}$', sectionNumber):
         return "TAs must be assigned to 200 level sections."
 
     lab = Section.objects.get(number=sectionNumber, course=course)
