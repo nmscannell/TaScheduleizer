@@ -212,15 +212,16 @@ def createSection(courseNumber, type, sectionNumber, days, start, end):
     # Make sure the lab does not already exist
     if Section.objects.filter(course=c, number=sectionNumber).exists():
         return "Section already exists; section not added."
-    else:
-        l = Section.objects.create(course=c)
-        l.type = type
-        l.sectionNumber = sectionNumber
-        l.meetingDays = days
-        l.startTime = start
-        l.endTime = end
-        l.save()
-        return "Section successfully created."
+    #l = Section.objects.create(course=c)
+    l = Section()
+    l.course = c
+    l.type = type
+    l.number = sectionNumber
+    l.meetingDays = days
+    l.startTime = start
+    l.endTime = end
+    l.save()
+    return "Section successfully created."
 
 
 def assignAccCourse(userName, courseName):
@@ -235,7 +236,7 @@ def assignAccCourse(userName, courseName):
     course = Course.objects.get(number=Course.objects.get(name=courseName).number)
 
     if AccountCourse.objects.filter(Account=instructor, Course=course).exists():
-        return "Instructor already assigned to course"
+        return "User already assigned to course"
     # title represented as an integer where 4=supervisor 3=administrator
     # 2=Instructor 1=TA. 0=No current User
     # Check if the account is an instructor

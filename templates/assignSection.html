@@ -3,12 +3,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Assign Instructor to a Course</title>
+    <title>Assign User to Lab Section</title>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="stylesheet" type = "text/css" href="{% static 'background.css' %}">
         <link rel="stylesheet" type = "text/css" href="{% static 'accountsHome.css' %}">
 
-     <h1 id="heading">Assign an Instructor to a Course</h1>
+     <h1 id="heading">Assign a User to a Course Section</h1>
+    <h3>Choose a user and section number.</h3>
 
 </head>
 <body>
@@ -24,23 +25,26 @@
 <br>
 
 
-<form method="post" action="/assigninstructor/">
+<form method="post" action="/assignsection/">
   {%csrf_token%}
-<select name = "username">
-    {%for i  in instList %}
-        <option value="{{ i.userName }}">{{ i }}</option>
+<input type="text" name="course" value="{{ course }}">
+<select name="account">
+    {%for i  in accountList %}
+        <option name="account" value="{{ i.userName }}">{{ i }}</option>
     {% endfor %}
 </select>
-<select name = "course">
-    {%for i  in courseList %}
-        <option value="{{ i.name }}">{{ i }}</option>
+<select name="section">
+    {%for i  in sectionList %}
+        <option name="section" value="{{ i.number }}">{{ i }}</option>
     {% endfor %}
 </select>
     <input type="submit"/><br>
     <p>{{ message }}</p>
 
   </form>
-<a href="/supervisor">Supervisor Home</a>
-</body>
+{% if i.title == 4%}<a href="/supervisor">Supervisor Home</a>
+{% endif %}
+{% if i.title == 2 %}<a href="/instructor">Instructor Home</a> {% endif %}
 
+</body>
 </html>

@@ -5,7 +5,7 @@
     <title>Title</title>
      <meta name="viewport" content="width=device-width, initial-scale=1"/>
     {% load staticfiles %}
-    <link rel="stylesheet" type = "text/css" href="{% static 'AccountsHome.css' %}">
+    <link rel="stylesheet" type = "text/css" href="{% static 'accountsHome.css' %}">
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <h1 align="center" id="heading"> Supervisor Homepage </h1>
@@ -28,10 +28,11 @@
     </button>
     <div class="dropdown-content">
         <a href="/createcourse">Create a Course</a>
+        <a href="/createsection/">Create a Course Section (under construction)</a>
          <a href="/courseassignments"/>View Course Assignments</a>
-         <a href="/assigninstructor">Assign Instructors to Courses</a>
-         <a href=" ">Assign TAs to Courses(under construction)</a>
-         <a href=" ">Assign TAs to Labs(under construction)</a>
+         <a href="/assigninstructor/">Assign Instructors to Courses</a>
+         <a href="/assigntacourse/">Assign TAs to Courses</a>
+         <a href="/findcourse/">Assign User to Course Section</a>
 
     </div>
 </div> </li>

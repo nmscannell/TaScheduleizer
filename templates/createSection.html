@@ -9,9 +9,8 @@
         <link rel="stylesheet" type = "text/css" href="{% static 'accountsHome.css' %}">
 </head>
 <body>
+ <h1 id="heading">Create a Course Section</h1>
 
-
-<h1 id="heading">Create A Course</h1>
 
 <ul>
  <li> <a class="active" href="javascript:history.go(-1)">Home</a></li>
@@ -19,25 +18,28 @@
     <li style="float:right"><a href="/logout/">Logout</a></li>
 </ul>
 
-
 <br>
 <br>
 
 
-<form method="post" action="/createcourse/">
+<form method="post" action="/createsection/">
   {%csrf_token%}
    <table>
        <TR class="cell1">
-           <TD>Course Name</TD>
-           <TD><input type="text" name="name"  required/></TD>
+           <TD>Course</TD>
+           <TD><select name = "course">
+            {%for i  in courseList %}
+            <option name="course" value="{{ i.name }}">{{ i }}</option>
+            {% endfor %}
+            </select></TD>
        </TR>
        <TR class="cell2">
-           <TD>Course Number</TD>
-           <TD><input type="text" name="number" required/></TD>
+           <TD><input type ="radio" name="type" value="1"/>Lecture</TD>
+           <TD><input type ="radio"name="type" value="0"/>Lab</TD>
        </TR>
-       <TR class="cell1">
-           <TD><input type ="radio" name="onCampus" value="campus"/>On Campus</TD>
-           <TD><input type ="radio"name="onCampus" value="online"/>Online</TD>
+          <TR class="cell1">
+           <TD>Section Number</TD>
+           <TD><input type="text" name="number" required/></TD>
        </TR>
        <TR class="cell2">
            <TD>Days</TD>
@@ -54,7 +56,7 @@
    </table>
 <p><input type="submit" class="btn"/></p>
   </form>
- <p class="blinking">{{ message }}</p>
+ <p>{{ message }}</p>
 {% if editor.title == 3 %}<a href="/administrator">Admin Home</a>
 {% endif %}
 {% if editor.title == 4 %}<a href="/supervisor">Supervisor Home</a>
