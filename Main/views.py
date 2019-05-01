@@ -3,7 +3,7 @@ from django.views import View
 from UserInterface import UI
 
 
-from Commands import login, logout, displayAllCourseAssign, deleteAccountCom, \
+from Commands import login, logout, displayAllCourseAssign, deleteAccountCom, createSection,\
     createAccount, getPrivateDataList, getPublicDataList, editPubInfo, assignAccCourse, createCourse, \
     assignAccSection
 
@@ -273,19 +273,21 @@ class accountSection(View):
                 accountList.append(i.Account)
             #accountList = Account.objects.filter(AccountCourse.objects.filter(Course=course), Title=1)
             sectionList = Section.objects.filter(course=course, type=0)
-        return render(request,'assignSection.html', {"accountList": accountList, "sectionList": sectionList, "i": user})
+        return render(request, 'assignSection.html', {"course": course, "accountList": accountList, "sectionList": sectionList, "i": user})
 
 class sectionAssignment(View):
     def post(self, request):
         CU = CurrentUser()
         user = CU.getCurrentUser(request)
-        account = str(request.POST["account"])
-
+        accountName = str(request.POST["account"])
+        account = Account.objects.get(userName=accountName)
         section = str(request.POST["section"])
-        sec = Section.objects.get(number=section)
+        courseName = str(request.POST["course"])
+        course = Course.objects.get(name=courseName)
+        sec = Section.objects.get(number=section, course=course)
         courseNum = str(sec.course.number)
-        #message = assignAccSection(account, courseNum, section)
-        return render(request, 'assignSection.html', {"message": account, "i": user})
+        message = assignAccSection(accountName, courseNum, section)
+        return render(request, 'assignSection.html', {"message": message, "i": user})
 
 class directoryView(View):
 
@@ -412,7 +414,7 @@ class createSection(View):
         start = str(request.POST["start"])
         end = str(request.POST["end"])
 
-        message = createSection(courseNumber=courseNum, type=type, sectionNumber=number, days=days, start=start,
+        message = createSection(courseNumber="m", type=type, sectionNumber=number, days=days, start=start,
                                 end=end)
         return render(request, 'createSection.html', {"message": message, "editor": Acc})
 
