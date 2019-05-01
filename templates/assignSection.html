@@ -12,16 +12,16 @@
 
 </head>
 <body>
-<form method="post" action="/assignSection/">
+<form method="post" action="/assignsection/">
   {%csrf_token%}
-<select name = "account">
+<select name="account">
     {%for i  in accountList %}
-        <option value={{ i.username }}>{{ i }}</option>
+        <option name="account" value="{{ i.userName }}">{{ i }}</option>
     {% endfor %}
 </select>
-<select name = "section">
+<select name="section">
     {%for i  in sectionList %}
-        <option value={{ i.number }}>{{ i }}</option>
+        <option name="section" value="{{ i.number }}">{{ i }}</option>
     {% endfor %}
 </select>
     <input type="submit"/><br>

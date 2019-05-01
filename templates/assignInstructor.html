@@ -15,12 +15,12 @@
   {%csrf_token%}
 <select name = "username">
     {%for i  in instList %}
-        <option value={{ i.userName }}>{{ i }}</option>
+        <option value="{{ i.userName }}">{{ i }}</option>
     {% endfor %}
 </select>
-<select name = "course", id="course">
+<select name = "course">
     {%for i  in courseList %}
-        <option value={{ i.name }}>{{ i }}</option>
+        <option value="{{ i.name }}"">{{ i }}</option>
     {% endfor %}
 </select>
     <input type="submit"/><br>

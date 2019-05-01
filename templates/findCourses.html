@@ -16,7 +16,7 @@
   {%csrf_token%}
 <select name = "course">
     {%for i  in courseList %}
-        <option value={{ i.name }}>{{ i }}</option>
+        <option value="{{ i.name }}">{{ i }}</option>
     {% endfor %}
 </select>
     <input type="submit"/><br>
