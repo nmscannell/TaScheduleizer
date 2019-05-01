@@ -236,47 +236,6 @@ class taCourse(View):
         message = assignAccCourse(username, course)
         return render(request, 'assignTACourse.html', {"message": message})
 
-"""  
-
-This one will be a bit challenging. Supervisor can assign any TA for any course to a certain section. Instructors can
-only assign TAs for courses they are assigned to. Need to select a course to be able to choose a TA and section.
-
-
-class taSection(View):
-    def get(self, request):
-        CU = CurrentUser()
-        currentusertitle = CU.getCurrentUserTitle(request)
-        if currentusertitle != 4 or currentusertitle != 2:
-            return render(request, 'errorPage.html', {"message": "You do not have permission to view this page"})
-        courseList = []
-        if currentusertitle == 4:
-            courseList = Course.objects.all()
-        else:
-            courseAssigns = AccountCourse.objects.filter(Account=CU.getCurrentUser(request))
-            for a in courseAssigns:
-                courseList.append(str(a.Course))
-
-        return render(request, 'assignTASection.html', {"courseList": courseList})
-
-    def post(self, request):
-        course = str(request.POST["course"])
-        
-
-    def post(self, request):
-        username = str(request.POST["username"])
-        account = Account.objects.get(userName=username)
-        courseAssigns = AccountCourse.objects.filter(Account=account)
-        courseList = []
-        for a in courseAssigns:
-            courseList.append(a.Course.name)
-        return render(request, 'assignTASection.html', {"courseList": courseList})
-
-
-        section = str(request.POST["section"])
-        num = Section.objects.get(name=section).number
-        message = assignAccCourse(userName=username, courseNumber=num)
-        return render(request, 'assignTASection.html', {"message": message})
- """
 class accountSection(View):
     def get(self, request):
         CU = CurrentUser()
@@ -286,31 +245,47 @@ class accountSection(View):
         if currentusertitle == 4:
             courseList = Course.objects.all()
         elif currentusertitle == 2:
-            courseList = Course.objects.filter(AccountCourse.objects.filter(Account=currentuser))
+            aCList = AccountCourse.objects.filter(Account=currentuser)
+            for i in aCList:
+                courseList.append(i.Course)
+            #courseList = Course.objects.filter(AccountCourse.objects.filter(Account=currentuser))
         else:
             return render(request, 'errorPage.html', {"message": "You do not have permission to view this page"})
         return render(request, 'findCourses.html', {"courseList": courseList, "i": currentuser})
 
     def post(self, request):
-        course = str(request.POST["course"])
+        courseName = str(request.POST["course"])
+        course = Course.objects.get(name=courseName)
         CU = CurrentUser()
         title = CU.getCurrentUserTitle(request)
         user = CU.getCurrentUser(request)
+        accountList = []
+        sectionList = []
         if title == 4:
-            accountList = Account.objects.filter(AccountCourse.objects.filter(Course=course))
-            sectionList = Section.objects.filter(Course=course)
+            aCList = AccountCourse.objects.filter(Course=course)
+            for i in aCList:
+                accountList.append(i.Account)
+            #accountList = Account.objects.filter(AccountCourse.objects.filter(Course=course))
+            sectionList = Section.objects.filter(course=course)
         elif title == 2:
-            accountList = Account.objects.filter(AccountCourse.objects.filter(Course=course), Title=1)
-            sectionList = Section.objects.filter(Course=course, type=0)
+            aCList = AccountCourse.objects.filter(Course=course, Title=1)
+            for i in aCList:
+                accountList.append(i.Account)
+            #accountList = Account.objects.filter(AccountCourse.objects.filter(Course=course), Title=1)
+            sectionList = Section.objects.filter(course=course, type=0)
         return render(request,'assignSection.html', {"accountList": accountList, "sectionList": sectionList, "i": user})
 
 class sectionAssignment(View):
     def post(self, request):
+        CU = CurrentUser()
+        user = CU.getCurrentUser(request)
         account = str(request.POST["account"])
+
         section = str(request.POST["section"])
-        courseNum = str(section.Course.number)
-        message = assignAccSection(account, courseNum, section)
-        return render(request, 'assignSection.html', {"message": message})
+        sec = Section.objects.get(number=section)
+        courseNum = str(sec.course.number)
+        #message = assignAccSection(account, courseNum, section)
+        return render(request, 'assignSection.html', {"message": account, "i": user})
 
 class directoryView(View):
 
@@ -411,6 +386,35 @@ class createCourseView(View):
         messsage = createCourse(name, number, onCampus, days, start, end)
         return render(request, 'createCourse.html', {"message": messsage, "editor": Acc})
 
+class createSection(View):
+    def get(self,request):
+        CU = CurrentUser()
+        Acc = CU.getCurrentUser(request)
+        currentusertitle = CU.getCurrentUserTitle(request)
+        courseList = Course.objects.all()
+        if currentusertitle == 0:
+            return render(request, 'errorPage.html', {"message": "You must log in to view this page"})
+        if currentusertitle < 3:
+            return render(request, 'errorPage.html', {"message": "You do not have permission to view this page"})
+
+        return render(request, 'createSection.html', {"editor": Acc, "courseList": courseList})
+
+    def post(self, request):
+        CU = CurrentUser()
+        Acc = CU.getCurrentUser(request)
+
+        courseName = str(request.POST["course"])
+        course = Course.objects.get(name=courseName)
+        courseNum = str(course.number)
+        type = str(request.POST["type"])
+        number = str(request.POST["number"])
+        days = str(request.POST["days"])
+        start = str(request.POST["start"])
+        end = str(request.POST["end"])
+
+        message = createSection(courseNumber=courseNum, type=type, sectionNumber=number, days=days, start=start,
+                                end=end)
+        return render(request, 'createSection.html', {"message": message, "editor": Acc})
 
 class editUserInfoView(View):
 
