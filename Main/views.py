@@ -4,7 +4,8 @@ from UserInterface import UI
 
 
 from Commands import login, logout, displayAllCourseAssign, deleteAccountCom, \
-    createAccount, getPrivateDataList, getPublicDataList, editPubInfo, assignAccCourse, createCourse
+    createAccount, getPrivateDataList, getPublicDataList, editPubInfo, assignAccCourse, createCourse, \
+    assignAccSection
 
 from CurrentUserHelper import CurrentUser
 from Main.models import Account, Course, Section, AccountCourse, AccountSection
@@ -230,8 +231,7 @@ class taCourse(View):
     def post(self, request):
         username = str(request.POST["username"])
         course = str(request.POST["course"])
-        #num = Course.objects.get(name=course).number
-        message = assignAccCourse(userName=username, courseName=course)
+        message = assignAccCourse(username, course)
         return render(request, 'assignTACourse.html', {"message": message})
 
 """  
@@ -275,7 +275,40 @@ class taSection(View):
         message = assignAccCourse(userName=username, courseNumber=num)
         return render(request, 'assignTASection.html', {"message": message})
  """
+class accountSection(View):
+    def get(self, request):
+        CU = CurrentUser()
+        currentuser = CU.getCurrentUser(request)
+        currentusertitle = currentuser.title
+        courseList = []
+        if currentusertitle == 4:
+            courseList = Course.objects.all()
+        elif currentusertitle == 2:
+            courseList = Course.objects.filter(AccountCourse.objects.filter(Account=currentuser))
+        else:
+            return render(request, 'errorPage.html', {"message": "You do not have permission to view this page"})
+        return render(request, 'findCourses.html', {"courseList": courseList, "i": currentuser})
 
+    def post(self, request):
+        course = str(request.POST["course"])
+        CU = CurrentUser()
+        title = CU.getCurrentUserTitle(request)
+        user = CU.getCurrentUser(request)
+        if title == 4:
+            accountList = Account.objects.filter(AccountCourse.objects.filter(Course=course))
+            sectionList = Section.objects.filter(Course=course)
+        elif title == 2:
+            accountList = Account.objects.filter(AccountCourse.objects.filter(Course=course), Title=1)
+            sectionList = Section.objects.filter(Course=course, type=0)
+        return render(request,'assignSection.html', {"accountList": accountList, "sectionList": sectionList, "i": user})
+
+class sectionAssignment(View):
+    def post(self, request):
+        account = str(request.POST["account"])
+        section = str(request.POST["section"])
+        courseNum = str(section.Course.number)
+        message = assignAccSection(account, courseNum, section)
+        return render(request, 'assignSection.html', {"message": message})
 
 class directoryView(View):
 
