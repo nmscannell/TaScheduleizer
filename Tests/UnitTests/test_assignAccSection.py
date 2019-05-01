@@ -39,11 +39,11 @@ class TestAssignAccSection(TestCase):
         self.c2 = Course.objects.create(name="Warp Theory", number="468", onCampus=True, classDays="TR",
                                classHoursStart="1300", classHoursEnd="1500")
         self.c3 = Course.objects.create(name="Political Turmoil in the Klingon Empire", number="492", onCampus=False)
-        Section.objects.create(course=self.c1, type=2, number=401, meetingDays="T", startTime="1500", endTime="1600")
-        Section.objects.create(course=self.c2, type=2, number=401, meetingDays="W", startTime="1500", endTime="1600")
-        Section.objects.create(course=self.c1, type=1, number=201, meetingDays="MW", startTime="0900", endTime="1030")
-        Section.objects.create(course=self.c2, type=1, number=201, meetingDays="TR", startTime="1300", endTime="1500")
-        Section.objects.create(course=self.c3, type=1, number=201, meetingDays="TR", startTime="1300", endTime="1500")
+        Section.objects.create(course=self.c1, type=1, number=401, meetingDays="T", startTime="1500", endTime="1600")
+        Section.objects.create(course=self.c2, type=1, number=401, meetingDays="W", startTime="1500", endTime="1600")
+        Section.objects.create(course=self.c1, type=0, number=201, meetingDays="MW", startTime="0900", endTime="1030")
+        Section.objects.create(course=self.c2, type=0, number=201, meetingDays="TR", startTime="1300", endTime="1500")
+        Section.objects.create(course=self.c3, type=0, number=201, meetingDays="TR", startTime="1300", endTime="1500")
 
     def test_assign_success(self):
         self.assertEqual(assignAccCourse("janewayk123", "Temporal Mechanics"), "User was successfully assigned to course")
