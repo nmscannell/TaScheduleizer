@@ -7,14 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="stylesheet" type = "text/css" href="{% static 'background.css' %}">
     <link rel="stylesheet" type = "text/css" href="{% static 'accountsHome.css' %}">
-      <link rel="stylesheet" type = "text/css" href="{% static 'login.css' %}">
+      <link rel="stylesheet" type = "text/css" href="{% static 'contact.css' %}">
 
     <h1 id="heading">Contact Form</h1>
 </head>
 <body>
 
 <div class="form-box">
-    <div class="head">" "</div>
+    <div class="head"></div>
  <form class="form" method="post" action="/contact/", id="contact-form"> <!--Its super important that action matches the url of the page-->
   {%csrf_token%}
       <div class="form-group">
@@ -29,24 +29,37 @@
           </label>
     <input type="text" name="lastname" id ="lastname" placeholder="LastName" required/>
        </div>
-     <input type="submit" value="submit" class="btn" />
       <p class="error">{{ message }}</p>
     </form>
   </div>
 
 <label for="Position">Position</label>
-        <select id="country" name="country">
-          <option value="ta">TA</option>
-          <option value="instructor">Instructor</option>
-          <option value="supervisor">Supervisor</option>
+        <select id="position" name="position>
+         <option value="ta">TA</option>
+         <option value="ta">TA</option>
+         <option value="instructor">Instructor</option>
+         <option value="supervisor">Supervisor</option>
                  <option value="administrator">Administrator</option>
-                 <option value="">Supervisor</option>
         </select>
-        <label for="subject">Subject</label>
-        <textarea id="subject" name="subject" placeholder="Write something.." style="height:170px"></textarea>
-        <input type="submit" value="Submit">
+        <label for="subject">Message</label>
+        <textarea id="subject" name="subject" placeholder="Write a message" style="height:170px"></textarea>
 
 
+<script src="https://www.google.com/recaptcha/api.js?render=reCAPTCHA_site_key"></script>
+  <script>
+  grecaptcha.ready(function() {
+      grecaptcha.execute('reCAPTCHA_site_key', {action: 'homepage'}).then(function(token) {
+         ...
+      });
+  });
+  </script>
+
+
+<form
+action="https://webdevbasics.net/scripts/demo.php" method="get">
+     <input type="submit" value="submit" class="btn" />
+
+</form>
 
 </body>
 </html>

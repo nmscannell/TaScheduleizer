@@ -454,9 +454,4 @@ class contact(View):
         return render(request, 'contact.html')
 
     def post(self, request):
-        CU = CurrentUser()
-        username = str(request.POST["firstname"])
-        password = str(request.POST["lastname"])
-
-
-        return render(request, 'contact.html',)
+        return render(request, 'contact.html')
