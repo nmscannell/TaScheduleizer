@@ -249,7 +249,6 @@ class accountSection(View):
             aCList = AccountCourse.objects.filter(Account=currentuser)
             for i in aCList:
                 courseList.append(i.Course)
-            #courseList = Course.objects.filter(AccountCourse.objects.filter(Account=currentuser))
         else:
             return render(request, 'errorPage.html', {"message": "You do not have permission to view this page"})
         return render(request, 'findCourses.html', {"courseList": courseList, "i": currentuser})
@@ -266,14 +265,12 @@ class accountSection(View):
             aCList = AccountCourse.objects.filter(Course=course)
             for i in aCList:
                 accountList.append(i.Account)
-            #accountList = Account.objects.filter(AccountCourse.objects.filter(Course=course))
             sectionList = Section.objects.filter(course=course)
         elif title == 2:
             aCList = AccountCourse.objects.filter(Course=course)
             for i in aCList:
                 if i.Account.title == 1:
                     accountList.append(i.Account)
-            #accountList = Account.objects.filter(AccountCourse.objects.filter(Course=course), Title=1)
             sectionList = Section.objects.filter(course=course, type=0)
         return render(request, 'assignSection.html', {"course": course, "accountList": accountList, "sectionList": sectionList, "i": user})
 
