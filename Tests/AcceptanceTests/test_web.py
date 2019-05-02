@@ -281,7 +281,7 @@ class Test_web(TestCase):
 
     def test_editPubInfo_firstName(self):
         self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
-        response = self.c.post('/editpubinfo/', {'username':'picard304', 'firstname': 'James',
+        response = self.c.post('/editpubinfo/', {'username': 'picard304', 'firstname': 'James',
                                                  'lastname': 'Picard', 'email': 'picardj@uwm.edu',
                                                 'password': '90456', 'homephone': '123-456-7893',
                                                 'address': '87 Enterprise Avenue', 'city': 'Alpha', 'state': 'Quadrant',
