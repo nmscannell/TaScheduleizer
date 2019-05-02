@@ -113,7 +113,7 @@ def deleteAccountCom(userName):
     return "Account successfully deleted"
 
 
-def createCourse(name, number, online, days, start, end):
+def createCourse(name, number, online):
     # Check that the command has the appropriate number of arguments
 
     # Course number checks
@@ -130,13 +130,13 @@ def createCourse(name, number, online, days, start, end):
     if online.lower() != "online" and online.lower() != "campus":
         return "Location is invalid, please enter campus or online."
     # Days check
-    if not checkValidDays(days):
-        return "Invalid days of the week, please enter days in the format: MWTRF or NN for online"
+    #if not checkValidDays(days):
+     #   return "Invalid days of the week, please enter days in the format: MWTRF or NN for online"
     # Check times
-    if not checkVaildTimes(start) or not checkVaildTimes(end):
-        return "Invalid start or end time, please use a 4 digit military time representation"
-    if start > end:
-        return "The course end time must be after the course start time"
+    #if not checkVaildTimes(start) or not checkVaildTimes(end):
+     #   return "Invalid start or end time, please use a 4 digit military time representation"
+    #if start > end:
+     #   return "The course end time must be after the course start time"
 
     # Else the course is ok to be created
     else:
@@ -147,9 +147,9 @@ def createCourse(name, number, online, days, start, end):
             c.onCampus = False
         else:
             c.onCampus = True
-            c.classDays = days
-            c.classHoursStart = start
-            c.classHoursEnd = end
+          #  c.classDays = days
+           # c.classHoursStart = start
+           # c.classHoursEnd = end
         c.save()
         return "Course successfully created"
 

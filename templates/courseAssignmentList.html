@@ -31,11 +31,11 @@
         <tr class="topCell">
             <th colspan="4">{{ i.name }} CS{{ i.number }}</th>
         </tr>
-    <tr class="midCell">
+    <!--<tr class="midCell">
         <th> Days: {{ i.classDays }}</th>
         <th>Start: {{ i.classHoursStart }}</th>
         <th>End: {{ i.classHoursEnd }}</th>
-    </tr>
+    </tr>-->
         <tr>
         <td colspan="2">
             <strong>Instructors:</strong><br>
@@ -60,7 +60,8 @@
             {% for p in sectionList %}
                 {% if p.course.name == i.name %}
                     <td>
-                    <strong>{{ p }}</strong><br>
+                    <strong>{{ p }} {{ p.meetingDays }}<br>
+                        {{ p.startTime }}-{{ p.endTime }}</strong><br>
                     {% for r in accountSec %}
                         {% if r.Section == p %}
                             {{ r.Account }}<br>

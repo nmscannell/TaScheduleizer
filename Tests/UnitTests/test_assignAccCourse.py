@@ -24,10 +24,8 @@ class TestAssignAccCourse(TestCase):
                                city="Alpha", state="Quadrant", zipCode="89765", officeNumber="987",
                                officePhone="897-654-398", officeDays="MW", officeHoursStart="1500",
                                officeHoursEnd="1600", currentUser=False)
-        Course.objects.create(name="Temporal Mechanics", number="581", onCampus=True, classDays="MW",
-                              classHoursStart="0900", classHoursEnd="1030")
-        Course.objects.create(name="Warp Theory", number="468", onCampus=True, classDays="TR",
-                              classHoursStart="1300", classHoursEnd="1500")
+        Course.objects.create(name="Temporal Mechanics", number="581", onCampus=True)
+        Course.objects.create(name="Warp Theory", number="468", onCampus=True)
         Course.objects.create(name="Political Turmoil in the Klingon Empire", number="492", onCampus=False)
 
     def test_assign_success(self):
