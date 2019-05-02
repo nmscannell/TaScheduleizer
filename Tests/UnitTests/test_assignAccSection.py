@@ -34,10 +34,8 @@ class TestAssignAccSection(TestCase):
                                city="Alpha", state="Quadrant", zipCode="89765", officeNumber="987",
                                officePhone="897-654-398", officeDays="MW", officeHoursStart="1500",
                                officeHoursEnd="1600", currentUser=False)
-        self.c1 = Course.objects.create(name="Temporal Mechanics", number="581", onCampus=True, classDays="MW",
-                               classHoursStart="0900", classHoursEnd="1030")
-        self.c2 = Course.objects.create(name="Warp Theory", number="468", onCampus=True, classDays="TR",
-                               classHoursStart="1300", classHoursEnd="1500")
+        self.c1 = Course.objects.create(name="Temporal Mechanics", number="581", onCampus=True)
+        self.c2 = Course.objects.create(name="Warp Theory", number="468", onCampus=True)
         self.c3 = Course.objects.create(name="Political Turmoil in the Klingon Empire", number="492", onCampus=False)
         Section.objects.create(course=self.c1, type=1, number=401, meetingDays="T", startTime="1500", endTime="1600")
         Section.objects.create(course=self.c2, type=1, number=401, meetingDays="W", startTime="1500", endTime="1600")

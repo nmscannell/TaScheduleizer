@@ -32,11 +32,9 @@ class Test_web(TestCase):
 
         Account.objects.create(userName="jerry2", firstName="Jerry", lastName="Smith")
         # Set up for Course testing
-        Course.objects.create(name="DataStructures", number=351, onCampus=True, classDays="TR",
-                              classHoursStart=1200, classHoursEnd=1300)
+        Course.objects.create(name="DataStructures", number=351, onCampus=True)
 
-        Course.objects.create(name="ComputerArchitecture", number=458, onCampus=True, classDays="MW",
-                              classHoursStart=1230, classHoursEnd=1345)
+        Course.objects.create(name="ComputerArchitecture", number=458, onCampus=True)
 
         Section.objects.create(course=Course.objects.get(number="351"), number=804)
 
@@ -45,17 +43,13 @@ class Test_web(TestCase):
         Section.objects.create(course=Course.objects.get(number="458"), number=804)
 
         # Set up for section testing
-        Course.objects.create(name="TemporalMechanics", number=784, onCampus=True, classDays="MW",
-                              classHoursStart=1000, classHoursEnd=1100)
+        Course.objects.create(name="TemporalMechanics", number=784, onCampus=True)
 
-        Course.objects.create(name="WarpTheory", number=633, onCampus=True, classDays="TR", classHoursStart=1200,
-                              classHoursEnd=1250)
+        Course.objects.create(name="WarpTheory", number=633, onCampus=True)
 
-        Course.objects.create(name="QuantumMechanics", number=709, onCampus=True, classDays="MWF",
-                              classHoursStart=1030, classHoursEnd=1145)
+        Course.objects.create(name="QuantumMechanics", number=709, onCampus=True)
 
-        Course.objects.create(name="Linguistics", number=564, onCampus=False, classDays="TR",
-                              classHoursStart=1800, classHoursEnd=1930)
+        Course.objects.create(name="Linguistics", number=564, onCampus=False)
 
         self.c1 = Course.objects.get(name="TemporalMechanics")
         self.c2 = Course.objects.get(name="WarpTheory")
@@ -156,51 +150,46 @@ class Test_web(TestCase):
 
     def test_createCourse_success(self):
         response = self.c.post('/createcourse/', {'name': 'ComputerNetwork', 'number': 520,
-                                                  'onCampus': 'campus', 'days': 'TR',
-                                                  'start': 1400, 'end': 1600})
+                                                  'onCampus': 'campus'})
         self.assertEqual(response.context['message'], "Course successfully created")
 
     def test_createCourse_invalidNumber(self):
         response = self.c.post('/createcourse/', {'name': 'ComputerNetwork', 'number': 1024,
-                                                  'onCampus': 'campus', 'days': 'TR',
-                                                  'start': 1400, 'end': 1600})
+                                                  'onCampus': 'campus'})
         self.assertEqual(response.context['message'], "Course number must be numeric and three digits long")
 
     def test_createCourse_course_exists(self):
         response = self.c.post('/createcourse/', {'name': 'ComputerSecurity', 'number': 633,
-                                                  'onCampus': 'campus', 'days': 'MW',
-                                                  'start': 1200, 'end': 1400})
+                                                  'onCampus': 'campus'})
         self.assertEqual(response.context['message'], "Course already exists")
 
-    def test_createCourse_invalid_days(self):
+    #def test_createCourse_invalid_days(self):
 
-        response = self.c.post('/createcourse/', {'name': 'ComputerSecurity', 'number': 469,
-                                                  'onCampus': 'campus', 'days': 'S',
-                                                  'start': 1200, 'end': 1400})
-        self.assertEqual(response.context['message'],
-                         "Invalid days of the week, please enter days in the format: MWTRF or NN for online")
+    #    response = self.c.post('/createcourse/', {'name': 'ComputerSecurity', 'number': 469,
+    #                                              'onCampus': 'campus', 'days': 'S',
+    #                                              'start': 1200, 'end': 1400})
+    #    self.assertEqual(response.context['message'],
+    #                     "Invalid days of the week, please enter days in the format: MWTRF or NN for online")
 
-    def test_createCourse_invalid_times(self):
-        response = self.c.post('/createcourse/', {'name': 'Server Side Web Programming', 'number': 452,
-                                                  'onCampus': 'campus', 'days': 'TR',
-                                                  'start': '15:00', 'end': '17:00'})
-        self.assertEqual(response.context['message'],
-                         "Invalid start or end time, please use a 4 digit military time representation")
+    #def test_createCourse_invalid_times(self):
+    #    response = self.c.post('/createcourse/', {'name': 'Server Side Web Programming', 'number': 452,
+    #                                              'onCampus': 'campus', 'days': 'TR',
+    #                                              'start': '15:00', 'end': '17:00'})
+    #    self.assertEqual(response.context['message'],
+    #                     "Invalid start or end time, please use a 4 digit military time representation")
 
     def test_createCourse_invalid_locations(self):
         response = self.c.post('/createcourse/', {'name': 'Server Side Web Programming', 'number': 452,
-                                                  'onCampus': 'hybrid', 'days': 'TR',
-                                                  'start': 1500, 'end': 1700})
+                                                  'onCampus': 'hybrid'})
         self.assertEqual(response.context['message'], "Location is invalid, please enter campus or online.")
 
-    def test_createCourse_times_out_of_order(self):
-        response = self.c.post('/createcourse/', {'name': 'Warp Theory', 'number': 332, 'onCampus': 'campus',
-                                                  'days': 'MW', 'start': 1300, 'end': 1200})
-        self.assertEqual(response.context['message'], "The course end time must be after the course start time")
+    #def test_createCourse_times_out_of_order(self):
+    #    response = self.c.post('/createcourse/', {'name': 'Warp Theory', 'number': 332, 'onCampus': 'campus',
+    #                                              'days': 'MW', 'start': 1300, 'end': 1200})
+    #    self.assertEqual(response.context['message'], "The course end time must be after the course start time")
 
     def test_createCourse_name_exists(self):
-        response = self.c.post('/createcourse/', {'name': 'DataStructures', 'number': 332, 'onCampus': 'campus',
-                                                  'days': 'MW', 'start': 1100, 'end': 1200})
+        response = self.c.post('/createcourse/', {'name': 'DataStructures', 'number': 332, 'onCampus': 'campus'})
         self.assertEqual(response.context['message'], "A course with this name already exists")
 
 
@@ -492,6 +481,54 @@ class Test_web(TestCase):
                                                  'officedays': 'M', 'officestart': str(self.startdefault),
                                                  'officeend': str(self.enddefault)})
         self.assertEqual(response.context['message'], "You must enter office hours if you enter office days")
+
+    def test_editPubInfo_change_multipleFields_three(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
+        response = self.c.post('/editpubinfo/', {'username': 'picard304', 'firstname': 'James',
+                                                 'lastname': 'Brooks', 'email': 'james@uwm.edu',
+                                                 'password': '90456', 'homephone': '123-456-7893',
+                                                 'address': '87 Enterprise Avenue', 'city': 'Alpha',
+                                                 'state': 'Quadrant',
+                                                 'zipcode': '11111', 'officenumber': '54',
+                                                 'officephone': '777-777-7777',
+                                                 'officedays': 'W', 'officestart': '0900', 'officeend': '1000'})
+        self.assertEqual(response.context['message'], "Fields successfully updated")
+
+    def test_editPubInfo_change_multipleFields_four(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
+        response = self.c.post('/editpubinfo/', {'username': 'picard304', 'firstname': 'Bob',
+                                                 'lastname': 'Smith', 'email': 'bob@uwm.edu',
+                                                 'password': '20987', 'homephone': '123-456-7893',
+                                                 'address': '87 Enterprise Avenue', 'city': 'Alpha',
+                                                 'state': 'Quadrant',
+                                                 'zipcode': '11111', 'officenumber': '54',
+                                                 'officephone': '777-777-7777',
+                                                 'officedays': 'W', 'officestart': '0900', 'officeend': '1000'})
+        self.assertEqual(response.context['message'], "Fields successfully updated")
+
+    def test_editPubInfo_change_multipleFields_five(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
+        response = self.c.post('/editpubinfo/', {'username': 'picard304', 'firstname': 'Mike',
+                                                 'lastname': 'Chay', 'email': 'mike@uwm.edu',
+                                                 'password': 'password', 'homephone': '444-444-4444',
+                                                 'address': '87 Enterprise Avenue', 'city': 'Alpha',
+                                                 'state': 'Quadrant',
+                                                 'zipcode': '11111', 'officenumber': '54',
+                                                 'officephone': '777-777-7777',
+                                                 'officedays': 'W', 'officestart': '0900', 'officeend': '1000'})
+        self.assertEqual(response.context['message'], "Fields successfully updated")
+
+    def test_editPubInfo_change_multipleFields_six(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
+        response = self.c.post('/editpubinfo/', {'username': 'picard304', 'firstname': 'Thomas',
+                                                 'lastname': 'Rivers', 'email': 'tom@uwm.edu',
+                                                 'password': '123456', 'homephone': '444-444-4449',
+                                                 'address': '102 Enterprise Avenue', 'city': 'Alpha',
+                                                 'state': 'Quadrant',
+                                                 'zipcode': '11111', 'officenumber': '54',
+                                                 'officephone': '777-777-7777',
+                                                 'officedays': 'W', 'officestart': '0900', 'officeend': '1000'})
+        self.assertEqual(response.context['message'], "Fields successfully updated")
 
     """
     Assign Account Course tests 

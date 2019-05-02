@@ -384,11 +384,11 @@ class createCourseView(View):
         name = str(request.POST["name"])
         number = str(request.POST["number"])
         onCampus = str(request.POST["onCampus"])
-        days = str(request.POST["days"])
-        start = str(request.POST["start"])
-        end = str(request.POST["end"])
+        #days = str(request.POST["days"])
+        #start = str(request.POST["start"])
+        #end = str(request.POST["end"])
 
-        messsage = createCourse(name, number, onCampus, days, start, end)
+        messsage = createCourse(name, number, onCampus)
 
         return render(request, 'createCourse.html', {"message": messsage, "editor": Acc})
 
