@@ -126,3 +126,5 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'templates/StaticFiles'),
 )
+
+GOOGLE_RECAPTCHA_SECRET_KEY = '6Le5U6EUAAAAAA7bd8gfg277tiZxWk_-foAnRDjP'

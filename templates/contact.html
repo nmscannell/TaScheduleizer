@@ -8,32 +8,34 @@
     <link rel="stylesheet" type = "text/css" href="{% static 'background.css' %}">
     <link rel="stylesheet" type = "text/css" href="{% static 'accountsHome.css' %}">
       <link rel="stylesheet" type = "text/css" href="{% static 'contact.css' %}">
+     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+          integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
 
     <h1 id="heading">Contact Form</h1>
 </head>
 <body>
 
-<div class="form-box">
+
+
+<ul>
+ <li> <a class="active" href="javascript:history.go(-1)">Home</a></li>
+ <li> <a href="/contact">Contact</a></li>
+    <li style="float:right"><a href="/logout/">Logout</a></li>
+</ul>
+
+
     <div class="head"></div>
  <form class="form" method="post" action="/contact/", id="contact-form"> <!--Its super important that action matches the url of the page-->
   {%csrf_token%}
-      <div class="form-group">
-          <label class="label-control">
-            <span class="label-text"></span>
-          </label>
   <input type="text" name="firstname" id ="firstname" placeholder="FirstName" required/>
              </div>
-       <div class="form-group">
-          <label class="label-control">
-            <span class="label-text"></span>
-          </label>
     <input type="text" name="lastname" id ="lastname" placeholder="LastName" required/>
        </div>
-      <p class="error">{{ message }}</p>
     </form>
   </div>
 
-<label for="Position">Position</label>
+<label for="Position"></label>
         <select id="position" name="position>
          <option value="ta">TA</option>
          <option value="ta">TA</option>
@@ -41,10 +43,22 @@
          <option value="supervisor">Supervisor</option>
                  <option value="administrator">Administrator</option>
         </select>
-        <label for="subject">Message</label>
+        <label for="subject"></label>
         <textarea id="subject" name="subject" placeholder="Write a message" style="height:170px"></textarea>
 
 
+
+{% block content %}
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+    <div class="g-recaptcha" data-sitekey="6Le5U6EUAAAAAA6CuD4cCivAMVxdw-1tKfS3b5vS"></div>
+
+
+  </form>
+{% endblock %}
 
 <form
 action="https://webdevbasics.net/scripts/demo.php" method="get">
