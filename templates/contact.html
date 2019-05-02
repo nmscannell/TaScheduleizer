@@ -42,21 +42,26 @@
 <br>
 <br>
 <br>
+<br><br>
+<br>
+<br>
 <br>
         <textarea id="subject" name="subject" placeholder="Write a message" style="height:170px"></textarea>
 
 
 
 {% block content %}
+    <center>
   <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
 
     <script src='https://www.google.com/recaptcha/api.js'></script>
-    <div class="g-recaptcha" data-sitekey="6Le5U6EUAAAAAA6CuD4cCivAMVxdw-1tKfS3b5vS"></div>
+    <div class="g-recaptcha" data-sitekey="6LdkVqEUAAAAAFyRjV5NdYqrglZrhK1m1wxB47aL"></div>
 
 
   </form>
+    </center>
 {% endblock %}
 
 <form
