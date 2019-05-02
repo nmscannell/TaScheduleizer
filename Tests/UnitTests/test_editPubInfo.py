@@ -10,11 +10,16 @@ class Test_editPubInfo(TestCase):
 
         self.c = Client()
 
+        self.startdefault = Account._meta.get_field('officeHoursStart').get_default()
+        self.enddefault = Account._meta.get_field('officeHoursEnd').get_default()
+        self.daysdefault = Account._meta.get_field('officeDays').get_default()
+
         self.j = Account.objects.create(userName="janewayk123", firstName="Kathryn", lastName="Janeway", password="123456",
                                email="janewayk@uwm.edu", title=2, homePhone="555-555-5555",
                                address="14 Voyager Drive", city="Delta", state="Quadrant", zipCode="00000",
                                officeNumber="456", officePhone="555-555-5555", officeDays="TR",
                                officeHoursStart="1300", officeHoursEnd="1400", currentUser=False)
+
 
         self.janeway = {
             'firstName': self.j.firstName,
@@ -346,3 +351,30 @@ class Test_editPubInfo(TestCase):
         self.janeway['officeend'] = "9999"
         self.assertEqual(Commands.editPubInfo(self.j, self.janeway), "Invalid start or end time, please use a "
                                                                      "4 digit military time representation")
+
+    def test_change_times_start_nofinish(self):
+        self.janeway['officestart'] = "1300"
+        self.janeway['officeend'] = str(self.enddefault)
+        self.janeway['officedays'] = "MW"
+        self.assertEqual(Commands.editPubInfo(self.j, self.janeway),
+                         "You must enter both a start and end time for office hours")
+
+    def test_change_times_finish_nostart(self):
+        self.janeway['officestart'] = str(self.startdefault)
+        self.janeway['officeday'] = "MW"
+        self.assertEqual(Commands.editPubInfo(self.j, self.janeway),
+                         "You must enter both a start and end time for office hours")
+
+    def test_times_no_day(self):
+        self.janeway['officestart'] = "1300"
+        self.janeway['officeend'] = "1400"
+        self.janeway['officedays'] = str(self.daysdefault)
+        self.assertEqual(Commands.editPubInfo(self.j, self.janeway),
+                         "You must enter office days if you enter office hours")
+
+    def test_days_no_times(self):
+        self.janeway['officestart'] = str(self.startdefault)
+        self.janeway['officeend'] = str(self.enddefault)
+        self.janeway['officedays'] = 'MW'
+        self.assertEqual(Commands.editPubInfo(self.j, self.janeway),
+                         "You must enter office hours if you enter office days")

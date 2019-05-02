@@ -23,7 +23,7 @@ class TestViewCourseAssign(TestCase):
         self.assertEqual(viewCourseAssign("homer"), "Account not found")
 
     def test_viewCourseAssign_noAssignments(self):
-        self.assertEqual(viewCourseAssign("joe"), "joe does not have any assignments")
+        self.assertEqual(viewCourseAssign("joe"), "Joe Cool does not have any assignments")
 
     def test_viewCourseAssign_Instructor_1Course(self):
         AccountCourse.objects.get(Account=self.account1, Course=self.course2).delete()
@@ -43,7 +43,7 @@ class TestViewCourseAssign(TestCase):
         AccountSection.objects.create(Account=self.account2, Section=self.lab2)
 
         self.assertEqual(viewCourseAssign("taman"),
-                         "Rob Buzzsaw is assigned to: IntroSoftwareEngineering section 801, English section 801")
+                         "Rob Buzzsaw is assigned to: IntroSoftwareEngineering LAB 801, English LAB 801")
 
     def test_viewCourseAssign_Ta_2CourseLab_1Course(self):
         self.lab2 = Section.objects.create(number='801', course=self.course2)

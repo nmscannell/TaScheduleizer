@@ -32,28 +32,24 @@ class Test_web(TestCase):
 
         Account.objects.create(userName="jerry2", firstName="Jerry", lastName="Smith")
         # Set up for Course testing
-        Course.objects.create(name="DataStructures", number=351, onCampus=True, classDays="TR",
-                              classHoursStart=1200, classHoursEnd=1300)
+        Course.objects.create(name="DataStructures", number=351, onCampus=True)
 
-        Course.objects.create(name="ComputerArchitecture", number=458, onCampus=True, classDays="MW",
-                              classHoursStart=1230, classHoursEnd=1345)
+        Course.objects.create(name="ComputerArchitecture", number=458, onCampus=True)
 
         Section.objects.create(course=Course.objects.get(number="351"), number=804)
+
+        Section.objects.create(course=Course.objects.get(number="351"), number=404)
 
         Section.objects.create(course=Course.objects.get(number="458"), number=804)
 
         # Set up for section testing
-        Course.objects.create(name="TemporalMechanics", number=784, onCampus=True, classDays="MW",
-                              classHoursStart=1000, classHoursEnd=1100)
+        Course.objects.create(name="TemporalMechanics", number=784, onCampus=True)
 
-        Course.objects.create(name="WarpTheory", number=633, onCampus=True, classDays="TR", classHoursStart=1200,
-                              classHoursEnd=1250)
+        Course.objects.create(name="WarpTheory", number=633, onCampus=True)
 
-        Course.objects.create(name="QuantumMechanics", number=709, onCampus=True, classDays="MWF",
-                              classHoursStart=1030, classHoursEnd=1145)
+        Course.objects.create(name="QuantumMechanics", number=709, onCampus=True)
 
-        Course.objects.create(name="Linguistics", number=564, onCampus=False, classDays="TR",
-                              classHoursStart=1800, classHoursEnd=1930)
+        Course.objects.create(name="Linguistics", number=564, onCampus=False)
 
         self.c1 = Course.objects.get(name="TemporalMechanics")
         self.c2 = Course.objects.get(name="WarpTheory")
@@ -82,6 +78,10 @@ class Test_web(TestCase):
         # setup for directory view
         self.pubDirecotry = getPublicDataList()
         self.privateDirecotry = getPrivateDataList()
+
+        self.startdefault = Account._meta.get_field('officeHoursStart').get_default()
+        self.enddefault = Account._meta.get_field('officeHoursEnd').get_default()
+        self.daysdefault = Account._meta.get_field('officeDays').get_default()
 
     """
     login
@@ -150,51 +150,46 @@ class Test_web(TestCase):
 
     def test_createCourse_success(self):
         response = self.c.post('/createcourse/', {'name': 'ComputerNetwork', 'number': 520,
-                                                  'onCampus': 'campus', 'days': 'TR',
-                                                  'start': 1400, 'end': 1600})
+                                                  'onCampus': 'campus'})
         self.assertEqual(response.context['message'], "Course successfully created")
 
     def test_createCourse_invalidNumber(self):
         response = self.c.post('/createcourse/', {'name': 'ComputerNetwork', 'number': 1024,
-                                                  'onCampus': 'campus', 'days': 'TR',
-                                                  'start': 1400, 'end': 1600})
+                                                  'onCampus': 'campus'})
         self.assertEqual(response.context['message'], "Course number must be numeric and three digits long")
 
     def test_createCourse_course_exists(self):
         response = self.c.post('/createcourse/', {'name': 'ComputerSecurity', 'number': 633,
-                                                  'onCampus': 'campus', 'days': 'MW',
-                                                  'start': 1200, 'end': 1400})
+                                                  'onCampus': 'campus'})
         self.assertEqual(response.context['message'], "Course already exists")
 
-    def test_createCourse_invalid_days(self):
+    #def test_createCourse_invalid_days(self):
 
-        response = self.c.post('/createcourse/', {'name': 'ComputerSecurity', 'number': 469,
-                                                  'onCampus': 'campus', 'days': 'S',
-                                                  'start': 1200, 'end': 1400})
-        self.assertEqual(response.context['message'],
-                         "Invalid days of the week, please enter days in the format: MWTRF or NN for online")
+    #    response = self.c.post('/createcourse/', {'name': 'ComputerSecurity', 'number': 469,
+    #                                              'onCampus': 'campus', 'days': 'S',
+    #                                              'start': 1200, 'end': 1400})
+    #    self.assertEqual(response.context['message'],
+    #                     "Invalid days of the week, please enter days in the format: MWTRF or NN for online")
 
-    def test_createCourse_invalid_times(self):
-        response = self.c.post('/createcourse/', {'name': 'Server Side Web Programming', 'number': 452,
-                                                  'onCampus': 'campus', 'days': 'TR',
-                                                  'start': '15:00', 'end': '17:00'})
-        self.assertEqual(response.context['message'],
-                         "Invalid start or end time, please use a 4 digit military time representation")
+    #def test_createCourse_invalid_times(self):
+    #    response = self.c.post('/createcourse/', {'name': 'Server Side Web Programming', 'number': 452,
+    #                                              'onCampus': 'campus', 'days': 'TR',
+    #                                              'start': '15:00', 'end': '17:00'})
+    #    self.assertEqual(response.context['message'],
+    #                     "Invalid start or end time, please use a 4 digit military time representation")
 
     def test_createCourse_invalid_locations(self):
         response = self.c.post('/createcourse/', {'name': 'Server Side Web Programming', 'number': 452,
-                                                  'onCampus': 'hybrid', 'days': 'TR',
-                                                  'start': 1500, 'end': 1700})
+                                                  'onCampus': 'hybrid'})
         self.assertEqual(response.context['message'], "Location is invalid, please enter campus or online.")
 
-    def test_createCourse_times_out_of_order(self):
-        response = self.c.post('/createcourse/', {'name': 'Warp Theory', 'number': 332, 'onCampus': 'campus',
-                                                  'days': 'MW', 'start': 1300, 'end': 1200})
-        self.assertEqual(response.context['message'], "The course end time must be after the course start time")
+    #def test_createCourse_times_out_of_order(self):
+    #    response = self.c.post('/createcourse/', {'name': 'Warp Theory', 'number': 332, 'onCampus': 'campus',
+    #                                              'days': 'MW', 'start': 1300, 'end': 1200})
+    #    self.assertEqual(response.context['message'], "The course end time must be after the course start time")
 
     def test_createCourse_name_exists(self):
-        response = self.c.post('/createcourse/', {'name': 'DataStructures', 'number': 332, 'onCampus': 'campus',
-                                                  'days': 'MW', 'start': 1100, 'end': 1200})
+        response = self.c.post('/createcourse/', {'name': 'DataStructures', 'number': 332, 'onCampus': 'campus'})
         self.assertEqual(response.context['message'], "A course with this name already exists")
 
 
@@ -202,56 +197,83 @@ class Test_web(TestCase):
     createSection
     type is an integer field, 1 for lecture section, 0 for lab section. 
     """
-    def test_createSection_success(self):
-        response = self.c.post('/createssection/', {'courseNumber': 520, 'type': False, 'sectionNumber': 403,
-                                                    'classDays': 'TR', 'classHoursStart': 1400,
-                                                    'classHoursEnd': 1600})
-        self.assertEqual(response.context['message'],
-                         "Lab successfully created")
+    def test_createSection_Lab_success(self):
+        response = self.c.post('/createsection/', {'course': 351, 'type': 0, 'number': 201,
+                                                    'days': 'TR', 'start': 1400,
+                                                    'end': 1600})
 
-    def test_createSection_invalidNumber(self):
-        response = self.c.post('/createsection/', {'courseNumber': 5923, 'type': False, 'sectionNumber': 403,
-                                                    'classDays': 'TR', 'classHoursStart': 1400,
-                                                    'classHoursEnd': 1600})
-        self.assertEqual(response.context['message'],
-                         "Course number must be numeric and three digits long")
+        self.assertEqual(response.context['message'], "Section successfully created.")
 
-    def test_createSection_course_not_exists(self):
-        response = self.c.post('/createsection/', {'courseNumber': 536, 'type': False, 'sectionNumber': '803',
-                                                    'classDays': 'MW', 'classHoursStart': 1600,
-                                                    'classHoursEnd': 1800})
-        self.assertEqual(response.context['message'],
-                         "The Course you are trying to create a lab for does not exist")
+    def test_createSection_Lec_success(self):
+        response = self.c.post('/createsection/', {'course': 351, 'type': 1, 'number': 401,
+                                                   'days': 'TR', 'start': 1400,
+                                                   'end': 1600})
 
-    def test_createSection_not_onsite_class(self):
+        self.assertEqual(response.context['message'], "Section successfully created.")
 
-        response = self.c.post('/createsection/', {'courseNumber': '315', 'type': True,
-                                                   'sectionNumber': '802', 'classDays': 'MW',
-                                                  'classHoursStart': 1200, 'classHoursEnd': 1400})
-        self.assertEqual(response.context['message'],
-                         "You cannot create a lab for an online course")
+    def test_createSection_Lec_invalidNumber(self):
+        response = self.c.post('/createsection/', {'course': 351, 'type': 1, 'number': 201,
+                                                   'days': 'TR', 'start': 1400,
+                                                   'end': 1600})
 
-    def test_create_section_invalid_sectNum(self):
-        response = self.c.post('/createsection/', {'courseNumber': '315', 'type': True,
-                                                   'sectionNumber': 1232, 'classDays': 'MW',
-                                                   'classHoursStart': 1200, 'classHoursEnd': 1400})
-        self.assertEqual(response.context['message'],
-                         "Section number must be numeric and three digits long")
+        self.assertEqual(response.context['message'], "Lecture section number must be 400 level, numeric, and three digits long.")
 
-    def test_create_section_invalid_days(self):
-        response = self.c.post('/createsection/', {'courseNumber': '250', 'type': True,
-                                                   'sectionNumber': '804', 'classDays': 'S',
-                                                   'classHoursStart': 1300, 'classHoursEnd': 1600})
-        self.assertEqual(response.context['message'],
+    def test_createSection_Lab_invalidNumber(self):
+        response = self.c.post('/createsection/', {'course': 351, 'type': 0, 'number': 401,
+                                                   'days': 'TR', 'start': 1400,
+                                                   'end': 1600})
 
-                         "Invalid days of the week, please enter days in the format: MWTRF")
+        self.assertEqual(response.context['message'], "Lab section number must be 200 level, numeric, and three digits long.")
 
-    def test_create_section_invalid_times(self):
-        response = self.c.post('/createsection/', {'courseNumber': '251', 'type': True,
-                                                   'sectionNumber': '802', 'classDays': 'MW',
-                                                   'classHoursStart': '17:00', 'classHoursEnd': '20:00'})
+    def test_createSection_Lab_invalidCourseNumber(self):
+        response = self.c.post('/createsection/', {'course': 3551, 'type': 0, 'number': 201,
+                                                   'days': 'TR', 'start': 1400,
+                                                   'end': 1600})
+
+        self.assertEqual(response.context['message'], "Course number must be numeric and three digits long")
+
+    def test_createSection_onlineCourse(self):
+        response = self.c.post('/createsection/', {'course': 564, 'type': 1, 'number': 401,
+                                                   'days': 'TR', 'start': 1400,
+                                                   'end': 1600})
+
+        self.assertEqual(response.context['message'], "You cannot create a lab section for an online course.")
+
+    def test_createSection_invalidDays(self):
+        response = self.c.post('/createsection/', {'course': 351, 'type': 0, 'number': 201,
+                                                   'days': 'TRQ', 'start': 1400,
+                                                   'end': 1600})
+
+        self.assertEqual(response.context['message'], "Invalid days of the week, please enter days in the format: MWTRF")
+
+    def test_createSection_invalidStart(self):
+        response = self.c.post('/createsection/', {'course': 351, 'type': 0, 'number': 201,
+                                                   'days': 'TR', 'start': "Now",
+                                                   'end': 1600})
+
         self.assertEqual(response.context['message'],
                          "Invalid start or end time, please use a 4 digit military time representation")
+
+    def test_createSection_invalidEnd(self):
+        response = self.c.post('/createsection/', {'course': 351, 'type': 0, 'number': 201,
+                                                   'days': 'TR', 'start': 1400,
+                                                   'end': "Never"})
+
+        self.assertEqual(response.context['message'], "Invalid start or end time, please use a 4 digit military time representation")
+
+    def teat_createSection_invalidTime(self):
+        response = self.c.post('/createsection/', {'course': 351, 'type': 1, 'number': 401,
+                                                   'days': 'TR', 'start': 1400,
+                                                   'end': 1300})
+
+        self.assertEqual(response.context['message'], "End time must be after start time.")
+
+    def test_createSection_exists(self):
+        response = self.c.post('/createsection/', {'course': 351, 'type': 1, 'number': 404,
+                                                   'days': 'TR', 'start': 1400,
+                                                   'end': 1600})
+
+        self.assertEqual(response.context['message'], "Section already exists; section not added.")
 
     """
     editPubInfo
@@ -259,7 +281,7 @@ class Test_web(TestCase):
 
     def test_editPubInfo_firstName(self):
         self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
-        response = self.c.post('/editpubinfo/', {'username':'picard304', 'firstname': 'James',
+        response = self.c.post('/editpubinfo/', {'username': 'picard304', 'firstname': 'James',
                                                  'lastname': 'Picard', 'email': 'picardj@uwm.edu',
                                                 'password': '90456', 'homephone': '123-456-7893',
                                                 'address': '87 Enterprise Avenue', 'city': 'Alpha', 'state': 'Quadrant',
@@ -410,6 +432,103 @@ class Test_web(TestCase):
                                                       "4 digit military time representation")
 
 
+    def test_editPubInfo_start_no_end(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
+        response = self.c.post('/editpubinfo/', {'username':'picard304','firstname': 'Jean Luc',
+                                                 'lastname': 'Picard', 'email': 'picardj@uwm.edu',
+                                                'password': '90456', 'homephone': '123-456-7893',
+                                                'address': '87 Enterprise Avenue', 'city': 'Alpha', 'state': 'Quadrant',
+                                                'zipcode': '11111', 'officenumber': '54', 'officephone': '777-777-7777',
+                                                'officedays': 'W', 'officestart': '1300',
+                                                 'officeend': str(self.enddefault)})
+        self.assertEqual(response.context['message'], "You must enter both a start and end time for office hours")
+
+    def test_editPubInfo_end_noStart(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
+        response = self.c.post('/editpubinfo/', {'username': 'picard304', 'firstname': 'Jean Luc',
+                                                 'lastname': 'Picard', 'email': 'picardj@uwm.edu',
+                                                 'password': '90456', 'homephone': '123-456-7893',
+                                                 'address': '87 Enterprise Avenue', 'city': 'Alpha',
+                                                 'state': 'Quadrant',
+                                                 'zipcode': '11111', 'officenumber': '54',
+                                                 'officephone': '777-777-7777',
+                                                 'officedays': 'W', 'officestart': str(self.startdefault),
+                                                 'officeend': '1400'})
+        self.assertEqual(response.context['message'], "You must enter both a start and end time for office hours")
+
+    def test_editPubInfo_times_noDays(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
+        response = self.c.post('/editpubinfo/', {'username': 'picard304', 'firstname': 'Jean Luc',
+                                                 'lastname': 'Picard', 'email': 'picardj@uwm.edu',
+                                                 'password': '90456', 'homephone': '123-456-7893',
+                                                 'address': '87 Enterprise Avenue', 'city': 'Alpha',
+                                                 'state': 'Quadrant',
+                                                 'zipcode': '11111', 'officenumber': '54',
+                                                 'officephone': '777-777-7777',
+                                                 'officedays': str(self.daysdefault), 'officestart': '1300',
+                                                 'officeend': '1400'})
+        self.assertEqual(response.context['message'], "You must enter office days if you enter office hours")
+
+    def test_editPubInfo_days_noTimes(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
+        response = self.c.post('/editpubinfo/', {'username': 'picard304', 'firstname': 'Jean Luc',
+                                                 'lastname': 'Picard', 'email': 'picardj@uwm.edu',
+                                                 'password': '90456', 'homephone': '123-456-7893',
+                                                 'address': '87 Enterprise Avenue', 'city': 'Alpha',
+                                                 'state': 'Quadrant',
+                                                 'zipcode': '11111', 'officenumber': '54',
+                                                 'officephone': '777-777-7777',
+                                                 'officedays': 'M', 'officestart': str(self.startdefault),
+                                                 'officeend': str(self.enddefault)})
+        self.assertEqual(response.context['message'], "You must enter office hours if you enter office days")
+
+    def test_editPubInfo_change_multipleFields_three(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
+        response = self.c.post('/editpubinfo/', {'username': 'picard304', 'firstname': 'James',
+                                                 'lastname': 'Brooks', 'email': 'james@uwm.edu',
+                                                 'password': '90456', 'homephone': '123-456-7893',
+                                                 'address': '87 Enterprise Avenue', 'city': 'Alpha',
+                                                 'state': 'Quadrant',
+                                                 'zipcode': '11111', 'officenumber': '54',
+                                                 'officephone': '777-777-7777',
+                                                 'officedays': 'W', 'officestart': '0900', 'officeend': '1000'})
+        self.assertEqual(response.context['message'], "Fields successfully updated")
+
+    def test_editPubInfo_change_multipleFields_four(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
+        response = self.c.post('/editpubinfo/', {'username': 'picard304', 'firstname': 'Bob',
+                                                 'lastname': 'Smith', 'email': 'bob@uwm.edu',
+                                                 'password': '20987', 'homephone': '123-456-7893',
+                                                 'address': '87 Enterprise Avenue', 'city': 'Alpha',
+                                                 'state': 'Quadrant',
+                                                 'zipcode': '11111', 'officenumber': '54',
+                                                 'officephone': '777-777-7777',
+                                                 'officedays': 'W', 'officestart': '0900', 'officeend': '1000'})
+        self.assertEqual(response.context['message'], "Fields successfully updated")
+
+    def test_editPubInfo_change_multipleFields_five(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
+        response = self.c.post('/editpubinfo/', {'username': 'picard304', 'firstname': 'Mike',
+                                                 'lastname': 'Chay', 'email': 'mike@uwm.edu',
+                                                 'password': 'password', 'homephone': '444-444-4444',
+                                                 'address': '87 Enterprise Avenue', 'city': 'Alpha',
+                                                 'state': 'Quadrant',
+                                                 'zipcode': '11111', 'officenumber': '54',
+                                                 'officephone': '777-777-7777',
+                                                 'officedays': 'W', 'officestart': '0900', 'officeend': '1000'})
+        self.assertEqual(response.context['message'], "Fields successfully updated")
+
+    def test_editPubInfo_change_multipleFields_six(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
+        response = self.c.post('/editpubinfo/', {'username': 'picard304', 'firstname': 'Thomas',
+                                                 'lastname': 'Rivers', 'email': 'tom@uwm.edu',
+                                                 'password': '123456', 'homephone': '444-444-4449',
+                                                 'address': '102 Enterprise Avenue', 'city': 'Alpha',
+                                                 'state': 'Quadrant',
+                                                 'zipcode': '11111', 'officenumber': '54',
+                                                 'officephone': '777-777-7777',
+                                                 'officedays': 'W', 'officestart': '0900', 'officeend': '1000'})
+        self.assertEqual(response.context['message'], "Fields successfully updated")
 
     """
     Assign Account Course tests 
@@ -693,7 +812,7 @@ class Test_web(TestCase):
         response = self.c.get('/createcourse/')
         self.assertEqual(response.context['message'], "You do not have permission to view this page")
 
-    def teat_createCourse_InstructorLogin(self):
+    def test_createCourse_InstructorLogin(self):
         self.c.post('/login/', {'username': 'janewayk123', 'password': '123456'})
         response = self.c.get('/createcourse/')
         self.assertEqual(response.context['message'], "You do not have permission to view this page")
@@ -740,6 +859,20 @@ class Test_web(TestCase):
         response = self.c.get('/deletecourse/')
         self.assertEqual(response.context['message'], "You do not have permission to view this page")
 
+    def test_createSection_nologin(self):
+        response = self.c.get('/createsection/')
+        self.assertEqual(response.context['message'], "You must log in to view this page")
+
+    def test_createSection_TaLogin(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
+        response = self.c.get('/createsection/')
+        self.assertEqual(response.context['message'], "You do not have permission to view this page")
+
+    def test_createSection_InstructorLogin(self):
+        self.c.post('/login/', {'username': 'janewayk123', 'password': '123456'})
+        response = self.c.get('/createsection/')
+        self.assertEqual(response.context['message'], "You do not have permission to view this page")
+
     """
     Delete Account tests Start here
     """
@@ -763,3 +896,4 @@ class Test_web(TestCase):
     def test_deleteCourse_notFound(self):
         response = self.c.post('/deletecourse/', {'name': 'secretCourse'})
         self.assertEqual(response.context['message'], "Course not found")
+

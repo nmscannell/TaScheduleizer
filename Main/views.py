@@ -196,7 +196,7 @@ class deleteAccount(View):
         taList = Account.objects.filter(title='1')
         staffList = instructorList | taList
 
-        return render(request, 'deleteAccount.html', {"message": message, "stafflist": staffList, "i":user})
+        return render(request, 'deleteAccount.html', {"message": message, "stafflist": staffList, "i": user})
 
 
 class instructorCourse(View):
@@ -236,6 +236,7 @@ class taCourse(View):
         message = assignAccCourse(username, course)
         return render(request, 'assignTACourse.html', {"message": message})
 
+
 class accountSection(View):
     def get(self, request):
         CU = CurrentUser()
@@ -248,7 +249,6 @@ class accountSection(View):
             aCList = AccountCourse.objects.filter(Account=currentuser)
             for i in aCList:
                 courseList.append(i.Course)
-            #courseList = Course.objects.filter(AccountCourse.objects.filter(Account=currentuser))
         else:
             return render(request, 'errorPage.html', {"message": "You do not have permission to view this page"})
         return render(request, 'findCourses.html', {"courseList": courseList, "i": currentuser})
@@ -265,15 +265,15 @@ class accountSection(View):
             aCList = AccountCourse.objects.filter(Course=course)
             for i in aCList:
                 accountList.append(i.Account)
-            #accountList = Account.objects.filter(AccountCourse.objects.filter(Course=course))
             sectionList = Section.objects.filter(course=course)
         elif title == 2:
-            aCList = AccountCourse.objects.filter(Course=course, Title=1)
+            aCList = AccountCourse.objects.filter(Course=course)
             for i in aCList:
-                accountList.append(i.Account)
-            #accountList = Account.objects.filter(AccountCourse.objects.filter(Course=course), Title=1)
+                if i.Account.title == 1:
+                    accountList.append(i.Account)
             sectionList = Section.objects.filter(course=course, type=0)
         return render(request, 'assignSection.html', {"course": course, "accountList": accountList, "sectionList": sectionList, "i": user})
+
 
 class sectionAssignment(View):
     def post(self, request):
@@ -288,6 +288,7 @@ class sectionAssignment(View):
         courseNum = str(sec.course.number)
         message = assignAccSection(accountName, courseNum, section)
         return render(request, 'assignSection.html', {"message": message, "i": user})
+
 
 class directoryView(View):
 
@@ -381,14 +382,16 @@ class createCourseView(View):
         name = str(request.POST["name"])
         number = str(request.POST["number"])
         onCampus = str(request.POST["onCampus"])
-        days = str(request.POST["days"])
-        start = str(request.POST["start"])
-        end = str(request.POST["end"])
+        #days = str(request.POST["days"])
+        #start = str(request.POST["start"])
+        #end = str(request.POST["end"])
 
-        messsage = createCourse(name, number, onCampus, days, start, end)
+        messsage = createCourse(name, number, onCampus)
+
         return render(request, 'createCourse.html', {"message": messsage, "editor": Acc})
 
-class createSection(View):
+
+class createSectionView(View):
     def get(self,request):
         CU = CurrentUser()
         Acc = CU.getCurrentUser(request)
@@ -404,19 +407,19 @@ class createSection(View):
     def post(self, request):
         CU = CurrentUser()
         Acc = CU.getCurrentUser(request)
-
+        courseList = Course.objects.all()
         courseName = str(request.POST["course"])
-        course = Course.objects.get(name=courseName)
-        courseNum = str(course.number)
+        #course = Course.objects.get(name=courseName)
+        # courseNum = str(course.number)
         type = str(request.POST["type"])
         number = str(request.POST["number"])
         days = str(request.POST["days"])
         start = str(request.POST["start"])
         end = str(request.POST["end"])
 
-        message = createSection(courseNumber="m", type=type, sectionNumber=number, days=days, start=start,
-                                end=end)
-        return render(request, 'createSection.html', {"message": message, "editor": Acc})
+        message = createSection(courseName, type, number, days, start, end)
+        return render(request, 'createSection.html', {"message": message, "editor": Acc, "courseList": courseList})
+
 
 class editUserInfoView(View):
 
@@ -442,3 +445,13 @@ class editUserInfoView(View):
         account = Account.objects.get(userName=user)
         info = makeUserDictionary(account)
         return render(request, 'editPubInfo.html', {'i': account, "editor": editor, "info": info})
+
+class contact(View):
+
+    def get(self, request):
+        CU = CurrentUser()
+        CU.removeCurrentUser(request)
+        return render(request, 'contact.html')
+
+    def post(self, request):
+        return render(request, 'contact.html')

@@ -17,7 +17,6 @@
 
 <ul>
  <li> <a class="active" href="javascript:history.go(-1)">Home</a></li>
- <li> <a href=" ">Contact</a></li>
     <li style="float:right"><a href="/logout/">Logout</a></li>
 </ul>
 
@@ -31,11 +30,11 @@
         <tr class="topCell">
             <th colspan="4">{{ i.name }} CS{{ i.number }}</th>
         </tr>
-    <tr class="midCell">
+    <!--<tr class="midCell">
         <th> Days: {{ i.classDays }}</th>
         <th>Start: {{ i.classHoursStart }}</th>
         <th>End: {{ i.classHoursEnd }}</th>
-    </tr>
+    </tr>-->
         <tr>
         <td colspan="2">
             <strong>Instructors:</strong><br>
@@ -56,11 +55,30 @@
             {% endfor %}
         </td>
         </tr>
-        <tr>
+            {% for p in sectionList %}
+                {% if p.course.name == i.name %}
+                <tr class="topCell">
+                <th>{{ p }}</th>
+                <th>Start: {{ p.startTime }}</th>
+                <th>End: {{ p.endTime }}</th>
+                <th>Days: {{ p.meetingDays }}</th>
+                <tr>
+                {% for r in accountSec %}
+                        {% if r.Section == p %}
+                            <th class="midCell" colspan="4">{{ r.Account }}<br>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+                </tr>
+                {% endif %}
+                {% endfor %}
+
+      <!--  <tr>
             {% for p in sectionList %}
                 {% if p.course.name == i.name %}
                     <td>
-                    <strong>{{ p }}</strong><br>
+                    <strong>{{ p }} {{ p.meetingDays }}<br>
+                        {{ p.startTime }}-{{ p.endTime }}</strong><br>
                     {% for r in accountSec %}
                         {% if r.Section == p %}
                             {{ r.Account }}<br>
@@ -69,7 +87,7 @@
                     </td>
                 {% endif %}
             {% endfor %}
-        </tr>
+        </tr> -->
     </thread>
     </table><br>
 {% endfor %}

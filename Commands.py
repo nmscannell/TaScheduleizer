@@ -113,7 +113,7 @@ def deleteAccountCom(userName):
     return "Account successfully deleted"
 
 
-def createCourse(name, number, online, days, start, end):
+def createCourse(name, number, online):
     # Check that the command has the appropriate number of arguments
 
     # Course number checks
@@ -130,13 +130,13 @@ def createCourse(name, number, online, days, start, end):
     if online.lower() != "online" and online.lower() != "campus":
         return "Location is invalid, please enter campus or online."
     # Days check
-    if not checkValidDays(days):
-        return "Invalid days of the week, please enter days in the format: MWTRF or NN for online"
+    #if not checkValidDays(days):
+     #   return "Invalid days of the week, please enter days in the format: MWTRF or NN for online"
     # Check times
-    if not checkVaildTimes(start) or not checkVaildTimes(end):
-        return "Invalid start or end time, please use a 4 digit military time representation"
-    if start > end:
-        return "The course end time must be after the course start time"
+    #if not checkVaildTimes(start) or not checkVaildTimes(end):
+     #   return "Invalid start or end time, please use a 4 digit military time representation"
+    #if start > end:
+     #   return "The course end time must be after the course start time"
 
     # Else the course is ok to be created
     else:
@@ -147,9 +147,9 @@ def createCourse(name, number, online, days, start, end):
             c.onCampus = False
         else:
             c.onCampus = True
-            c.classDays = days
-            c.classHoursStart = start
-            c.classHoursEnd = end
+          #  c.classDays = days
+           # c.classHoursStart = start
+           # c.classHoursEnd = end
         c.save()
         return "Course successfully created"
 
@@ -424,6 +424,11 @@ def getPrivateDataList():
 
 
 def editPubInfo(user, dict):
+    startdefault = Account._meta.get_field('officeHoursStart').get_default()
+    enddefault = Account._meta.get_field('officeHoursEnd').get_default()
+    daysdefault = Account._meta.get_field('officeDays').get_default()
+    officeHoursStart = dict['officestart']
+    officeHoursEnd = dict['officeend']
 
     firstName = dict['firstName']
     if firstName != user.firstName:
@@ -507,16 +512,19 @@ def editPubInfo(user, dict):
     # Office days
     officeDays = dict['officedays']
     if officeDays != user.officeDays:
-        if checkValidDays(officeDays) == False:
+        if not checkValidDays(officeDays):
             return "Invalid days of the week, please enter days in the format: MWTRF or NN for online"
-        else:
-            user.officeDays = officeDays
-
     # Start Time and End Time
-    officeHoursStart = dict['officestart']
-    officeHoursEnd = dict['officeend']
+    if officeHoursStart != str(startdefault) and officeHoursEnd == str(enddefault):
+        return "You must enter both a start and end time for office hours"
+    if officeHoursEnd != str(startdefault) and officeHoursStart == str(startdefault):
+        return "You must enter both a start and end time for office hours"
+    if officeHoursEnd != str(enddefault) and officeHoursStart != str(startdefault) and officeDays == str(daysdefault):
+        return "You must enter office days if you enter office hours"
+    if officeDays != str(daysdefault) and (officeHoursStart == str(startdefault) or officeHoursEnd == str(enddefault)):
+        return "You must enter office hours if you enter office days"
     if (officeHoursStart != str(user.officeHoursStart)):
-        if checkVaildTimes(officeHoursStart) == False:
+        if not checkVaildTimes(officeHoursStart):
             return "Invalid start or end time, please use a 4 digit military time representation"
         else:
             user.officeHoursStart = officeHoursStart
@@ -525,7 +533,7 @@ def editPubInfo(user, dict):
             return "Invalid start or end time, please use a 4 digit military time representation"
         else:
             user.officeHoursEnd = officeHoursEnd
-
+    user.officeDays = officeDays
 
     # Save changes
     user.save()

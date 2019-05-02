@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="stylesheet" type = "text/css" href="{% static 'background.css' %}">
         <link rel="stylesheet" type = "text/css" href="{% static 'accountsHome.css' %}">
+     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+          integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 
      <h1 id="heading">Assign a User to a Course Section</h1>
     <h3>Choose a user and section number.</h3>
@@ -17,7 +19,6 @@
 
 <ul>
  <li> <a class="active" href="javascript:history.go(-1)">Home</a></li>
- <li> <a href=" ">Contact</a></li>
     <li style="float:right"><a href="/logout/">Logout</a></li>
 </ul>
 
@@ -27,6 +28,9 @@
 
 <form method="post" action="/assignsection/">
   {%csrf_token%}
+
+<div class="box">
+
 <input type="text" name="course" value="{{ course }}">
 <select name="account">
     {%for i  in accountList %}
@@ -38,7 +42,14 @@
         <option name="section" value="{{ i.number }}">{{ i }}</option>
     {% endfor %}
 </select>
-    <input type="submit"/><br>
+</div>
+
+<br>
+<br>
+<br>
+<br>
+
+       <input type="submit" class="btn"/><br>
     <p>{{ message }}</p>
 
   </form>

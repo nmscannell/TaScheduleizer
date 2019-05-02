@@ -15,7 +15,6 @@
 
 <ul>
  <li> <a class="active" href="javascript:history.go(-1)">Home</a></li>
- <li> <a href=" ">Contact</a></li>
     <li style="float:right"><a href="/logout/">Logout</a></li>
 </ul>
 
@@ -29,63 +28,64 @@
 <table>
        <TR class="cell1">
            <TD>User Name</TD>
-           <TD><input type="text" name="username" value="{{ i.userName }}" required/></TD>
+
+           <TD><input type="text" name="username" value="{{ i.userName }}" readonly/></TD>
        </TR>
        <TR class="cell2">
            <TD>First Name</TD>
-           <TD><input type="text" name="firstname" value="{{i.firstName }}" required/></TD>
+           <TD><input type="text" name="firstname" value="{{i.firstName }}"/></TD>
        </TR>
        <TR class="cell1">
            <TD>Last Name</TD>
-           <TD><input type="text" name="lastname" value="{{ i.lastName }}" required/></TD>
+           <TD><input type="text" name="lastname" value="{{ i.lastName }}"/></TD>
        </TR>
        <TR class="cell2">
            <TD>Email</TD>
-           <TD><input type="email" name="email"  value="{{ i.email }}" required/></TD>
+           <TD><input type="email" name="email"  value="{{ i.email }}"/></TD>
        </TR>
        <TR class="cell1">
            <TD>Password</TD>
-           <TD> <input type ="text" name="password" value="{{ i.password }}" required/></TD>
+           <TD> <input type ="text" name="password" value="{{ i.password }}"/></TD>
        </TR>
      <TR class="cell2">
            <TD>Home Phone</TD>
-           <TD> <input type ="text" name="homephone" value="{{ i.homePhone }}" required/></TD>
+           <TD> <input type ="text" name="homephone" value="{{ i.homePhone }}"/></TD>
        </TR>
      <TR class="cell1">
            <TD>Address</TD>
-           <TD> <input type ="text" name="address" value="{{ i.address }}" required/></TD>
+           <TD> <input type ="text" name="address" value="{{ i.address }}"/></TD>
        </TR>
      <TR class="cell2">
            <TD>City</TD>
-           <TD> <input type ="text" name="city" value="{{ i.city }}" required/></TD>
+           <TD> <input type ="text" name="city" value="{{ i.city }}"/></TD>
        </TR>
      <TR class="cell1">
            <TD>State</TD>
-           <TD> <input type ="text" name="state" value="{{ i.state }}" required/></TD>
+           <TD> <input type ="text" name="state" value="{{ i.state }}"/></TD>
        </TR>
      <TR class="cell2">
            <TD>Zip Code</TD>
-           <TD> <input type ="text" name="zipcode" value="{{ i.zipCode }}" required/></TD>
+           <TD> <input type ="text" name="zipcode" value="{{ i.zipCode }}"/></TD>
        </TR>
      <TR class="cell1">
            <TD>Office Number</TD>
-           <TD> <input type ="text" name="officenumber" value="{{ i.officeNumber }}" required/></TD>
+           <TD> <input type ="text" name="officenumber" value="{{ i.officeNumber }}"/></TD>
        </TR>
      <TR class="cell2">
            <TD>Office Phone</TD>
-           <TD> <input type ="text" name="officephone" value="{{ i.officePhone }}" required/></TD>
+           <TD> <input type ="text" name="officephone" value="{{ i.officePhone }}"/></TD>
        </TR>
      <TR class="cell1">
            <TD>Office Days</TD>
-           <TD> <input type ="text" name="officedays" value="{{ i.officeDays }}" required/></TD>
+           <TD> <input type ="text" name="officedays" value="{{ i.officeDays }}"/></TD>
        </TR>
      <TR class="cell2">
            <TD>Office Hours Start</TD>
-           <TD> <input type ="text" name="officestart" value="{{ i.officeHoursStart }}" required/></TD>
+           <TD> <input type ="text" name="officestart" value="{{ i.officeHoursStart }}"/></TD>
        </TR>
      <TR class="cell1">
            <TD>Office Hours End</TD>
-           <TD> <input type ="text" name="officeend" value="{{ i.officeHoursEnd }}" required/></TD>
+           <TD> <input type ="text" name="officeend" value="{{ i.officeHoursEnd }}"/></TD>
        </TR>
    </table>
     <input class="btn" type="submit"/><br>

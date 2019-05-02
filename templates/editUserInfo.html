@@ -5,7 +5,8 @@
          {% load staticfiles %}
      <link rel="stylesheet" type = "text/css" href="{% static 'background.css' %}">
         <link rel="stylesheet" type = "text/css" href="{% static 'accountsHome.css' %}">
-     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+           integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     <title>Edit User Info</title>
 </head>
 <body>
@@ -15,7 +16,6 @@
 
 <ul>
  <li> <a class="active" href="javascript:history.go(-1)">Home</a></li>
- <li> <a href=" ">Contact</a></li>
     <li style="float:right"><a href="/logout/">Logout</a></li>
 </ul>
 
@@ -33,7 +33,12 @@
     {% endfor %}
 </select>
 </div>
-    <input type="submit"/><br>
+
+<br>
+<br>
+<br>
+<br>
+    <input type="submit" class="btn"/><br>
     <p>{{ message }}</p>
 
     {% for key, value in dict %}

@@ -38,5 +38,6 @@ urlpatterns = [
     path('logout/', views.logoutView.as_view()),
     path('createcourse/', views.createCourseView.as_view()),
     path('edituserinfo/', views.editUserInfoView.as_view()),
-    path('createsection/', views.createSection.as_view())
+    path('createsection/', views.createSectionView.as_view()),
+    path('contact/', views.contact.as_view())
 ]

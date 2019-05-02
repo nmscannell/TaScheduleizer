@@ -1,0 +1,68 @@
+body, html {
+  margin: 0;
+    background-image: url("background.png");
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+
+input.btn[type="submit"] {
+  background: #6498fe;
+  border:none;
+  border-radius: 2px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  letter-spacing: 3px;
+  margin: 5px 0;
+  outline: medium none;
+  overflow: hidden;
+  padding: 10px;
+  text-transform: uppercase;
+  transition: all 0.15s ease-in-out 0s;
+  width: 20%;
+  box-shadow: 0 1px 2px 0px rgba(0,0,0,0.16), 0 1px 2px 0px rgba(0,0,0,0.23);
+}
+input.btn[type="submit"]:hover {
+  background: #4b81eb;
+  box-shadow: 0 2px 4px 0px rgba(0,0,0,0.16), 0 2px 4px 0px rgba(0,0,0,0.23);
+}
+.text-p{
+  font-size: 14px;
+  text-align: center;
+  margin: 10px 0;
+}
+.text-p a{
+  color: #175690;
+}
+
+#firstname
+{
+    border-color: black;
+    height : 30px;
+    width: 415px;
+}
+#lastname
+{
+    border-color: black;
+    height: 30px;
+    width: 415px;
+}
+
+input, textarea{
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  resize: vertical
+}
+
+
+
+
