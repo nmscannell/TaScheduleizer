@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Contact</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" type = "text/css" href="{% static 'background.css' %}">
+    <link rel="stylesheet" type = "text/css" href="{% static 'accountsHome.css' %}">
+      <link rel="stylesheet" type = "text/css" href="{% static 'login.css' %}">
+
+    <h1 id="heading">Contact Form</h1>
+</head>
+<body>
+
+<div class="form-box">
+    <div class="head">" "</div>
+ <form class="form" method="post" action="/contact/", id="contact-form"> <!--Its super important that action matches the url of the page-->
+  {%csrf_token%}
+      <div class="form-group">
+          <label class="label-control">
+            <span class="label-text"></span>
+          </label>
+  <input type="text" name="firstname" id ="firstname" placeholder="FirstName" required/>
+             </div>
+       <div class="form-group">
+          <label class="label-control">
+            <span class="label-text"></span>
+          </label>
+    <input type="text" name="lastname" id ="lastname" placeholder="LastName" required/>
+       </div>
+     <input type="submit" value="submit" class="btn" />
+      <p class="error">{{ message }}</p>
+    </form>
+  </div>
+
+<label for="Position">Position</label>
+        <select id="country" name="country">
+          <option value="ta">TA</option>
+          <option value="instructor">Instructor</option>
+          <option value="supervisor">Supervisor</option>
+                 <option value="administrator">Administrator</option>
+                 <option value="">Supervisor</option>
+        </select>
+        <label for="subject">Subject</label>
+        <textarea id="subject" name="subject" placeholder="Write something.." style="height:170px"></textarea>
+        <input type="submit" value="Submit">
+
+
+
+</body>
+</html>

@@ -448,3 +448,18 @@ class editUserInfoView(View):
         account = Account.objects.get(userName=user)
         info = makeUserDictionary(account)
         return render(request, 'editPubInfo.html', {'i': account, "editor": editor, "info": info})
+
+class contact(View):
+
+    def get(self, request):
+        CU = CurrentUser()
+        CU.removeCurrentUser(request)
+        return render(request, 'contact.html')
+
+    def post(self, request):
+        CU = CurrentUser()
+        username = str(request.POST["firstname"])
+        password = str(request.POST["lastname"])
+
+
+        return render(request, 'contact.html',)
