@@ -269,9 +269,10 @@ class accountSection(View):
             #accountList = Account.objects.filter(AccountCourse.objects.filter(Course=course))
             sectionList = Section.objects.filter(course=course)
         elif title == 2:
-            aCList = AccountCourse.objects.filter(Course=course, Title=1)
+            aCList = AccountCourse.objects.filter(Course=course)
             for i in aCList:
-                accountList.append(i.Account)
+                if i.Account.title == 1:
+                    accountList.append(i.Account)
             #accountList = Account.objects.filter(AccountCourse.objects.filter(Course=course), Title=1)
             sectionList = Section.objects.filter(course=course, type=0)
         return render(request, 'assignSection.html', {"course": course, "accountList": accountList, "sectionList": sectionList, "i": user})
