@@ -55,7 +55,25 @@
             {% endfor %}
         </td>
         </tr>
-        <tr>
+            {% for p in sectionList %}
+                {% if p.course.name == i.name %}
+                <tr class="topCell">
+                <th>{{ p }}</th>
+                <th>Start: {{ p.startTime }}</th>
+                <th>End: {{ p.endTime }}</th>
+                <th>Days: {{ p.meetingDays }}</th>
+                <tr>
+                {% for r in accountSec %}
+                        {% if r.Section == p %}
+                            <th class="midCell" colspan="4">{{ r.Account }}<br>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+                </tr>
+                {% endif %}
+                {% endfor %}
+
+      <!--  <tr>
             {% for p in sectionList %}
                 {% if p.course.name == i.name %}
                     <td>
@@ -69,7 +87,7 @@
                     </td>
                 {% endif %}
             {% endfor %}
-        </tr>
+        </tr> -->
     </thread>
     </table><br>
 {% endfor %}
