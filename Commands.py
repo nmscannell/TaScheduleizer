@@ -52,7 +52,7 @@ def containsOnlyDigits(argument):
     return True
 
 
-def checkVaildTimes(time):
+def checkValidTimes(time):
     return re.match('^[0-1][0-9]{3}$', time) or re.match('^[2][0-3][0-9]{2}', time)
 ###if the first digit is 2, only 0-3 is allowed for the second digit
 
@@ -202,9 +202,9 @@ def createSection(courseNumber, type, sectionNumber, days, start, end):
             return "Invalid days of the week, please enter days in the format: MWTRF"
 
     # Time checks
-    if not re.match('^[0-2][0-9]{3}$', start) or not re.match('^[0-2][0-9]{3}$', end):
+    if not checkValidTimes(start) or not checkValidTimes(end):
         return "Invalid start or end time, please use a 4 digit military time representation"
-    if end < start:
+    if end <= start:
         return "End time must be after start time."
 
 #    if len(start) != 4 or len(end) != 4:

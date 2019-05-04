@@ -84,10 +84,10 @@ class Section(models.Model):
 
     def __str__(self):
         id = ""
-        if self.type == 1:
-            id = "LEC"
-        else:
+        if self.type == 0:
             id = "LAB"
+        elif self.type == 1:
+            id = "LEC"
         return id + " " + str(self.number)
 
 
