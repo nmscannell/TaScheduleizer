@@ -53,14 +53,17 @@ def containsOnlyDigits(argument):
 
 
 def checkVaildTimes(time):
-    if len(time) != 4:
-        return False
-    if not re.match('^[0-2]*$', time[0]):
-        return False
-    for i in range(1, 3):
-        if not (re.match('^[0-9]*$', time[i])):
-            return False
-    return True
+    return re.match('^[0-1][0-9]{3}$', time) or re.match('^[2][0-3][0-9]{2}', time)
+###if the first digit is 2, only 0-3 is allowed for the second digit
+
+#    if len(time) != 4:
+#        return False
+#    if not re.match('^[0-2]*$', time[0]):
+#        return False
+#    for i in range(1, 3):
+#        if not (re.match('^[0-9]*$', time[i])):
+#            return False
+#    return True
 
 
 def checkValidDays(days):
@@ -117,10 +120,13 @@ def createCourse(name, number, online):
     # Check that the command has the appropriate number of arguments
 
     # Course number checks
-    if not containsOnlyDigits(number):
+#    if not containsOnlyDigits(number):
+#        return "Course number must be numeric and three digits long"
+#    if len(number) != 3:
+#        return "Course number must be numeric and three digits long"
+    if not re.match('^[0-9]{3}$', number):
         return "Course number must be numeric and three digits long"
-    if len(number) != 3:
-        return "Course number must be numeric and three digits long"
+
     # Check that the course does not already exist
     if Course.objects.filter(number=number).exists():
         return "Course already exists"
