@@ -13,7 +13,22 @@
 
 
 <ul>
- <li> <a class="active" href="javascript:history.go(-1)">Home</a></li>
+ <li>
+     {% if i.title == 1 %}
+         <a href="/ta/">Home</a>
+     {% endif %}
+     {% if i.title == 2 %}
+         <a href="/instructor/">Home</a>
+     {% endif %}
+    {% if i.title == 3 %}
+        <a href="/administrator/">Home</a>
+    {% endif %}
+    {% if i.title == 4 %}
+        <a href="/supervisor/">Home</a>
+    {% endif %}
+ </li>
+
+     <!--<a class="active" href="javascript:history.go(-1)">Home</a></li>-->
     <li style="float:right"><a href="/logout/">Logout</a></li>
 </ul>
 
@@ -25,36 +40,30 @@
  <table>
     <thread>
         <tr class="topCell">
-            <th colspan="3">{{ j }} </th>
-            <th>{{ j.displayTitle }}</th>
+            <th colspan="2">{{ j }} </th>
+            <th colspan="2">{{ j.displayTitle }}</th>
         </tr>
-    <tr class="midCell">
-        <th > Email: {{ j.email }}: </th>
-        <th colspan="4">Home Phone:
-        {% if  i.title < 3 %}
-                Redacted<br>
-            {% endif %}
-            {%  if i.title >= 3 %}
-                {{ j.homePhone }}<br>
-            {% endif %}
-        </th>
+    <tr>
+        <td colspan="2" class="midCell"> <strong>Email:</strong><br> {{ j.email }} </td>
+    <td colspan="2" class="midCell2">
+            <strong>Office Number: {{ j.officeNumber }}</strong><br>
+                   Phone: {{ j.officePhone }}<br>
+                   Days: {{ j.officeDays }}<br>
+                   Hours: {{ j.officeHoursStart }} - {{ j.officeHoursEnd }}<br>
+        </td>
     </tr>
+      {% if i.title > 2 %}
         <tr>
-        <td colspan="2">
+        <td colspan="2" class="midCell2">
             <strong>Address:</strong><br>
-            {% if  i.title < 3 %}
-                Redacted<br>
-            {% endif %}
-            {%  if i.title >= 3 %}
                 {{ j.address }}<br>
                 {{ j.city }} {{ j.state }} {{ j.zipCode }}<br>
-            {% endif %}
         </td>
-        <td colspan="2">
-            <strong>Something:</strong><br>
-
+            <td colspan="2" class="midCell"><strong>Home Phone:</strong><br>
+                {{ j.homePhone }}<br>
         </td>
         </tr>
+       {% endif %}
         <tr>
 
         </tr>
@@ -63,13 +72,13 @@
 
 {% endfor %}
 
-{%  if i.title == 1 %}<a href="/ta/">TA Home</a>
+<!--{%  if i.title == 1 %}<a href="/ta/">TA Home</a>
 {% endif %}
 {% if i.title == 2 %}<a href="/instructor/">Instructor Home</a>
 {% endif %}
 {% if i.title == 3 %}<a href="/administrator/">Admin Home</a>
 {% endif %}
 {% if i.title == 4 %}<a href="/supervisor/">Supervisor Home</a>
-{% endif %}
+{% endif %}-->
 </body>
 </html>

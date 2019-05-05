@@ -7,6 +7,7 @@
         <link rel="stylesheet" type = "text/css" href="{% static 'accountsHome.css' %}">
      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
            integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit User Info</title>
 </head>
 <body>
@@ -15,7 +16,15 @@
 
 
 <ul>
- <li> <a class="active" href="javascript:history.go(-1)">Home</a></li>
+ <li>
+     {% if editor.title == 3 %}
+         <a href="/administrator">Home</a>
+     {% endif %}
+     {% if editor.title == 4 %}
+        <a href="/supervisor">Home</a>
+     {% endif %}
+ </li>
+     <!--<a class="active" href="javascript:history.go(-1)">Home</a></li>-->
     <li style="float:right"><a href="/logout/">Logout</a></li>
 </ul>
 
@@ -34,8 +43,7 @@
 </select>
 </div>
 
-<br>
-<br>
+
 <br>
 <br>
     <input type="submit" class="btn"/><br>
@@ -48,10 +56,10 @@
 </form>
 
 
-
+<!--
 {% if editor.title == 3 %}<a href="/administrator">Admin Home</a>
 {% endif %}
 {% if editor.title == 4 %}<a href="/supervisor">Supervisor Home</a>
-{% endif %}
+{% endif %}-->
 </body>
 </html>

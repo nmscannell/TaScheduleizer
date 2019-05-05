@@ -17,7 +17,8 @@
 
 
 <ul>
- <li> <a class="active" href="javascript:history.go(-1)">Home</a></li>
+    <li><a href="/supervisor">Home</a></li>
+     <!--<a class="active" href="javascript:history.go(-1)">Home</a></li>-->
     <li style="float:right"><a href="/logout/">Logout</a></li>
 </ul>
 
@@ -35,15 +36,17 @@
         <option value="{{ i.userName }}">{{ i }}</option>
     {% endfor %}
 </select>
+</div>
+<div class="box">
 <select name = "course">
     {%for i  in courseList %}
         <option value="{{ i.name }}">{{ i }}</option>
     {% endfor %}
 </select>
 </div>
+</div>
 
-<br>
-<br>
+
 <br>
 <br>
 
@@ -52,6 +55,6 @@
     <p>{{ message }}</p>
 
   </form>
-<a href="/supervisor">Supervisor Home</a>
+<!--<a href="/supervisor">Supervisor Home</a>-->
 </body>
 </html>

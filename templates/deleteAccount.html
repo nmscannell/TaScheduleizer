@@ -17,7 +17,15 @@
 
 
 <ul>
- <li> <a class="active" href="javascript:history.go(-1)">Home</a></li>
+ <li>
+
+     {% if i.title == 3 %}
+        <a href="/administrator">Home</a>
+    {% else %}
+        <a href="/supervisor">Home</a>
+    {% endif %}
+ </li>
+     <!--<a class="active" href="javascript:history.go(-1)">Home</a></li>-->
     <li style="float:right"><a href="/logout/">Logout</a></li>
 </ul>
 
@@ -36,18 +44,18 @@
 </div>
 <br>
 <br>
-<br>
-<br>
+
    <input type="submit" class="btn"/><br>
     <p>{{ message }}</p>
 
 </form>
 
+<!--
 {% if i.title == 3 %}
     <a href="/administrator">Admin Home</a>
 {% else %}
     <a href="/supervisor">Supervisor Home</a>
-{% endif %}
+{% endif %}-->
 
 
 </body>

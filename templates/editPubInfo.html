@@ -14,7 +14,22 @@
 
 
 <ul>
- <li> <a class="active" href="javascript:history.go(-1)">Home</a></li>
+ <li> <!--<a class="active" href="javascript:history.go(-1)">Home</a></li>-->
+
+    {%  if editor.title == 1 %}
+        <a href="/ta">Home</a>
+    {% endif %}
+    {% if editor.title == 2 %}
+        <a href="/instructor">Home</a>
+    {% endif %}
+    {% if editor.title == 3 %}
+        <a href="/administrator">Home</a>
+    {% endif %}
+    {% if editor.title == 4 %}
+        <a href="/supervisor">Home</a>
+    {% endif %}
+ </li>
+
     <li style="float:right"><a href="/logout/">Logout</a></li>
 </ul>
 
@@ -114,7 +129,7 @@
      <p>Office Hours End Time: <input type="text" name="officeend" id="officeend" maxlength="4" value="{{ i.officeHoursEnd }}"></p>
 
     <input type="submit"/><br> -->
-    <p>{{ message }}</p>
+    <p class="blinking">{{ message }}</p>
     {% for key, value in dict %}
         <p>{{ key }}{{ value }}</p>
     {% endfor %}
@@ -122,6 +137,7 @@
 
 </form>
 
+<!---
 {%  if editor.title == 1 %}<a href="/ta">TA Home</a>
 {% endif %}
 {% if editor.title == 2 %}<a href="/instructor">Instructor Home</a>
@@ -129,6 +145,7 @@
 {% if editor.title == 3 %}<a href="/administrator">Admin Home</a>
 {% endif %}
 {% if editor.title == 4 %}<a href="/supervisor">Supervisor Home</a>
-{% endif %}
+{% endif %}-->
+
 </body>
 </html>
