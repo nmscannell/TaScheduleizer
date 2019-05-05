@@ -54,7 +54,7 @@ def containsOnlyDigits(argument):
 
 def checkValidTimes(time):
     return re.match('^[0-1][0-9]{3}$', time) or re.match('^[2][0-3][0-9]{2}', time)
-###if the first digit is 2, only 0-3 is allowed for the second digit
+    ###if the first digit is 2, only 0-3 is allowed for the second digit
 
 
 def checkValidDays(days):
@@ -492,12 +492,12 @@ def editPubInfo(user, dict):
     if officeDays != str(daysdefault) and (officeHoursStart == str(startdefault) or officeHoursEnd == str(enddefault)):
         return "You must enter office hours if you enter office days"
     if (officeHoursStart != str(user.officeHoursStart)):
-        if not checkVaildTimes(officeHoursStart):
+        if not checkValidTimes(officeHoursStart):
             return "Invalid start or end time, please use a 4 digit military time representation"
         else:
             user.officeHoursStart = officeHoursStart
     if officeHoursEnd != str(user.officeHoursEnd):
-        if checkVaildTimes(officeHoursEnd) == False:
+        if checkValidTimes(officeHoursEnd) == False:
             return "Invalid start or end time, please use a 4 digit military time representation"
         else:
             user.officeHoursEnd = officeHoursEnd
