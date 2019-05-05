@@ -40,36 +40,30 @@
  <table>
     <thread>
         <tr class="topCell">
-            <th colspan="3">{{ j }} </th>
-            <th>{{ j.displayTitle }}</th>
+            <th colspan="2">{{ j }} </th>
+            <th colspan="2">{{ j.displayTitle }}</th>
         </tr>
-    <tr class="midCell">
-        <th > Email: {{ j.email }}: </th>
-        <th colspan="4">Home Phone:
-        {% if  i.title < 3 %}
-                Redacted<br>
-            {% endif %}
-            {%  if i.title >= 3 %}
-                {{ j.homePhone }}<br>
-            {% endif %}
-        </th>
+    <tr>
+        <td colspan="2" class="midCell"> <strong>Email:</strong><br> {{ j.email }} </td>
+    <td colspan="2" class="midCell2">
+            <strong>Office Number: {{ j.officeNumber }}</strong><br>
+                   Phone: {{ j.officePhone }}<br>
+                   Days: {{ j.officeDays }}<br>
+                   Hours: {{ j.officeHoursStart }} - {{ j.officeHoursEnd }}<br>
+        </td>
     </tr>
+      {% if i.title > 2 %}
         <tr>
-        <td colspan="2">
+        <td colspan="2" class="midCell2">
             <strong>Address:</strong><br>
-            {% if  i.title < 3 %}
-                Redacted<br>
-            {% endif %}
-            {%  if i.title >= 3 %}
                 {{ j.address }}<br>
                 {{ j.city }} {{ j.state }} {{ j.zipCode }}<br>
-            {% endif %}
         </td>
-        <td colspan="2">
-            <strong>Something:</strong><br>
-
+            <td colspan="2" class="midCell"><strong>Home Phone:</strong><br>
+                {{ j.homePhone }}<br>
         </td>
         </tr>
+       {% endif %}
         <tr>
 
         </tr>

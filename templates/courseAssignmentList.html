@@ -41,7 +41,7 @@
 {% for i in courseList %}
     <table>
     <thread>
-        <tr class="topCell">
+        <tr class="midCell2">
             <th colspan="4">{{ i.name }} CS{{ i.number }}</th>
         </tr>
     <!--<tr class="midCell">
@@ -50,7 +50,7 @@
         <th>End: {{ i.classHoursEnd }}</th>
     </tr>-->
         <tr>
-        <td colspan="2">
+        <td colspan="2" class="topCell">
             <strong>Instructors:</strong><br>
             <!--Figure out how get the instructors to list here -->
             {% for j in accountList %}
@@ -59,7 +59,7 @@
             {% endif %}
             {% endfor %}
         </td>
-        <td colspan="2">
+        <td colspan="2" class="topCell">
             <strong>Teaching Assistants:</strong><br>
             <!--List Tas here -->
             {% for j in accountList %}
@@ -71,7 +71,7 @@
         </tr>
             {% for p in sectionList %}
                 {% if p.course.name == i.name %}
-                <tr class="topCell">
+                <tr class="midCell2">
                 <th>{{ p }}</th>
                 <th>Start: {{ p.startTime }}</th>
                 <th>End: {{ p.endTime }}</th>
@@ -86,22 +86,6 @@
                 </tr>
                 {% endif %}
                 {% endfor %}
-
-      <!--  <tr>
-            {% for p in sectionList %}
-                {% if p.course.name == i.name %}
-                    <td>
-                    <strong>{{ p }} {{ p.meetingDays }}<br>
-                        {{ p.startTime }}-{{ p.endTime }}</strong><br>
-                    {% for r in accountSec %}
-                        {% if r.Section == p %}
-                            {{ r.Account }}<br>
-                        {% endif %}
-                    {% endfor %}
-                    </td>
-                {% endif %}
-            {% endfor %}
-        </tr> -->
     </thread>
     </table><br>
 {% endfor %}
