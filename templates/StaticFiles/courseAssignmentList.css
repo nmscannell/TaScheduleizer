@@ -20,12 +20,17 @@ p
 
 .topCell
 {
-    background-color: pink;
+    background-color: violet;
 }
 
 .midCell
 {
     background-color: powderblue;
+}
+
+.midCell2
+{
+    background-color: pink;
 }
 
 th{
