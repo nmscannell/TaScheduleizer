@@ -16,7 +16,21 @@
 
 
 <ul>
- <li> <a class="active" href="javascript:history.go(-1)">Home</a></li>
+ <li>
+     {%if i.title == 1 %}
+         <a href="/ta/">Home</a>
+     {% endif %}
+     {% if i.title == 2 %}
+         <a href="/instructor/">Home</a>
+     {% endif %}
+     {% if i.title == 3 %}
+         <a href="/administrator/">Home</a>
+     {% endif %}
+     {% if i.title == 4 %}
+         <a href="/supervisor/">Home</a>
+     {% endif %}
+ </li>
+     <!--<a class="active" href="javascript:history.go(-1)">Home</a></li>-->
     <li style="float:right"><a href="/logout/">Logout</a></li>
 </ul>
 
@@ -92,7 +106,7 @@
     </table><br>
 {% endfor %}
 
-{%  if i.title == 1 %}
+<!--{%  if i.title == 1 %}
 <a href="/ta/">TA Home</a>
 {% endif %}
 {% if i.title == 2 %}
@@ -101,6 +115,6 @@
 {% if i.title == 3 %}<a href="/administrator/">Admin Home</a>
 {% endif %}
 {% if i.title == 4 %}<a href="/supervisor/">Supervisor Home</a>
-{% endif %}
+{% endif %}-->
 </body>
 </html>
