@@ -29,14 +29,18 @@
 <form method="post" action="/assignsection/">
   {%csrf_token%}
 
-<div class="box">
 
 <input type="text" name="course" value="{{ course }}">
+
+<div class="box">
 <select name="account">
     {%for i  in accountList %}
         <option name="account" value="{{ i.userName }}">{{ i }}</option>
     {% endfor %}
 </select>
+</div>
+
+<div class="box">
 <select name="section">
     {%for i  in sectionList %}
         <option name="section" value="{{ i.number }}">{{ i }}</option>
