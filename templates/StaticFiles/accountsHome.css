@@ -111,7 +111,7 @@ li a:hover:not(.active) {
 
 .sns {
   position: fixed;
-  top: 40%;
+  top: 60%;
   -webkit-transform: translateY(-50%);
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);

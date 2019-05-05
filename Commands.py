@@ -52,18 +52,9 @@ def containsOnlyDigits(argument):
     return True
 
 
-def checkVaildTimes(time):
+def checkValidTimes(time):
     return re.match('^[0-1][0-9]{3}$', time) or re.match('^[2][0-3][0-9]{2}', time)
 ###if the first digit is 2, only 0-3 is allowed for the second digit
-
-#    if len(time) != 4:
-#        return False
-#    if not re.match('^[0-2]*$', time[0]):
-#        return False
-#    for i in range(1, 3):
-#        if not (re.match('^[0-9]*$', time[i])):
-#            return False
-#    return True
 
 
 def checkValidDays(days):
@@ -120,10 +111,6 @@ def createCourse(name, number, online):
     # Check that the command has the appropriate number of arguments
 
     # Course number checks
-#    if not containsOnlyDigits(number):
-#        return "Course number must be numeric and three digits long"
-#    if len(number) != 3:
-#        return "Course number must be numeric and three digits long"
     if not re.match('^[0-9]{3}$', number):
         return "Course number must be numeric and three digits long"
 
@@ -135,14 +122,6 @@ def createCourse(name, number, online):
     # Location checks
     if online.lower() != "online" and online.lower() != "campus":
         return "Location is invalid, please enter campus or online."
-    # Days check
-    #if not checkValidDays(days):
-     #   return "Invalid days of the week, please enter days in the format: MWTRF or NN for online"
-    # Check times
-    #if not checkVaildTimes(start) or not checkVaildTimes(end):
-     #   return "Invalid start or end time, please use a 4 digit military time representation"
-    #if start > end:
-     #   return "The course end time must be after the course start time"
 
     # Else the course is ok to be created
     else:
@@ -153,9 +132,6 @@ def createCourse(name, number, online):
             c.onCampus = False
         else:
             c.onCampus = True
-          #  c.classDays = days
-           # c.classHoursStart = start
-           # c.classHoursEnd = end
         c.save()
         return "Course successfully created"
 
@@ -165,8 +141,6 @@ def createSection(courseNumber, type, sectionNumber, days, start, end):
 
     if not re.match('^[0-9]{3}$', courseNumber):
         return "Course number must be numeric and three digits long"
-#    if len(courseNumber) > 3 or len(courseNumber) < 3:
-#        return "Course number must be numeric and three digits long"
 
     # Make sure course that the lab is being created for exists ok
     try:
@@ -178,8 +152,6 @@ def createSection(courseNumber, type, sectionNumber, days, start, end):
         return "Invalid section type."
 
     # Section number checks
-#    if not re.match('^2[0-9]{2}$', sectionNumber) and not re.match('^4[0-9]{2}$', sectionNumber):
- #       return "Section number must be 200 or 400 level, numeric, and three digits long."
 
     if type == "0" and not re.match('^2[0-9]{2}$', sectionNumber):
         return "Lab section number must be 200 level, numeric, and three digits long."
@@ -188,37 +160,26 @@ def createSection(courseNumber, type, sectionNumber, days, start, end):
         return "Lecture section number must be 400 level, numeric, and three digits long."
 
     # Make sure the course is not online
-    if c.onCampus == False and re.match('^2[0-9]{2}$', sectionNumber):
+    if not c.onCampus and re.match('^2[0-9]{2}$', sectionNumber):
         return "You cannot create a lab section for an online course."
 
-#    if not re.match('^[0-9]*$', sectionNumber):
-#        return "Section number must be numeric and three digits long"
-#    if len(sectionNumber) > 3 or len(sectionNumber) < 3:
-#        return "Section number must be numeric and three digits long"
+    days = days.upper()
 
     # Days check
     for i in days:
-        if i not in 'MTWRFN':
+        if i not in 'MTWRF':
             return "Invalid days of the week, please enter days in the format: MWTRF"
 
     # Time checks
-    if not re.match('^[0-2][0-9]{3}$', start) or not re.match('^[0-2][0-9]{3}$', end):
+    if not checkValidTimes(start) or not checkValidTimes(end):
         return "Invalid start or end time, please use a 4 digit military time representation"
-    if end < start:
+    if end <= start:
         return "End time must be after start time."
-
-#    if len(start) != 4 or len(end) != 4:
-#        return "Invalid start or end time, please use a 4 digit military time representation"
-#    if not re.match('^[0-2]*$', start[0]) or not re.match('^[0-2]*$', end[0]):
-#        return "Invalid start or end time, please use a 4 digit military time representation"
-#    for i in range(1, 3):
-#        if not (re.match('^[0-9]*$', start[i])) or not (re.match('^[0-9]*$', end[i])):
-#            return "Invalid start or end time, please use a 4 digit military time representation"
 
     # Make sure the lab does not already exist
     if Section.objects.filter(course=c, number=sectionNumber).exists():
         return "Section already exists; section not added."
-    #l = Section.objects.create(course=c)
+
     l = Section()
     l.course = c
     l.type = type
@@ -277,8 +238,9 @@ def assignAccSection(userName, courseNumber, sectionNumber):
     if not Section.objects.filter(number=sectionNumber, course=course).exists():
         return "Invalid lab section"
 
-    if account.title == 2 and not re.match('^4[0-9]{2}$', sectionNumber):
-        return "Instructors must be assigned to 400 level sections."
+    if account.title == 2:
+        if not re.match('^4[0-9]{2}$', sectionNumber):
+            return "Instructors must be assigned to 400 level sections."
 
     if account.title == 1 and not re.match('^2[0-9]{2}$', sectionNumber):
         return "TAs must be assigned to 200 level sections."
