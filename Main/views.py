@@ -170,7 +170,18 @@ class courseAssignmentsList(View):
         return render(request, 'courseAssignmentList.html', {"courseList": courses, "i": user,
                                                              "accountList": accountList, "sectionList": sectionList,
                                                              'accountSec': accountsec})
+"""
+class viewTAAssignments(View):
 
+    def get(self, request):
+        CU = CurrentUser()
+        currentusertitle = CU.getCurrentUserTitle(request)
+        user = CU.getCurrentUser(request)
+        if currentusertitle == 0:
+            return render(request, 'errorPage.html', {"message": "You must log in to view this page"})
+        accountList = Account.objects.filter(title=1)
+        
+"""
 
 class deleteAccount(View):
     def get(self, request):
