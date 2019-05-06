@@ -9,6 +9,7 @@ from Commands import login, logout, displayAllCourseAssign, deleteAccountCom, cr
 
 from CurrentUserHelper import CurrentUser
 from Main.models import Account, Course, Section, AccountSection
+from AccountCourse.models import AccountCourse
 
 # Create your views here.
 
