@@ -158,6 +158,11 @@ class Test_web(TestCase):
     createCourse
     """
 
+    def test_createCourse_render(self):
+        response = self.c.post('/createcourse/', {'name': 'ComputerNetwork', 'number': 520,
+                                                  'onCampus': 'campus'})
+        self.assertEqual(response.status_code, 200)
+
     def test_createCourse_success(self):
         response = self.c.post('/createcourse/', {'name': 'ComputerNetwork', 'number': 520,
                                                   'onCampus': 'campus'})
@@ -192,6 +197,13 @@ class Test_web(TestCase):
     createSection
     type is an integer field, 1 for lecture section, 0 for lab section. 
     """
+
+    def test_createSection_Lab_render(self):
+        response = self.c.post('/createsection/', {'course': 351, 'type': 0, 'number': 201,
+                                                    'days': 'TR', 'start': 1400,
+                                                    'end': 1600})
+        self.assertEqual(response.status_code, 200)
+
     def test_createSection_Lab_success(self):
         response = self.c.post('/createsection/', {'course': 351, 'type': 0, 'number': 201,
                                                     'days': 'TR', 'start': 1400,
@@ -280,6 +292,18 @@ class Test_web(TestCase):
     """
     editPubInfo
     """
+
+    def test_editPubInfo_render(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
+        response = self.c.post('/editpubinfo/', {'username': 'picard304', 'firstname': 'James',
+                                                 'lastname': 'Picard', 'email': 'picardj@uwm.edu',
+                                                'password': '90456', 'homephone': '123-456-7893',
+                                                'address': '87 Enterprise Avenue', 'city': 'Alpha', 'state': 'Quadrant',
+                                                'zipcode': '11111', 'officenumber': '54', 'officephone': '777-777-7777',
+                                                'officedays': 'W', 'officestart': '0900', 'officeend': '1000'})
+
+        self.assertEqual(response.status_code, 200)
+
 
     def test_editPubInfo_firstName(self):
         self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
@@ -626,6 +650,11 @@ class Test_web(TestCase):
     """
     Assign Account Course tests 
     """
+
+    def test_assignInsCourse_render(self):
+        self.c.post('/login/', {'username': 'kirkj22', 'password': '678543'})
+        response = self.c.post('/assigninstructor/', {'username': 'picard304', 'course':'DataStructures'})
+        self.assertEqual(response.status_code, 200)
 
     def test_assignInsCourse_success(self):
         self.c.post('/login/', {'username': 'kirkj22', 'password': '678543'})
