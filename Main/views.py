@@ -2,13 +2,14 @@ from django.shortcuts import render, redirect
 from django.views import View
 from UserInterface import UI
 
-
+from AccountCourse.models import AccountCourse
 from Commands import login, logout, displayAllCourseAssign, deleteAccountCom, createSection,\
     createAccount, getPrivateDataList, getPublicDataList, editPubInfo, assignAccCourse, createCourse, \
     assignAccSection
 
 from CurrentUserHelper import CurrentUser
 from Main.models import Account, Course, Section, AccountSection
+from AccountCourse.models import AccountCourse
 
 # Create your views here.
 

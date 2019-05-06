@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.test import Client
-from Main.models import Account, Course, Section, AccountCourse, AccountSection
+from Main.models import Account, Course, Section, AccountSection
+from AccountCourse.models import AccountCourse
 from Commands import getPublicDataList, getPrivateDataList, displayAllCourseAssign
 
 
