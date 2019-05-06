@@ -1,4 +1,5 @@
-from Main.models import Account, Course, Section, AccountSection, AccountCourse
+from Main.models import Account, Course, Section, AccountSection
+from AccountCourse.models import AccountCourse
 import CurrentUserHelper
 import re
 from itertools import chain
