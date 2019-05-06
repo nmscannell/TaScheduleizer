@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 
 
-class Account(models.Model):
+class Account(models.Model): #jhiew
     userName = models.CharField(max_length=20, default=" ")
     firstName = models.CharField(max_length=20, default=" ")
     lastName = models.CharField(max_length=20, default=" ")
