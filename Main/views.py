@@ -2,13 +2,14 @@ from django.shortcuts import render, redirect
 from django.views import View
 from UserInterface import UI
 
-
+from AccountCourse.models import AccountCourse
 from Commands import login, logout, displayAllCourseAssign, deleteAccountCom, createSection,\
     createAccount, getPrivateDataList, getPublicDataList, editPubInfo, assignAccCourse, createCourse, \
     assignAccSection
 
 from CurrentUserHelper import CurrentUser
-from Main.models import Account, Course, Section, AccountCourse, AccountSection
+from Main.models import Account, Course, Section, AccountSection
+from AccountCourse.models import AccountCourse
 
 # Create your views here.
 
@@ -210,42 +211,42 @@ class deleteAccount(View):
         return render(request, 'deleteAccount.html', {"message": message, "stafflist": staffList, "i": user})
 
 
-class instructorCourse(View):
-    def get(self, request):
-        CU = CurrentUser()
-        currentusertitle = CU.getCurrentUserTitle(request)
-        if currentusertitle == 0:
-            return render(request, 'errorPage.html', {"message": "You must log in to view this page"})
-        elif currentusertitle != 4:
-            return render(request, 'errorPage.html', {"message": "You do not have permission to view this page"})
-        instructorList = Account.objects.filter(title=2)
-        courseList = Course.objects.all()
-        return render(request, 'assignInstructor.html', {"instList": instructorList, "courseList": courseList})
+#class instructorCourse(View):
+#    def get(self, request):
+#        CU = CurrentUser()
+#        currentusertitle = CU.getCurrentUserTitle(request)
+#        if currentusertitle == 0:
+#            return render(request, 'errorPage.html', {"message": "You must log in to view this page"})
+#        elif currentusertitle != 4:
+#            return render(request, 'errorPage.html', {"message": "You do not have permission to view this page"})
+#        instructorList = Account.objects.filter(title=2)
+#        courseList = Course.objects.all()
+#        return render(request, 'assignInstructor.html', {"instList": instructorList, "courseList": courseList})
 
-    def post(self, request):
-        username = str(request.POST.get("username"))
-        course = str(request.POST.get("course"))
-        message = assignAccCourse(username, course)
-        return render(request, 'assignInstructor.html', {"message": message})
+#    def post(self, request):
+#        username = str(request.POST.get("username"))
+#        course = str(request.POST.get("course"))
+#        message = assignAccCourse(username, course)
+#        return render(request, 'assignInstructor.html', {"message": message})
 
 
-class taCourse(View):
-    def get(self, request):
-        CU = CurrentUser()
-        currentusertitle = CU.getCurrentUserTitle(request)
-        if currentusertitle == 0:
-            return render(request, 'errorPage.html', {"message": "You must log in to view this page"})
-        if currentusertitle != 4:
-            return render(request, 'errorPage.html', {"message": "You do not have permission to view this page"})
-        taList = Account.objects.filter(title=1)
-        courseList = Course.objects.all()
-        return render(request, 'assignTACourse.html', {"taList": taList, "courseList": courseList})
+#class taCourse(View):
+#    def get(self, request):
+#        CU = CurrentUser()
+#        currentusertitle = CU.getCurrentUserTitle(request)
+#        if currentusertitle == 0:
+#            return render(request, 'errorPage.html', {"message": "You must log in to view this page"})
+#        if currentusertitle != 4:
+#            return render(request, 'errorPage.html', {"message": "You do not have permission to view this page"})
+#        taList = Account.objects.filter(title=1)
+#        courseList = Course.objects.all()
+#        return render(request, 'assignTACourse.html', {"taList": taList, "courseList": courseList})
 
-    def post(self, request):
-        username = str(request.POST["username"])
-        course = str(request.POST["course"])
-        message = assignAccCourse(username, course)
-        return render(request, 'assignTACourse.html', {"message": message})
+#    def post(self, request):
+#        username = str(request.POST["username"])
+#        course = str(request.POST["course"])
+#        message = assignAccCourse(username, course)
+#        return render(request, 'assignTACourse.html', {"message": message})
 
 
 class accountSection(View):

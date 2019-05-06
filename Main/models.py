@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 
 
-class Account(models.Model):
+class Account(models.Model): #jhiew
     userName = models.CharField(max_length=20, default=" ")
     firstName = models.CharField(max_length=20, default=" ")
     lastName = models.CharField(max_length=20, default=" ")
@@ -65,12 +65,12 @@ class Course(models.Model):
         return self.name
 
 
-class AccountCourse(models.Model):
-    Account = models.ForeignKey(Account, on_delete=models.CASCADE)
-    Course = models.ForeignKey(Course, on_delete=models.CASCADE)
+#class AccountCourse(models.Model):
+#    Account = models.ForeignKey(Account, on_delete=models.CASCADE)
+#    Course = models.ForeignKey(Course, on_delete=models.CASCADE)
 
-    def __str__(self):
-        return str(self.Account) + " " + str(self.Course)
+#    def __str__(self):
+#        return str(self.Account) + " " + str(self.Course)
 
 
 class Section(models.Model):
