@@ -27,9 +27,6 @@ def login(userName, password):
 
 def logout(user):
     try:
-        #CurrentUser = Account.objects.get(userName=userName)
-        #CurrentUser.currentUser = False
-        #CurrentUser.save()
         user.currentUser = False
         user.save()
         return "Successfully logged out"
@@ -290,8 +287,7 @@ def displayCourseAssign(courseNumber):
         response += "None"
     else:
         response += ", ".join(instructorList)
-        #for a in instructorList:
-            #response += a + " "
+
 
     response += "\nTeaching Assistants: "
 
@@ -305,8 +301,6 @@ def displayCourseAssign(courseNumber):
         response += "None"
     else:
         response += ", ".join(taList)
-        #for a in taList:
-            #response += a + " "
     response += "\n"
     lecSectionList = Section.objects.filter(course=course, type=1)
     labSectionList = Section.objects.filter(course=course, type=0)
@@ -371,7 +365,6 @@ def viewCourseAssign(userName): # secret message
 def getPublicDataList():
     instructorList = Account.objects.filter(title=2)
     taList = Account.objects.filter(title=1)
-    # staffList = list(chain(instructorList, taList))
     staffList = instructorList | taList
     directory = []
 
@@ -385,7 +378,6 @@ def getPublicDataList():
 def getPrivateDataList():
     instructorList = Account.objects.filter(title=2)
     taList = Account.objects.filter(title='1')
-    # staffList = list(chain(instructorList, taList))
     staffList = instructorList | taList
     directory = []
 
