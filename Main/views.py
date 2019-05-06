@@ -136,11 +136,14 @@ class createAccountView(View):
         elif currentusertitle < 3:
             return render(request, 'errorPage.html', {"message": "You do not have permission to View this page"})
 
-        return render(request, 'createAccount.html', {"i": user})
+        base = CU.getTemplate(request)
+
+        return render(request, 'createAccount.html', {"i": user, "base": base})
 
     def post(self, request):
         CU = CurrentUser()
         user = CU.getCurrentUser(request)
+        base = CU.getTemplate(request)
         userName = str(request.POST["username"])
         firstName = str(request.POST["firstname"])
         lastName = str(request.POST["lastname"])
@@ -150,7 +153,7 @@ class createAccountView(View):
         message = createAccount(userName=userName, firstName=firstName,
                                 lastName=lastName, email=email, title=title)
 
-        return render(request, 'createAccount.html', {"message": message, "i": user})
+        return render(request, 'createAccount.html', {"message": message, "i": user, "base": base})
         #except Exception as e:
          #   return render(request, 'createAccount.html', {"message": str(e)})
 
@@ -164,13 +167,14 @@ class courseAssignmentsList(View):
         if currentusertitle == 0:
             return render(request, 'errorPage.html', {"message": "You must log in to view this page"})
 
+        base = CU.getTemplate(request)
         sectionList = Section.objects.all()
         courses = Course.objects.all()
         accountList = AccountCourse.objects.all()
         accountsec = AccountSection.objects.all()
         return render(request, 'courseAssignmentList.html', {"courseList": courses, "i": user,
                                                              "accountList": accountList, "sectionList": sectionList,
-                                                             'accountSec': accountsec})
+                                                             'accountSec': accountsec, "base" : base})
 """
 class viewTAAssignments(View):
 
@@ -193,11 +197,12 @@ class deleteAccount(View):
         staffList = instructorList | taList
         CU = CurrentUser()
         currentusertitle = CU.getCurrentUserTitle(request)
+        base = CU.getTemplate(request)
         if currentusertitle == 0:
             return render(request, 'errorPage.html', {"message": "You must log in to view this page"})
         elif currentusertitle < 3:
             return render(request, 'errorPage.html', {"message": "You do not have permission to view this page"})
-        return render(request, 'deleteAccount.html', {"stafflist": staffList, "i":user})
+        return render(request, 'deleteAccount.html', {"stafflist": staffList, "i": user, "base": base})
 
     def post(self, request):
         CU = CurrentUser()
@@ -207,8 +212,9 @@ class deleteAccount(View):
         instructorList = Account.objects.filter(title=2)
         taList = Account.objects.filter(title='1')
         staffList = instructorList | taList
+        base = CU.getTemplate(request)
 
-        return render(request, 'deleteAccount.html', {"message": message, "stafflist": staffList, "i": user})
+        return render(request, 'deleteAccount.html', {"message": message, "stafflist": staffList, "i": user, "base": base})
 
 
 #class instructorCourse(View):
@@ -255,6 +261,7 @@ class accountSection(View):
         currentuser = CU.getCurrentUser(request)
         currentusertitle = currentuser.title
         courseList = []
+        base = CU.getTemplate(request)
         if currentusertitle == 4:
             courseList = Course.objects.all()
         elif currentusertitle == 2:
@@ -263,7 +270,7 @@ class accountSection(View):
                 courseList.append(i.Course)
         else:
             return render(request, 'errorPage.html', {"message": "You do not have permission to view this page"})
-        return render(request, 'findCourses.html', {"courseList": courseList, "i": currentuser})
+        return render(request, 'findCourses.html', {"courseList": courseList, "i": currentuser, "base": base})
 
     def post(self, request):
         courseName = str(request.POST["course"])
@@ -271,6 +278,7 @@ class accountSection(View):
         CU = CurrentUser()
         title = CU.getCurrentUserTitle(request)
         user = CU.getCurrentUser(request)
+        base = CU.getTemplate(request)
         accountList = []
         sectionList = []
         if title == 4:
@@ -284,7 +292,7 @@ class accountSection(View):
                 if i.Account.title == 1:
                     accountList.append(i.Account)
             sectionList = Section.objects.filter(course=course, type=0)
-        return render(request, 'assignSection.html', {"course": course, "accountList": accountList, "sectionList": sectionList, "i": user})
+        return render(request, 'assignSection.html', {"course": course, "accountList": accountList, "sectionList": sectionList, "i": user, "base": base})
 
 
 class sectionAssignment(View):
@@ -298,8 +306,9 @@ class sectionAssignment(View):
         course = Course.objects.get(name=courseName)
         sec = Section.objects.get(number=section, course=course)
         courseNum = str(sec.course.number)
+        base = CU.getTemplate(request)
         message = assignAccSection(accountName, courseNum, section)
-        return render(request, 'assignSection.html', {"message": message, "i": user})
+        return render(request, 'assignSection.html', {"message": message, "i": user, "base": base})
 
 
 class directoryView(View):
@@ -316,7 +325,9 @@ class directoryView(View):
 
         directory = talist | inslist
 
-        return render(request, 'Directory.html', {"directory": directory, "i": user})
+        base = CU.getTemplate(request)
+
+        return render(request, 'Directory.html', {"directory": directory, "i": user, "base": base})
 
 
 class editPubInfoView(View):
@@ -324,10 +335,11 @@ class editPubInfoView(View):
     def get(self, request):
         CU = CurrentUser()
         title = CU.getCurrentUser(request)
+        base = CU.getTemplate(request)
         if not title:
             return render(request, 'errorPage.html', {"message": "You must log in to view this page"})
         editor = CU.getCurrentUser(request)
-        return render(request, 'editPubInfo.html', {'i': editor, "editor" : editor})
+        return render(request, 'editPubInfo.html', {'i': editor, "editor": editor, "base": base})
 
     def post(self, request):
         dict = {
@@ -348,12 +360,13 @@ class editPubInfoView(View):
             'officeend': str(request.POST.get('officeend'))}
         CU = CurrentUser()
         editor = CU.getCurrentUser(request)
+        base = CU.getTemplate(request)
 
         user = Account.objects.get(userName=dict['userName'].replace(" ", ""))
         message = editPubInfo(user, dict)
         info = makeUserDictionary(user)
         return render(request, 'editPubInfo_success.html', {"message": message, "i": user, "info": info,
-                                                            "editor": editor})
+                                                            "editor": editor, "base": base})
 
 
 def makeUserDictionary(user):
@@ -385,7 +398,9 @@ class createCourseView(View):
         if currentusertitle < 3:
             return render(request, 'errorPage.html', {"message": "You do not have permission to view this page"})
 
-        return render(request, 'createCourse.html', {"editor": Acc})
+        base = CU.getTemplate(request)
+
+        return render(request, 'createCourse.html', {"editor": Acc, "base": base})
 
     def post(self, request):
         CU = CurrentUser()
@@ -399,8 +414,9 @@ class createCourseView(View):
         #end = str(request.POST["end"])
 
         messsage = createCourse(name, number, onCampus)
+        base = CU.getTemplate(request)
 
-        return render(request, 'createCourse.html', {"message": messsage, "editor": Acc})
+        return render(request, 'createCourse.html', {"message": messsage, "editor": Acc, "base": base})
 
 
 class createSectionView(View):
@@ -414,7 +430,8 @@ class createSectionView(View):
         if currentusertitle < 3:
             return render(request, 'errorPage.html', {"message": "You do not have permission to view this page"})
 
-        return render(request, 'createSection.html', {"editor": Acc, "courseList": courseList})
+        base = CU.getTemplate(request)
+        return render(request, 'createSection.html', {"editor": Acc, "courseList": courseList, "base": base})
 
     def post(self, request):
         CU = CurrentUser()
@@ -429,8 +446,9 @@ class createSectionView(View):
         start = str(request.POST["start"])
         end = str(request.POST["end"])
 
+        base = CU.getTemplate(request)
         message = createSection(courseName, type, number, days, start, end)
-        return render(request, 'createSection.html', {"message": message, "editor": Acc, "courseList": courseList})
+        return render(request, 'createSection.html', {"message": message, "editor": Acc, "courseList": courseList, "base": base})
 
 
 class editUserInfoView(View):
@@ -447,7 +465,8 @@ class editUserInfoView(View):
         instructorList = Account.objects.filter(title=2)
         taList = Account.objects.filter(title='1')
         staffList = instructorList | taList
-        return render(request, 'editUserInfo.html', {"stafflist" : staffList, "editor":editor})
+        base = CU.getTemplate(request)
+        return render(request, 'editUserInfo.html', {"stafflist" : staffList, "editor":editor, "base": base})
 
     def post(self, request):
 
@@ -456,7 +475,8 @@ class editUserInfoView(View):
         user = str(request.POST['username'])
         account = Account.objects.get(userName=user)
         info = makeUserDictionary(account)
-        return render(request, 'editPubInfo.html', {'i': account, "editor": editor, "info": info})
+        base = CU.getTemplate(request)
+        return render(request, 'editPubInfo.html', {'i': account, "editor": editor, "info": info, "base": base})
 
 class contact(View):
 
@@ -467,3 +487,11 @@ class contact(View):
 
     def post(self, request):
         return render(request, 'contact.html')
+
+class testView(View):
+    def get(self, request):
+        CU = CurrentUser()
+        title = CU.getCurrentUserTitle(request)
+        user = CU.getCurrentUser(request)
+        base = CU.getTemplate(request)
+        return render(request, 'test/testCreateAccount.html', {"i": user, "base": base})

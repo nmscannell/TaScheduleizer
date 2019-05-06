@@ -1,0 +1,40 @@
+{% extends base %}
+
+{% load static %}
+{% block header %}
+ <h1 id="heading">Create an Account</h1>
+{% endblock %}
+{% block content %}<br>
+     <link rel="stylesheet" type = "text/css" href="{% static 'background.css' %}">
+    <form method="post" action="/createaccount/">
+  {%csrf_token%}
+
+    <table>
+       <TR class="cell1">
+           <TD>First Name</TD>
+           <TD><input type="text" name="firstname"  required/></TD>
+       </TR>
+       <TR class="cell2">
+           <TD>Last Name</TD>
+           <TD><input type="text" name="lastname" required/></TD>
+       </TR>
+       <TR class="cell1">
+           <TD><input type ="radio" name="title" value="ta"/>TA</TD>
+           <TD><input type ="radio"name="title" value="instructor"/>Instructor</TD>
+       </TR>
+       <TR class="cell2">
+           <TD>UserName</TD>
+           <TD><input type="text" name="username" required/></TD>
+       </TR>
+       <TR class="cell1">
+           <TD>Email</TD>
+           <TD> <input type ="email" name="email" required/></TD>
+       </TR>
+   </table>
+
+<P><input type="submit" class="btn"/></P>
+
+    <p class="blinking">{{ message }}</p>
+
+</form>
+{% endblock %}
