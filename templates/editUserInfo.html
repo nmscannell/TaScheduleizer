@@ -17,12 +17,8 @@
 
 <ul>
  <li>
-     {% if editor.title == 3 %}
-         <a href="/administrator">Home</a>
-     {% endif %}
-     {% if editor.title == 4 %}
-        <a href="/supervisor">Home</a>
-     {% endif %}
+     {% if editor.title == 3 %}<a href="/administrator">Home</a>{% endif %}
+     {% if editor.title == 4 %}<a href="/supervisor">Home</a>{% endif %}
  </li>
      <!--<a class="active" href="javascript:history.go(-1)">Home</a></li>-->
     <li style="float:right"><a href="/logout/">Logout</a></li>
@@ -55,11 +51,5 @@
 
 </form>
 
-
-<!--
-{% if editor.title == 3 %}<a href="/administrator">Admin Home</a>
-{% endif %}
-{% if editor.title == 4 %}<a href="/supervisor">Supervisor Home</a>
-{% endif %}-->
 </body>
 </html>

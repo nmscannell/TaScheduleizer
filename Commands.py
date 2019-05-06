@@ -27,9 +27,6 @@ def login(userName, password):
 
 def logout(user):
     try:
-        #CurrentUser = Account.objects.get(userName=userName)
-        #CurrentUser.currentUser = False
-        #CurrentUser.save()
         user.currentUser = False
         user.save()
         return "Successfully logged out"
@@ -160,7 +157,7 @@ def createSection(courseNumber, type, sectionNumber, days, start, end):
         return "Lecture section number must be 400 level, numeric, and three digits long."
 
     # Make sure the course is not online
-    if not c.onCampus and re.match('^2[0-9]{2}$', sectionNumber):
+    if not c.onCampus and type == "0":
         return "You cannot create a lab section for an online course."
 
     days = days.upper()
@@ -184,9 +181,14 @@ def createSection(courseNumber, type, sectionNumber, days, start, end):
     l.course = c
     l.type = type
     l.number = sectionNumber
-    l.meetingDays = days
-    l.startTime = start
-    l.endTime = end
+    if c.onCampus:
+        l.meetingDays = days
+        l.startTime = start
+        l.endTime = end
+    else:
+        l.meetingDays = ""
+        l.startTime = 0000
+        l.endTime = 0000
     l.save()
     return "Section successfully created."
 
@@ -285,8 +287,7 @@ def displayCourseAssign(courseNumber):
         response += "None"
     else:
         response += ", ".join(instructorList)
-        #for a in instructorList:
-            #response += a + " "
+
 
     response += "\nTeaching Assistants: "
 
@@ -300,8 +301,6 @@ def displayCourseAssign(courseNumber):
         response += "None"
     else:
         response += ", ".join(taList)
-        #for a in taList:
-            #response += a + " "
     response += "\n"
     lecSectionList = Section.objects.filter(course=course, type=1)
     labSectionList = Section.objects.filter(course=course, type=0)
@@ -366,7 +365,6 @@ def viewCourseAssign(userName): # secret message
 def getPublicDataList():
     instructorList = Account.objects.filter(title=2)
     taList = Account.objects.filter(title=1)
-    # staffList = list(chain(instructorList, taList))
     staffList = instructorList | taList
     directory = []
 
@@ -380,7 +378,6 @@ def getPublicDataList():
 def getPrivateDataList():
     instructorList = Account.objects.filter(title=2)
     taList = Account.objects.filter(title='1')
-    # staffList = list(chain(instructorList, taList))
     staffList = instructorList | taList
     directory = []
 
@@ -497,7 +494,7 @@ def editPubInfo(user, dict):
         else:
             user.officeHoursStart = officeHoursStart
     if officeHoursEnd != str(user.officeHoursEnd):
-        if checkValidTimes(officeHoursEnd) == False:
+        if not checkValidTimes(officeHoursEnd):
             return "Invalid start or end time, please use a 4 digit military time representation"
         else:
             user.officeHoursEnd = officeHoursEnd

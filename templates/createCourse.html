@@ -15,10 +15,8 @@
 
 <ul>
  <li>
- {% if editor.title == 3 %}<a href="/administrator">Admin Home</a>
-{% endif %}
-{% if editor.title == 4 %}<a href="/supervisor">Supervisor Home</a>
-{% endif %}
+    {% if editor.title == 3 %}<a href="/administrator">Home</a>{% endif %}
+    {% if editor.title == 4 %}<a href="/supervisor">Home</a>{% endif %}
  </li>
     <li style="float:right"><a href="/logout/">Logout</a></li>
 </ul>
@@ -43,29 +41,11 @@
            <TD><input type ="radio" name="onCampus" value="campus"/>On Campus</TD>
            <TD><input type ="radio"name="onCampus" value="online"/>Online</TD>
        </TR>
-      <!-- <TR class="cell2">
-           <TD>Days</TD>
-           <TD><input type="text" name="days" required/></TD>
-       </TR>
-       <TR class="cell1">
-           <TD>Start Time</TD>
-           <TD> <input type ="text" name="start" required/></TD>
-       </TR>
-       <TR class="cell2">
-           <TD>End Time</TD>
-           <TD><input type="text" name="end" required/></TD>
-       </TR> -->
    </table>
 <p><input type="submit" class="btn"/></p>
   </form>
  <p class="blinking">{{ message }}</p>
 
-<!--
-{% if editor.title == 3 %}<a href="/administrator">Admin Home</a>
-{% endif %}
-{% if editor.title == 4 %}<a href="/supervisor">Supervisor Home</a>
-{% endif %}
--->
 
 </body>
 </html>
