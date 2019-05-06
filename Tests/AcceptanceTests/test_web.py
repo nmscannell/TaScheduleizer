@@ -232,8 +232,15 @@ class Test_web(TestCase):
 
         self.assertEqual(response.context['message'], "Course number must be numeric and three digits long")
 
-    def test_createSection_onlineCourse(self):
+    def test_createSection_onlineCourseLec(self):
         response = self.c.post('/createsection/', {'course': 564, 'type': 1, 'number': 401,
+                                                   'days': 'TR', 'start': 1400,
+                                                   'end': 1600})
+
+        self.assertEqual(response.context['message'], "Section successfully created.")
+
+    def test_createSection_onlineCourseLab(self):
+        response = self.c.post('/createsection/', {'course': 564, 'type': 0, 'number': 201,
                                                    'days': 'TR', 'start': 1400,
                                                    'end': 1600})
 

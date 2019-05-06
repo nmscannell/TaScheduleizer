@@ -15,18 +15,14 @@
 </head>
 <body>
 
-
 <ul>
-    <li> <!--<a class="active" href="javascript:history.go(-1)">Home</a></li>-->
-        <a href="/supervisor">Home</a></li>
-
-
+    <li> <a href="/supervisor">Home</a></li>
+        <!--<a class="active" href="javascript:history.go(-1)">Home</a></li>-->
     <li style="float:right"><a href="/logout/">Logout</a></li>
 </ul>
 
 <br>
 <br>
-
 
 <form method="post" action="/assigninstructor/">
     {% csrf_token %}
@@ -49,16 +45,10 @@
 
     <br>
     <br>
-
-
     </div>
     <input type="submit" class="btn"/><br>
     <p>{{ message }}</p>
-
 </form>
-<!--
-<a href="/supervisor">Supervisor Home</a>
--->
 </body>
 
 </html>
