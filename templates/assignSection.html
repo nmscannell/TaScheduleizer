@@ -12,7 +12,8 @@
     <form method="post" action="/assignsection/">
   {%csrf_token%}
 
-<input type="text" name="course" value="{{ course }}">
+
+<input type="text" name="course" value="{{ course }} " readonly>
 
 <div class="box">
 <select name="account">
