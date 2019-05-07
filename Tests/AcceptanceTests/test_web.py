@@ -131,7 +131,8 @@ class Test_web(TestCase):
                                                    'username': 'kim4', 'title': 'Instructor',
                                                    'email': 'kim4@starfleet.com'})
         self.assertEqual(response.context['message'], "The email address you have entered in not valid.  "
-                                                      "Please make sure you are using a uwm email address in the correct format.")
+                                                      "Please make sure you are using a uwm email address in the "
+                                                      "correct format.")
 
     def test_createAccount_invalid_title(self):
         self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
@@ -852,34 +853,6 @@ class Test_web(TestCase):
         response = self.c.get('/instructor/')
 
         self.assertEqual(response.context['account'], self.account1)
-
-    def test_directory_Ta_View(self):
-        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
-
-        response = self.c.get('/directory/')
-
-        self.assertEqual(response.context['directory'], self.pubDirecotry)
-
-    def test_directory_Instructor_View(self):
-        self.c.post('/login/', {'username': 'janewayk123', 'password': '123456'})
-
-        response = self.c.get('/directory/')
-
-        self.assertEqual(response.context['directory'], self.pubDirecotry)
-
-    def test_directory_Supervisor_View(self):
-        self.c.post('/login/', {'username': 'kirkj22', 'password': '678543'})
-
-        response = self.c.get('/directory/')
-
-        self.assertEqual(response.context['directory'], self.privateDirecotry)
-
-    def test_courseAssignments_view(self):
-        self.c.post('/login/', {'username': 'kirkj22', 'password': '678543'})
-        response = self.c.get('/courseassignments/')
-        self.list = displayAllCourseAssign()
-
-        self.assertEqual(response.context['courseList'], self.list)
 
 
     """
