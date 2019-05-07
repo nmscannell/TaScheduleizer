@@ -15,7 +15,7 @@ h1 {
 .container {
 	padding: 12px 24px 24px 24px;
 	margin: 48px 12px;
-	background: #E3F2FD;
+	background: #fff8f8;
 	border-radius: 4px;
 }
 
@@ -81,4 +81,14 @@ input.btn[type="submit"] {
 input.btn[type="submit"]:hover {
   background: #4b81eb;
   box-shadow: 0 2px 4px 0px rgba(0,0,0,0.16), 0 2px 4px 0px rgba(0,0,0,0.23);
+}
+
+.head {
+  color: #fff;
+  font-size: 34px;
+  font-weight: normal;
+  padding: 1px 0;
+  text-align: center;
+  text-transform: uppercase;
+  background: #8dbfff;
 }

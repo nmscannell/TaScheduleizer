@@ -8,12 +8,14 @@
       <link rel="stylesheet" type = "text/css" href="{% static 'contact.css' %}">
 
     <div class="container">
-	<h1 id="heading">Contact Form</h1>
 
+     <div class="head">
+         <h1 id="heading">Contact Form</h1>
+     </div>
 <body>
 
 
-	<form class="form" method="post" action="/contact/", id="contact-form"> <!--Its super important that action matches the url of the page-->
+	<form class="form" method="post" action="/contact/"> <!--Its super important that action matches the url of the page-->
   {%csrf_token%}
 
 		<label for="first_name"></label>
@@ -44,9 +46,9 @@
 <form
 action="https://webdevbasics.net/scripts/demo.php" method="get">
 </form>
-		<div class="center">
+
 		     <input type="submit" class="btn"/>
-		</div>
+
 	</form>
 </div>
  </form>
