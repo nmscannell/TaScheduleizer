@@ -45,12 +45,16 @@
 
 <br>
 <br>
+<h1>{{ message }}</h1>
+<table>
+    {% for key,value in info.items %}
+       <TR class="cell1">
+           <TD>{{ key }}</TD>
+           <TD class="cell2">{{ value }}</TD>
+       </TR>
+    {% endfor %}
+   </table>
 
-<p>{{ message }}</p>
-{% for key,value in info.items %}
-<p>{{ key }} : {{ value }}</p>
-{% endfor %}
-<br>
 
 </body>
 
