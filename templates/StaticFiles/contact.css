@@ -1,12 +1,64 @@
-body, html {
-  margin: 0;
+body {
     background-image: url("background.png");
   height: 100%;
   background-position: center;
   background-repeat: no-repeat;
+    background-attachment: fixed;
   background-size: cover;
+  text-align: center;
 }
 
+h1 {
+	text-align: center;
+}
+
+.container {
+	padding: 12px 24px 24px 24px;
+	margin: 48px 12px;
+	background: #E3F2FD;
+	border-radius: 4px;
+}
+
+label {
+	font-size: 0.85em;
+	margin-left: 12px;
+}
+
+input[type=text],input[type=email], textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 6px;
+    margin-bottom: 16px;
+    resize: vertical;
+}
+
+input[type=text]:focus,input[type=email]:focus, textarea:focus {
+	border: 1px solid green;
+}
+
+.center {
+	text-align: center;
+}
+
+#heading{
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 2em;
+    color: darkgreen;
+    letter-spacing: 0.15em;
+    text-shadow:
+    0 0 5px yellow,
+    0 0 10px yellow,
+    0 0 20px yellow,
+    0 0 40px yellow,
+    0 0 80px yellow,
+    0 0 90px yellow,
+    0 0 100px yellow,
+    0 0 150px yellow;
+}
 
 input.btn[type="submit"] {
   background: #6498fe;
@@ -23,46 +75,10 @@ input.btn[type="submit"] {
   padding: 10px;
   text-transform: uppercase;
   transition: all 0.15s ease-in-out 0s;
-  width: 20%;
+  width: 200px;
   box-shadow: 0 1px 2px 0px rgba(0,0,0,0.16), 0 1px 2px 0px rgba(0,0,0,0.23);
 }
 input.btn[type="submit"]:hover {
   background: #4b81eb;
   box-shadow: 0 2px 4px 0px rgba(0,0,0,0.16), 0 2px 4px 0px rgba(0,0,0,0.23);
 }
-.text-p{
-  font-size: 14px;
-  text-align: center;
-  margin: 10px 0;
-}
-.text-p a{
-  color: #175690;
-}
-
-#firstname
-{
-    border-color: black;
-    height : 30px;
-    width: 415px;
-}
-#lastname
-{
-    border-color: black;
-    height: 30px;
-    width: 415px;
-}
-
-input, textarea{
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-  margin-top: 6px;
-  margin-bottom: 16px;
-  resize: vertical
-}
-
-
-
-
