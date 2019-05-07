@@ -39,5 +39,6 @@ class CurrentUser:
             return 'Accounts/AdminBase.html'
         if title == 4:
             return 'Accounts/SupervisorBase.html'
-
+        else:
+            return None
 
