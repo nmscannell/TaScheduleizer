@@ -174,6 +174,21 @@ class Test_web(TestCase):
                                                   'onCampus': 'campus'})
         self.assertEqual(response.context['message'], "Course number must be numeric and three digits long")
 
+    def test_createCourse_invalidNumber2(self):
+        response = self.c.post('/createcourse/', {'name': 'ComputerNetwork', 'number': 1,
+                                                  'onCampus': 'campus'})
+        self.assertEqual(response.context['message'], "Course number must be numeric and three digits long")
+
+    def test_createCourse_invalidNumber3(self):
+        response = self.c.post('/createcourse/', {'name': 'ComputerNetwork', 'number': 'abc',
+                                                  'onCampus': 'campus'})
+        self.assertEqual(response.context['message'], "Course number must be numeric and three digits long")
+
+    def test_createCourse_invalidNumber4(self):
+        response = self.c.post('/createcourse/', {'name': 'ComputerNetwork', 'number': 40,
+                                                  'onCampus': 'campus'})
+        self.assertEqual(response.context['message'], "Course number must be numeric and three digits long")
+
     def test_createCourse_course_exists(self):
         response = self.c.post('/createcourse/', {'name': 'ComputerSecurity', 'number': 633,
                                                   'onCampus': 'campus'})
@@ -187,6 +202,11 @@ class Test_web(TestCase):
     def test_createCourse_invalid_locations2(self):
         response = self.c.post('/createcourse/', {'name': 'Server Side Web Programming', 'number': 452,
                                                   'onCampus': '6'})
+        self.assertEqual(response.context['message'], "Location is invalid, please enter campus or online.")
+
+    def test_createCourse_invalid_locations3(self):
+        response = self.c.post('/createcourse/', {'name': 'Server Side Web Programming', 'number': 452,
+                                                  'onCampus': 'q'})
         self.assertEqual(response.context['message'], "Location is invalid, please enter campus or online.")
 
     def test_createCourse_name_exists(self):
@@ -224,14 +244,64 @@ class Test_web(TestCase):
                                                    'days': 'TR', 'start': 1400,
                                                    'end': 1600})
 
-        self.assertEqual(response.context['message'], "Lecture section number must be 400 level, numeric, and three digits long.")
+        self.assertEqual(response.context['message'],
+                         "Lecture section number must be 400 level, numeric, and three digits long.")
+
+    def test_createSection_Lec_invalidNumber2(self):
+        response = self.c.post('/createsection/', {'course': 351, 'type': 1, 'number': 10,
+                                                   'days': 'TR', 'start': 1400,
+                                                   'end': 1600})
+
+        self.assertEqual(response.context['message'],
+                         "Lecture section number must be 400 level, numeric, and three digits long.")
+
+    def test_createSection_Lec_invalidNumber3(self):
+        response = self.c.post('/createsection/', {'course': 351, 'type': 1, 'number': 2,
+                                                   'days': 'TR', 'start': 1400,
+                                                   'end': 1600})
+
+        self.assertEqual(response.context['message'],
+                         "Lecture section number must be 400 level, numeric, and three digits long.")
+
+    def test_createSection_Lec_invalidNumber4(self):
+        response = self.c.post('/createsection/', {'course': 351, 'type': 1, 'number': 'abc',
+                                                   'days': 'TR', 'start': 1400,
+                                                   'end': 1600})
+
+        self.assertEqual(response.context['message'],
+                         "Lecture section number must be 400 level, numeric, and three digits long.")
 
     def test_createSection_Lab_invalidNumber(self):
         response = self.c.post('/createsection/', {'course': 351, 'type': 0, 'number': 401,
                                                    'days': 'TR', 'start': 1400,
                                                    'end': 1600})
 
-        self.assertEqual(response.context['message'], "Lab section number must be 200 level, numeric, and three digits long.")
+        self.assertEqual(response.context['message'],
+                         "Lab section number must be 200 level, numeric, and three digits long.")
+
+    def test_createSection_Lab_invalidNumber2(self):
+        response = self.c.post('/createsection/', {'course': 351, 'type': 0, 'number': 4,
+                                                   'days': 'TR', 'start': 1400,
+                                                   'end': 1600})
+
+        self.assertEqual(response.context['message'],
+                         "Lab section number must be 200 level, numeric, and three digits long.")
+
+    def test_createSection_Lab_invalidNumber3(self):
+        response = self.c.post('/createsection/', {'course': 351, 'type': 0, 'number': 'abc',
+                                                   'days': 'TR', 'start': 1400,
+                                                   'end': 1600})
+
+        self.assertEqual(response.context['message'],
+                         "Lab section number must be 200 level, numeric, and three digits long.")
+
+    def test_createSection_Lab_invalidNumber4(self):
+        response = self.c.post('/createsection/', {'course': 351, 'type': 0, 'number': 20,
+                                                   'days': 'TR', 'start': 1400,
+                                                   'end': 1600})
+
+        self.assertEqual(response.context['message'],
+                         "Lab section number must be 200 level, numeric, and three digits long.")
 
     def test_createSection_Lab_invalidCourseNumber(self):
         response = self.c.post('/createsection/', {'course': 3551, 'type': 0, 'number': 201,
@@ -259,11 +329,28 @@ class Test_web(TestCase):
                                                    'days': 'TRQ', 'start': 1400,
                                                    'end': 1600})
 
-        self.assertEqual(response.context['message'], "Invalid days of the week, please enter days in the format: MWTRF")
+        self.assertEqual(response.context['message'],
+                         "Invalid days of the week, please enter days in the format: MWTRF")
 
     def test_createSection_invalidStart(self):
         response = self.c.post('/createsection/', {'course': 351, 'type': 0, 'number': 201,
                                                    'days': 'TR', 'start': "Now",
+                                                   'end': 1600})
+
+        self.assertEqual(response.context['message'],
+                         "Invalid start or end time, please use a 4 digit military time representation")
+
+    def test_createSection_invalidStart2(self):
+        response = self.c.post('/createsection/', {'course': 351, 'type': 0, 'number': 201,
+                                                   'days': 'TR', 'start': 999,
+                                                   'end': 1600})
+
+        self.assertEqual(response.context['message'],
+                         "Invalid start or end time, please use a 4 digit military time representation")
+
+    def test_createSection_invalidStart3(self):
+        response = self.c.post('/createsection/', {'course': 351, 'type': 0, 'number': 201,
+                                                   'days': 'TR', 'start': 1299,
                                                    'end': 1600})
 
         self.assertEqual(response.context['message'],
@@ -274,7 +361,24 @@ class Test_web(TestCase):
                                                    'days': 'TR', 'start': 1400,
                                                    'end': "Never"})
 
-        self.assertEqual(response.context['message'], "Invalid start or end time, please use a 4 digit military time representation")
+        self.assertEqual(response.context['message'],
+                         "Invalid start or end time, please use a 4 digit military time representation")
+
+    def test_createSection_invalidEnd2(self):
+        response = self.c.post('/createsection/', {'course': 351, 'type': 0, 'number': 201,
+                                                   'days': 'TR', 'start': 1400,
+                                                   'end': 9999})
+
+        self.assertEqual(response.context['message'],
+                         "Invalid start or end time, please use a 4 digit military time representation")
+
+    def test_createSection_invalidEnd3(self):
+        response = self.c.post('/createsection/', {'course': 351, 'type': 0, 'number': 201,
+                                                   'days': 'TR', 'start': 1400,
+                                                   'end': 89765})
+
+        self.assertEqual(response.context['message'],
+                         "Invalid start or end time, please use a 4 digit military time representation")
 
     def teat_createSection_invalidTime(self):
         response = self.c.post('/createsection/', {'course': 351, 'type': 1, 'number': 401,
