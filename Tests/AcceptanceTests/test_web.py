@@ -104,12 +104,14 @@ class Test_web(TestCase):
     """
 
     def test_createAccount_render(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/createaccount/', {'firstname': 'Dan', 'lastname': 'Miles',
                                                    'username': 'miles', 'title': 'TA',
                                                    'email': 'miles@uwm.edu'})
         self.assertEqual(response.status_code, 200)
 
     def test_createAccount_success(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/createaccount/', {'firstname': 'Miles', 'lastname': 'OBrien',
                                                    'username': 'obrien31', 'title': 'TA',
                                                    'email': 'obrien31@uwm.edu'})
@@ -117,12 +119,14 @@ class Test_web(TestCase):
                          "Account successfully created.  Temporary password is: obrien31456")
 
     def test_createAccount_alreadyexists(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/createaccount/', {'firstname': 'Jean Luc', 'lastname': 'Picard',
                                                    'username': 'picard304', 'title': 'TA',
                                                    'email': 'picardj@uwm.edu'})
         self.assertEqual(response.context['message'], "Account already exists")
 
     def test_createAccount_invalid_email(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/createaccount/', {'firstname': 'Harry', 'lastname': 'Kim',
                                                    'username': 'kim4', 'title': 'Instructor',
                                                    'email': 'kim4@starfleet.com'})
@@ -130,6 +134,7 @@ class Test_web(TestCase):
                                                       "Please make sure you are using a uwm email address in the correct format.")
 
     def test_createAccount_invalid_title(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/createaccount/', {'firstname': 'Harry', 'lastname': 'Kim',
                                                    'username': 'kim4', 'title': 'Engineer',
                                                    'email': 'kim4@uwm.edu'})
@@ -141,16 +146,19 @@ class Test_web(TestCase):
     """
 
     def test_deleteAccount_render(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/deleteaccount/', {'username': 'jerry2'})
         self.assertEqual(response.status_code, 200)
 
     def test_deleteAccount_success(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/deleteaccount/', {'username': 'jerry2'})
 
         self.assertEqual(response.context['message'],
                          "Account successfully deleted")
 
     def test_deleteAccount_doesnotexists(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/deleteaccount/', {'username':'henry42'})
 
         self.assertEqual(response.context['message'], "Account does not exist")
@@ -160,56 +168,67 @@ class Test_web(TestCase):
     """
 
     def test_createCourse_render(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/createcourse/', {'name': 'ComputerNetwork', 'number': 520,
                                                   'onCampus': 'campus'})
         self.assertEqual(response.status_code, 200)
 
     def test_createCourse_success(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/createcourse/', {'name': 'ComputerNetwork', 'number': 520,
                                                   'onCampus': 'campus'})
         self.assertEqual(response.context['message'], "Course successfully created")
 
     def test_createCourse_invalidNumber(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/createcourse/', {'name': 'ComputerNetwork', 'number': 1024,
                                                   'onCampus': 'campus'})
         self.assertEqual(response.context['message'], "Course number must be numeric and three digits long")
 
     def test_createCourse_invalidNumber2(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/createcourse/', {'name': 'ComputerNetwork', 'number': 1,
                                                   'onCampus': 'campus'})
         self.assertEqual(response.context['message'], "Course number must be numeric and three digits long")
 
     def test_createCourse_invalidNumber3(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/createcourse/', {'name': 'ComputerNetwork', 'number': 'abc',
                                                   'onCampus': 'campus'})
         self.assertEqual(response.context['message'], "Course number must be numeric and three digits long")
 
     def test_createCourse_invalidNumber4(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/createcourse/', {'name': 'ComputerNetwork', 'number': 40,
                                                   'onCampus': 'campus'})
         self.assertEqual(response.context['message'], "Course number must be numeric and three digits long")
 
     def test_createCourse_course_exists(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/createcourse/', {'name': 'ComputerSecurity', 'number': 633,
                                                   'onCampus': 'campus'})
         self.assertEqual(response.context['message'], "Course already exists")
 
     def test_createCourse_invalid_locations(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/createcourse/', {'name': 'Server Side Web Programming', 'number': 452,
                                                   'onCampus': 'hybrid'})
         self.assertEqual(response.context['message'], "Location is invalid, please enter campus or online.")
 
     def test_createCourse_invalid_locations2(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/createcourse/', {'name': 'Server Side Web Programming', 'number': 452,
                                                   'onCampus': '6'})
         self.assertEqual(response.context['message'], "Location is invalid, please enter campus or online.")
 
     def test_createCourse_invalid_locations3(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/createcourse/', {'name': 'Server Side Web Programming', 'number': 452,
                                                   'onCampus': 'q'})
         self.assertEqual(response.context['message'], "Location is invalid, please enter campus or online.")
 
     def test_createCourse_name_exists(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/createcourse/', {'name': 'DataStructures', 'number': 332, 'onCampus': 'campus'})
         self.assertEqual(response.context['message'], "A course with this name already exists")
 
@@ -220,12 +239,14 @@ class Test_web(TestCase):
     """
 
     def test_createSection_Lab_render(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/createsection/', {'course': 351, 'type': 0, 'number': 201,
                                                     'days': 'TR', 'start': 1400,
                                                     'end': 1600})
         self.assertEqual(response.status_code, 200)
 
     def test_createSection_Lab_success(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/createsection/', {'course': 351, 'type': 0, 'number': 201,
                                                     'days': 'TR', 'start': 1400,
                                                     'end': 1600})
@@ -233,6 +254,7 @@ class Test_web(TestCase):
         self.assertEqual(response.context['message'], "Section successfully created.")
 
     def test_createSection_Lec_success(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/createsection/', {'course': 351, 'type': 1, 'number': 401,
                                                    'days': 'TR', 'start': 1400,
                                                    'end': 1600})
@@ -240,6 +262,7 @@ class Test_web(TestCase):
         self.assertEqual(response.context['message'], "Section successfully created.")
 
     def test_createSection_Lec_invalidNumber(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/createsection/', {'course': 351, 'type': 1, 'number': 201,
                                                    'days': 'TR', 'start': 1400,
                                                    'end': 1600})
@@ -248,6 +271,7 @@ class Test_web(TestCase):
                          "Lecture section number must be 400 level, numeric, and three digits long.")
 
     def test_createSection_Lec_invalidNumber2(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/createsection/', {'course': 351, 'type': 1, 'number': 10,
                                                    'days': 'TR', 'start': 1400,
                                                    'end': 1600})
@@ -256,6 +280,7 @@ class Test_web(TestCase):
                          "Lecture section number must be 400 level, numeric, and three digits long.")
 
     def test_createSection_Lec_invalidNumber3(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/createsection/', {'course': 351, 'type': 1, 'number': 2,
                                                    'days': 'TR', 'start': 1400,
                                                    'end': 1600})
@@ -264,6 +289,7 @@ class Test_web(TestCase):
                          "Lecture section number must be 400 level, numeric, and three digits long.")
 
     def test_createSection_Lec_invalidNumber4(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/createsection/', {'course': 351, 'type': 1, 'number': 'abc',
                                                    'days': 'TR', 'start': 1400,
                                                    'end': 1600})
@@ -272,6 +298,7 @@ class Test_web(TestCase):
                          "Lecture section number must be 400 level, numeric, and three digits long.")
 
     def test_createSection_Lab_invalidNumber(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/createsection/', {'course': 351, 'type': 0, 'number': 401,
                                                    'days': 'TR', 'start': 1400,
                                                    'end': 1600})
@@ -280,6 +307,7 @@ class Test_web(TestCase):
                          "Lab section number must be 200 level, numeric, and three digits long.")
 
     def test_createSection_Lab_invalidNumber2(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/createsection/', {'course': 351, 'type': 0, 'number': 4,
                                                    'days': 'TR', 'start': 1400,
                                                    'end': 1600})
@@ -288,6 +316,7 @@ class Test_web(TestCase):
                          "Lab section number must be 200 level, numeric, and three digits long.")
 
     def test_createSection_Lab_invalidNumber3(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/createsection/', {'course': 351, 'type': 0, 'number': 'abc',
                                                    'days': 'TR', 'start': 1400,
                                                    'end': 1600})
@@ -296,6 +325,7 @@ class Test_web(TestCase):
                          "Lab section number must be 200 level, numeric, and three digits long.")
 
     def test_createSection_Lab_invalidNumber4(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/createsection/', {'course': 351, 'type': 0, 'number': 20,
                                                    'days': 'TR', 'start': 1400,
                                                    'end': 1600})
@@ -304,6 +334,7 @@ class Test_web(TestCase):
                          "Lab section number must be 200 level, numeric, and three digits long.")
 
     def test_createSection_Lab_invalidCourseNumber(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/createsection/', {'course': 3551, 'type': 0, 'number': 201,
                                                    'days': 'TR', 'start': 1400,
                                                    'end': 1600})
@@ -311,6 +342,7 @@ class Test_web(TestCase):
         self.assertEqual(response.context['message'], "Course number must be numeric and three digits long")
 
     def test_createSection_onlineCourseLec(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/createsection/', {'course': 564, 'type': 1, 'number': 401,
                                                    'days': 'TR', 'start': 1400,
                                                    'end': 1600})
@@ -318,6 +350,7 @@ class Test_web(TestCase):
         self.assertEqual(response.context['message'], "Section successfully created.")
 
     def test_createSection_onlineCourseLab(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/createsection/', {'course': 564, 'type': 0, 'number': 201,
                                                    'days': 'TR', 'start': 1400,
                                                    'end': 1600})
@@ -325,6 +358,7 @@ class Test_web(TestCase):
         self.assertEqual(response.context['message'], "You cannot create a lab section for an online course.")
 
     def test_createSection_invalidDays(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/createsection/', {'course': 351, 'type': 0, 'number': 201,
                                                    'days': 'TRQ', 'start': 1400,
                                                    'end': 1600})
@@ -333,6 +367,7 @@ class Test_web(TestCase):
                          "Invalid days of the week, please enter days in the format: MWTRF")
 
     def test_createSection_invalidStart(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/createsection/', {'course': 351, 'type': 0, 'number': 201,
                                                    'days': 'TR', 'start': "Now",
                                                    'end': 1600})
@@ -341,6 +376,7 @@ class Test_web(TestCase):
                          "Invalid start or end time, please use a 4 digit military time representation")
 
     def test_createSection_invalidStart2(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/createsection/', {'course': 351, 'type': 0, 'number': 201,
                                                    'days': 'TR', 'start': 999,
                                                    'end': 1600})
@@ -349,6 +385,7 @@ class Test_web(TestCase):
                          "Invalid start or end time, please use a 4 digit military time representation")
 
     def test_createSection_invalidStart3(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/createsection/', {'course': 351, 'type': 0, 'number': 201,
                                                    'days': 'TR', 'start': 1299,
                                                    'end': 1600})
@@ -357,6 +394,7 @@ class Test_web(TestCase):
                          "Invalid start or end time, please use a 4 digit military time representation")
 
     def test_createSection_invalidEnd(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/createsection/', {'course': 351, 'type': 0, 'number': 201,
                                                    'days': 'TR', 'start': 1400,
                                                    'end': "Never"})
@@ -365,6 +403,7 @@ class Test_web(TestCase):
                          "Invalid start or end time, please use a 4 digit military time representation")
 
     def test_createSection_invalidEnd2(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/createsection/', {'course': 351, 'type': 0, 'number': 201,
                                                    'days': 'TR', 'start': 1400,
                                                    'end': 9999})
@@ -373,6 +412,7 @@ class Test_web(TestCase):
                          "Invalid start or end time, please use a 4 digit military time representation")
 
     def test_createSection_invalidEnd3(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/createsection/', {'course': 351, 'type': 0, 'number': 201,
                                                    'days': 'TR', 'start': 1400,
                                                    'end': 89765})
@@ -381,6 +421,7 @@ class Test_web(TestCase):
                          "Invalid start or end time, please use a 4 digit military time representation")
 
     def teat_createSection_invalidTime(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/createsection/', {'course': 351, 'type': 1, 'number': 401,
                                                    'days': 'TR', 'start': 1400,
                                                    'end': 1300})
@@ -388,6 +429,7 @@ class Test_web(TestCase):
         self.assertEqual(response.context['message'], "End time must be after start time.")
 
     def test_createSection_exists(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/createsection/', {'course': 351, 'type': 1, 'number': 404,
                                                    'days': 'TR', 'start': 1400,
                                                    'end': 1600})
@@ -1105,10 +1147,12 @@ class Test_web(TestCase):
     """
 
     def test_deleteAccount_Success(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/deleteaccount/', {'username': 'janewayk123'})
         self.assertEqual(response.context['message'], "Account successfully deleted")
 
     def test_deleteAccount_accountNotFound(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/deleteaccount/', {'username': 'secretAccount'})
         self.assertEqual(response.context['message'], "Account does not exist")
 
@@ -1117,10 +1161,12 @@ class Test_web(TestCase):
     """
 
     def test_deleteCourse_Success(self):
+        self.c.post('/login/', {'username': 'kirkj22', 'password': '678543'})
         response = self.c.post('/deletecourse/', {'name': 'TemporalMechanics'})
         self.assertEqual(response.context['message'], "Course successfully deleted")
 
     def test_deleteCourse_notFound(self):
+        self.c.post('/login/', {'username': 'kirkj22', 'password': '678543'})
         response = self.c.post('/deletecourse/', {'name': 'secretCourse'})
         self.assertEqual(response.context['message'], "Course not found")
 
