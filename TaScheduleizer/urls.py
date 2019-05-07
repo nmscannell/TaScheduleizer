@@ -40,5 +40,6 @@ urlpatterns = [
     path('createcourse/', views.createCourseView.as_view()),
     path('edituserinfo/', views.editUserInfoView.as_view()),
     path('createsection/', views.createSectionView.as_view()),
-    path('contact/', views.contact.as_view())
+    path('contact/', views.contact.as_view()),
+    path('test', views.testView.as_view())
 ]

@@ -1,4 +1,45 @@
+{% extends base %}
 {% load static %}
+
+{% block header %}
+ <title>Assign TA to Course</title>
+{% endblock %}
+
+{% block content %}<br>
+    <link rel="stylesheet" type = "text/css" href="{% static 'background.css' %}">
+    <form method="post" action="/assigntacourse/">
+  {%csrf_token%}
+
+<div class="box">
+
+<select name = "username">
+    {%for i  in taList %}
+        <option value="{{ i.userName }}">{{ i }}</option>
+    {% endfor %}
+</select>
+</div>
+<div class="box">
+<select name = "course">
+    {%for i  in courseList %}
+        <option value="{{ i.name }}">{{ i }}</option>
+    {% endfor %}
+</select>
+</div>
+</div>
+
+
+<br>
+<br>
+
+
+       <input type="submit" class="btn"/><br>
+    <p>{{ message }}</p>
+
+</form>
+{% endblock %}
+
+
+<!--{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,7 +58,7 @@
 
 <ul>
     <li><a href="/supervisor">Home</a></li>
-     <!--<a class="active" href="javascript:history.go(-1)">Home</a></li>-->
+     <a class="active" href="javascript:history.go(-1)">Home</a></li>
     <li style="float:right"><a href="/logout/">Logout</a></li>
 </ul>
 
@@ -55,4 +96,4 @@
 </form>
 
 </body>
-</html>
+</html> -->

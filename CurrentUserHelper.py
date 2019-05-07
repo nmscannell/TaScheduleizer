@@ -26,3 +26,18 @@ class CurrentUser:
             return 0
         else:
             return currentUser.title
+
+    def getTemplate(self, request):
+
+        title = self.getCurrentUserTitle(request)
+
+        if title == 1:
+            return 'Accounts/Tabase.html'
+        if title == 2:
+            return 'Accounts/InstructorBase.html'
+        if title == 3:
+            return 'Accounts/AdminBase.html'
+        if title == 4:
+            return 'Accounts/SupervisorBase.html'
+
+

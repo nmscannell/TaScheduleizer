@@ -5,6 +5,7 @@ from CurrentUserHelper import CurrentUser
 from Main.models import Account, Course
 from Commands import assignAccCourse
 
+
 class instructorCourse(View):
     def get(self, request):
         CU = CurrentUser()
@@ -15,13 +16,16 @@ class instructorCourse(View):
             return render(request, 'errorPage.html', {"message": "You do not have permission to view this page"})
         instructorList = Account.objects.filter(title=2)
         courseList = Course.objects.all()
-        return render(request, 'assignInstructor.html', {"instList": instructorList, "courseList": courseList})
+        base = CU.getTemplate(request)
+        return render(request, 'assignInstructor.html', {"instList": instructorList, "courseList": courseList, "base": base})
 
     def post(self, request):
+        CU = CurrentUser()
         username = str(request.POST.get("username"))
         course = str(request.POST.get("course"))
         message = assignAccCourse(username, course)
-        return render(request, 'assignInstructor.html', {"message": message})
+        base = CU.getTemplate(request)
+        return render(request, 'assignInstructor.html', {"message": message, "base": base})
 
 
 class taCourse(View):
@@ -34,10 +38,13 @@ class taCourse(View):
             return render(request, 'errorPage.html', {"message": "You do not have permission to view this page"})
         taList = Account.objects.filter(title=1)
         courseList = Course.objects.all()
-        return render(request, 'assignTACourse.html', {"taList": taList, "courseList": courseList})
+        base = CU.getTemplate(request)
+        return render(request, 'assignTACourse.html', {"taList": taList, "courseList": courseList, "base": base})
 
     def post(self, request):
+        CU = CurrentUser()
         username = str(request.POST["username"])
         course = str(request.POST["course"])
         message = assignAccCourse(username, course)
-        return render(request, 'assignTACourse.html', {"message": message})
+        base = CU.getTemplate(request)
+        return render(request, 'assignTACourse.html', {"message": message, "base": base})

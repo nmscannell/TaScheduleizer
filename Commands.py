@@ -515,3 +515,6 @@ def getCommands():
             Command("assignaccsection", 3, assignAccSection),
             Command("viewcourseassign", 1, viewCourseAssign)]
 
+
+
+

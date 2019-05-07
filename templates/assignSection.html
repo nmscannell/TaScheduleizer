@@ -1,4 +1,44 @@
+{% extends base %}
 {% load static %}
+
+{% block header %}
+  <h1 id="heading">Assign a User to a Course Section</h1>
+{% endblock %}
+
+{% block content %}<br>
+    <link rel="stylesheet" type = "text/css" href="{% static 'background.css' %}">
+    <form method="post" action="/assignsection/">
+  {%csrf_token%}
+
+<input type="text" name="course" value="{{ course }}">
+
+<div class="box">
+<select name="account">
+    {%for i  in accountList %}
+        <option name="account" value="{{ i.userName }}">{{ i }}</option>
+    {% endfor %}
+</select>
+</div>
+
+<div class="box">
+<select name="section">
+    {%for i  in sectionList %}
+        <option name="section" value="{{ i.number }}">{{ i }}</option>
+    {% endfor %}
+</select>
+</div>
+
+
+<br>
+<br>
+
+       <input type="submit" class="btn"/><br>
+    <p>{{ message }}</p>
+
+</form>
+{% endblock %}
+
+<!--{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,7 +62,7 @@
      {% if i.title == 4%}<a href="/supervisor">Home</a>{% endif %}
      {% if i.title == 2 %}<a href="/instructor">Home</a>{% endif %}
  </li>
-     <!--<a class="active" href="javascript:history.go(-1)">Home</a></li>-->
+     <a class="active" href="javascript:history.go(-1)">Home</a></li>
     <li style="float:right"><a href="/logout/">Logout</a></li>
 </ul>
 
@@ -59,4 +99,4 @@
 
 </form>
 </body>
-</html>
+</html>-->
