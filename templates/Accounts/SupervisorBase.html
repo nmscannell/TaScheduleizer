@@ -1,0 +1,56 @@
+{% load staticfiles %}
+        <!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TaScheduleizer</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="{% static "accountsHome.css" %}">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+{% block header %}{% endblock header %}
+<ul>
+ <li> <a class="active" href="/supervisor">Home</a></li>
+  <li><div class="dropdown">
+    <button class="dropbtn"> Account Options
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a href="/createaccount">Create an Account</a>
+      <a href="/deleteaccount">Delete an Account</a>
+        <a href="/edituserinfo/">Edit an Account</a>
+    </div>
+</div> </li>
+ <li><div class="dropdown">
+    <button class="dropbtn"> Course Options
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+        <a href="/createcourse">Create a Course</a>
+        <a href="/createsection/">Create a Course Section</a>
+         <a href="/courseassignments"/>View Course Assignments</a>
+         <a href="/assigninstructor/">Assign Instructors to Courses</a>
+         <a href="/assigntacourse/">Assign TAs to Courses</a>
+         <a href="/findcourse/">Assign User to Course Section</a>
+
+    </div>
+</div> </li>
+
+    <li><div class="dropdown">
+    <button class="dropbtn"> Accesses
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+       <a href=" ">Send Out Notifications(under construction)</a>
+         <a href="/directory">Directory</a>
+    </div>
+</div> </li>
+
+    <li style="float:right"><a href="/logout/">Logout</a></li>
+</ul>
+<body>
+    {% block content %}{% endblock content %}
+</body>
+</html>

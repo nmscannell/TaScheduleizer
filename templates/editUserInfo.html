@@ -1,4 +1,40 @@
-<!DOCTYPE html>
+{% extends base %}
+{% load static %}
+
+{% block header %}
+<h1 id="heading">Edit Information</h1>
+{% endblock %}
+
+{% block content %}<br>
+      <link rel="stylesheet" type = "text/css" href="{% static 'background.css' %}">
+     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+          integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+<form method="post" action="/edituserinfo/">
+  {%csrf_token%}
+<div class="box">
+<select name = "username">
+<option value="None" selected>None</option>
+    {%for i  in stafflist %}
+        <option name="username" id="username" value="{{i.userName}}">{{ i }}</option>
+    {% endfor %}
+</select>
+</div>
+
+
+<br>
+<br>
+    <input type="submit" class="btn"/><br>
+    <p>{{ message }}</p>
+
+    {% for key, value in dict %}
+        <p>{{ key }}{{ value }}</p>
+    {% endfor %}
+
+</form>
+{% endblock %}
+
+
+<!--<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -20,7 +56,7 @@
      {% if editor.title == 3 %}<a href="/administrator">Home</a>{% endif %}
      {% if editor.title == 4 %}<a href="/supervisor">Home</a>{% endif %}
  </li>
-     <!--<a class="active" href="javascript:history.go(-1)">Home</a></li>-->
+     <a class="active" href="javascript:history.go(-1)">Home</a></li>
     <li style="float:right"><a href="/logout/">Logout</a></li>
 </ul>
 
@@ -52,4 +88,4 @@
 </form>
 
 </body>
-</html>
+</html>-->

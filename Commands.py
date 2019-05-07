@@ -1,4 +1,5 @@
-from Main.models import Account, Course, Section, AccountSection, AccountCourse
+from Main.models import Account, Course, Section, AccountSection
+from AccountCourse.models import AccountCourse
 import CurrentUserHelper
 import re
 from itertools import chain
@@ -50,7 +51,7 @@ def containsOnlyDigits(argument):
 
 
 def checkValidTimes(time):
-    return re.match('^[0-1][0-9]{3}$', time) or re.match('^[2][0-3][0-9]{2}', time)
+    return re.match('^[0-1][0-9][0-5][0-9]$', time) or re.match('^[2][0-3][0-5][0-9]', time)
     ###if the first digit is 2, only 0-3 is allowed for the second digit
 
 
@@ -513,4 +514,7 @@ def getCommands():
             Command("assignacccourse", 2, assignAccCourse),
             Command("assignaccsection", 3, assignAccSection),
             Command("viewcourseassign", 1, viewCourseAssign)]
+
+
+
 

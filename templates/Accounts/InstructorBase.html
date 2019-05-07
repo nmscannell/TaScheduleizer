@@ -1,0 +1,51 @@
+{% load staticfiles %}
+        <!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TaScheduleizer</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="{% static "accountsHome.css" %}">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+{% block header %}{% endblock header %}
+<ul>
+ <li> <a class="active" href="/instructor">Home</a></li>
+  <li><div class="dropdown">
+    <button class="dropbtn"> Account Option
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+        <a href="/editpubinfo">Edit Contact Information</a>
+    </div>
+</div> </li>
+
+
+      <li><div class="dropdown">
+    <button class="dropbtn"> Course Options
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+             <a href="/courseassignments">View Course Assignments</a>
+             <a href="/findcourse/">Assign TA to Lab Section</a>
+    </div>
+</div> </li>
+
+
+    <li><div class="dropdown">
+    <button class="dropbtn"> Accesses
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+        <a href=" ">Send out notifications(under construction)</a>
+          <a href="/directory">Read Public contact Information</a>
+    </div>
+</div> </li>
+    <li style="float:right"><a href="/logout/">Logout</a></li>
+</ul>
+<body>
+{% block content %}{% endblock content %}
+</body>
+</html>

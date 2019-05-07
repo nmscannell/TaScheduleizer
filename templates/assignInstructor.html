@@ -1,4 +1,42 @@
+{% extends base %}
 {% load static %}
+
+{% block header %}
+<h1 id="heading">Assign an Instructor to a Course</h1>
+{% endblock %}
+
+{% block content %}<br>
+     <link rel="stylesheet" type="text/css" href="{% static 'background.css' %}">
+     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+          integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <form method="post" action="/assigninstructor/">
+    {% csrf_token %}
+
+    <div class="box">
+
+        <select name="username">
+            {% for i  in instList %}
+                <option value="{{ i.userName }}">{{ i }}</option>
+            {% endfor %}
+        </select>
+<div class="box">
+        <select name="course">
+            {% for i  in courseList %}
+                <option value="{{ i.name }}">{{ i }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    </div>
+
+    <br>
+    <br>
+    </div>
+    <input type="submit" class="btn"/><br>
+    <p>{{ message }}</p>
+</form>
+{% endblock %}
+
+<!--{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,7 +55,7 @@
 
 <ul>
     <li> <a href="/supervisor">Home</a></li>
-        <!--<a class="active" href="javascript:history.go(-1)">Home</a></li>-->
+        <<a class="active" href="javascript:history.go(-1)">Home</a></li>
     <li style="float:right"><a href="/logout/">Logout</a></li>
 </ul>
 
@@ -51,4 +89,4 @@
 </form>
 </body>
 
-</html>
+</html> -->
