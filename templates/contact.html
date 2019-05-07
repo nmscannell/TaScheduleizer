@@ -4,54 +4,53 @@
 <head>
     <meta charset="UTF-8">
     <title>Contact</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-      <link rel="stylesheet" type = "text/css" href="{% static 'contact.css' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'contact.css' %}">
 
     <div class="container">
 
-     <div class="head">
-         <h1 id="heading">Contact Form</h1>
-     </div>
+        <div class="head">
+            <h1 id="heading">Contact Form</h1>
+        </div>
 <body>
 
-
-	<form class="form" method="post" action="/contact/"> <!--Its super important that action matches the url of the page-->
-  {%csrf_token%}
-
-		<label for="first_name"></label>
-		<input name="first_name" type="text" required placeholder="First Name"/>
-		<br>
-		<label for="last_name"></label>
-		<input name="last_name" type="text" required placeholder="Last Name"/>
-		<br>
-		<label for="email"></label>
-		<input name="email" type="email" required placeholder="Email"/>
-		<br>
-		<label for="message"><center>Message</center></label><br>
-		<textarea name="message" cols="30" rows="10" placeholder="Write something" required> </textarea>
-
-
-{% block content %}
-    <center>
-  <form method="post">
+</head>
+<form class="form" method="post" action="/contact/" , id="contact-form">
+    <!--Its super important that action matches the url of the page-->
     {% csrf_token %}
-    {{ form.as_p }}
-    <script src='https://www.google.com/recaptcha/api.js'></script>
-    <div class="g-recaptcha" data-sitekey="6LdkVqEUAAAAAFyRjV5NdYqrglZrhK1m1wxB47aL"></div>
-  </form>
-    </center>
-{% endblock %}
+
+    <label for="first_name"></label>
+    <input name="first_name" type="text" required placeholder="First Name"/>
+    <br>
+    <label for="last_name"></label>
+    <input name="last_name" type="text" required placeholder="Last Name"/>
+    <br>
+    <label for="email"></label>
+    <input name="email" type="email" required placeholder="Email"/>
+    <br>
+    <label for="message">
+        <center>Message</center>
+    </label><br>
+    <textarea name="message" cols="30" rows="10" placeholder="Write something" required> </textarea>
 
 
-<form
-action="https://webdevbasics.net/scripts/demo.php" method="get">
-</form>
 
-		     <input type="submit" class="btn"/>
 
-	</form>
-</div>
- </form>
 
+
+    {% block content %}
+        <center>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <script src='https://www.google.com/recaptcha/api.js'></script>
+                <div class="g-recaptcha" data-sitekey="6LdkVqEUAAAAAFyRjV5NdYqrglZrhK1m1wxB47aL"></div>
+            </form>
+        </center>
+    {% endblock %}
+    <form
+            action="https://webdevbasics.net/scripts/demo.php" method="get">
+        <input type="submit" value="submit" class="btn"/>
+    </form>
 </body>
 </html>
