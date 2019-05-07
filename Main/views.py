@@ -75,12 +75,13 @@ class adminPage(View):
     def get(self, request):
         CU = CurrentUser()
         currentusertitle = CU.getCurrentUserTitle(request)
+        base = CU.getTemplate(request)
 
         if currentusertitle == 0:
             return render(request, 'errorPage.html', {"message": "You must log in to view this page"})
         elif currentusertitle != 3:
             return render(request, 'errorPage.html', {"message": "Only admins may view this page"})
-        return render(request, 'Accounts/AdminHome.html')
+        return render(request, 'Accounts/AdminHome.html', {"base": base})
 
 
 class supervisorPage(View):
@@ -88,12 +89,13 @@ class supervisorPage(View):
     def get(self, request):
         CU = CurrentUser()
         currentusertitle = CU.getCurrentUserTitle(request)
+        base = CU.getTemplate(request)
 
         if currentusertitle == 0:
             return render(request, 'errorPage.html', {"message": "You must log in to view this page"})
         elif currentusertitle != 4:
             return render(request, 'errorPage.html', {"message": "Only supervisors may view this page"})
-        return render(request, 'Accounts/SupervisorHome.html')
+        return render(request, 'Accounts/SupervisorHome.html', {"base": base})
 
 
 class instructorPage(View):
@@ -102,12 +104,13 @@ class instructorPage(View):
         CU = CurrentUser()
         account = CU.getCurrentUser(request)
         currentusertitle = CU.getCurrentUserTitle(request)
+        base = CU.getTemplate(request)
 
         if currentusertitle == 0:
             return render(request, 'errorPage.html', {"message": "You must log in to view this page"})
         elif currentusertitle != 2:
             return render(request, 'errorPage.html', {"message": "Only instructors may view this page"})
-        return render(request, 'Accounts/InstructorHome.html', {"account": account})
+        return render(request, 'Accounts/InstructorHome.html', {"account": account, "base": base})
 
 
 class taPage(View):
@@ -115,12 +118,13 @@ class taPage(View):
         CU = CurrentUser()
         account = CU.getCurrentUser(request)
         currentusertitle = CU.getCurrentUserTitle(request)
+        base = CU.getTemplate(request)
 
         if currentusertitle == 0:
             return render(request, 'errorPage.html', {"message": "You must log in to view this page"})
         elif currentusertitle != 1:
             return render(request, 'errorPage.html', {"message": "Only Teaching Assistants may view this page"})
-        return render(request, 'Accounts/TaHome.html', {"account": account})
+        return render(request, 'Accounts/TaHome.html', {"account": account, "base": base})
 
 
 class createAccountView(View):
@@ -154,7 +158,7 @@ class createAccountView(View):
 
         return render(request, 'createAccount.html', {"message": message, "i": user, "base": base})
         #except Exception as e:
-         #   return render(request, 'createAccount.html', {"message": str(e)})
+         #   return render(request, 'createAccount.html', {"message": str(e)}) m
 
 
 class courseAssignmentsList(View):
