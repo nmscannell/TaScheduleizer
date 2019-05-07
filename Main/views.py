@@ -158,7 +158,7 @@ class createAccountView(View):
 
         return render(request, 'createAccount.html', {"message": message, "i": user, "base": base})
         #except Exception as e:
-         #   return render(request, 'createAccount.html', {"message": str(e)})
+         #   return render(request, 'createAccount.html', {"message": str(e)}) m
 
 
 class courseAssignmentsList(View):
