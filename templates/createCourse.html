@@ -1,4 +1,34 @@
+{% extends base %}
 {% load static %}
+
+{% block header %}
+<h1 id="heading">Create A Course</h1>
+{% endblock %}
+
+{% block content %}<br>
+    <link rel="stylesheet" type = "text/css" href="{% static 'background.css' %}">
+    <form method="post" action="/createcourse/">
+  {%csrf_token%}
+   <table>
+       <TR class="cell1">
+           <TD>Course Name</TD>
+           <TD><input type="text" name="name"  required/></TD>
+       </TR>
+       <TR class="cell2">
+           <TD>Course Number</TD>
+           <TD><input type="text" name="number" required/></TD>
+       </TR>
+       <TR class="cell1">
+           <TD><input type ="radio" name="onCampus" value="campus"/>On Campus</TD>
+           <TD><input type ="radio"name="onCampus" value="online"/>Online</TD>
+       </TR>
+   </table>
+<p><input type="submit" class="btn"/></p>
+  </form>
+ <p class="blinking">{{ message }}</p>
+
+{% endblock %}
+<!--{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -48,4 +78,4 @@
 
 
 </body>
-</html>
+</html> -->

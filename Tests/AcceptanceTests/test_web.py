@@ -612,7 +612,7 @@ class Test_web(TestCase):
                                 'officedays': 'W', 'officestart': '0900', 'officeend': '13009'})
 
         self.assertEqual(response1.context['message'], "Invalid start or end time, please use a "
-                                                      "4 digit military time representation")
+                         "4 digit military time representation")
 
     def test_editPubInfo_officetimes_invalid3(self):
         self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
