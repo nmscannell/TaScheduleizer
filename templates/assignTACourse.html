@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block header %}
- <title>Assign TA to Course</title>
+     <h1 id="heading">Assign a TA to a Course</h1>
 {% endblock %}
 
 {% block content %}<br>
@@ -10,6 +10,8 @@
      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
           integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     <form method="post" action="/assigntacourse/">
+
+
   {%csrf_token%}
 
 <div class="box">
