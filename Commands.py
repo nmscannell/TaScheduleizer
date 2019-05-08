@@ -1,11 +1,9 @@
 from Main.models import Account, Course, Section, AccountSection
 from AccountCourse.models import AccountCourse
-import CurrentUserHelper
 import re
-from itertools import chain
 
 
-class Command():
+class Command:
 
     def __init__(self, opcode, arguments, function):
         self.opcode = opcode
@@ -103,6 +101,15 @@ def deleteAccountCom(userName):
         return "Account does not exist"
     a.delete()
     return "Account successfully deleted"
+
+
+def deleteCourseCom(courseName):
+    try:
+        a = Course.objects.get(name=courseName)
+    except Exception as e:
+        return "Course does not exist"
+    a.delete()
+    return "Course successfully deleted"
 
 
 def createCourse(name, number, online):
@@ -289,7 +296,6 @@ def displayCourseAssign(courseNumber):
     else:
         response += ", ".join(instructorList)
 
-
     response += "\nTeaching Assistants: "
 
     taList = []
@@ -327,7 +333,7 @@ def displayCourseAssign(courseNumber):
     return response
 
 
-def viewCourseAssign(userName): # secret message
+def viewCourseAssign(userName):
     if not Account.objects.filter(userName=userName).exists():
         return "Account not found"
 
@@ -533,6 +539,7 @@ def editPubInfo(user, dict):
     user.officeDays = officeDays
     user.save()
 
+
     # Office hours and days dependency checks
     if (officeHoursStart != str(startdefault) and officeHoursStart != "") or (officeHoursEnd != str(enddefault) and officeHoursEnd != ""):
             if officeHoursStart != str(startdefault) and (officeHoursEnd == str(enddefault) or officeHoursEnd == ""):
@@ -586,6 +593,7 @@ def editPubInfo(user, dict):
 
 
     #if errorString == "The following fields were incorrectly entered and not updated: ":
+
     return "Fields successfully updated"
     #else:
         # errorString

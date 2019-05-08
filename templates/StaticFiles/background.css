@@ -22,6 +22,16 @@ table{
     width: 300px;
 
 }
+
+.spin{
+    animation: spinningText 4s;
+}
+
+@keyframes spinningText {
+ 0%{font-size: 800pt}
+    100%{transform: rotate(360deg); font-size: 11pt}
+}
+
 .zoomL2
 {
     animation: zoomLeft 1s;
@@ -48,7 +58,7 @@ table{
 
 @keyframes zoomRight {
     0%{transform: translate(1000%,0)}
-    100%{transform: translate(0%,0)}
+    100%{transform: translate(0%,0);}
 }
 
 .test{
