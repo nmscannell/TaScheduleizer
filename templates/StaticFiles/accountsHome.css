@@ -95,9 +95,11 @@ li a:hover:not(.active) {
     text-align: center;
     text-transform: uppercase;
     font-size: 2em;
-    color: darkgreen;
+    /*color: darkgreen;*/
+    color: white;
     letter-spacing: 0.15em;
-    text-shadow:
+    animation: change 4s infinite;
+    /*text-shadow:
     0 0 5px yellow,
     0 0 10px yellow,
     0 0 20px yellow,
@@ -105,9 +107,55 @@ li a:hover:not(.active) {
     0 0 80px yellow,
     0 0 90px yellow,
     0 0 100px yellow,
-    0 0 150px yellow;
+    0 0 150px yellow;*/
 }
-
+@keyframes change {
+    0%{ text-shadow:
+    0 0 5px yellow,
+    0 0 10px yellow,
+    0 0 20px yellow,
+    0 0 40px yellow,
+    0 0 80px yellow,
+    0 0 90px yellow,
+    0 0 100px yellow,
+    0 0 150px yellow;}
+    25%{text-shadow:
+    0 0 5px red,
+    0 0 10px red,
+    0 0 20px red,
+    0 0 40px red,
+    0 0 80px red,
+    0 0 90px red,
+    0 0 100px red,
+    0 0 150px red;}
+    50%{text-shadow:
+    0 0 5px blue,
+    0 0 10px blue,
+    0 0 20px blue,
+    0 0 40px blue,
+    0 0 80px blue,
+    0 0 90px blue,
+    0 0 100px blue,
+    0 0 150px blue;}
+    75%{text-shadow:
+    0 0 5px green,
+    0 0 10px green,
+    0 0 20px green,
+    0 0 40px green,
+    0 0 80px green,
+    0 0 90px green,
+    0 0 100px green,
+    0 0 150px green;}
+    100%{ text-shadow:
+    0 0 5px yellow,
+    0 0 10px yellow,
+    0 0 20px yellow,
+    0 0 40px yellow,
+    0 0 80px yellow,
+    0 0 90px yellow,
+    0 0 100px yellow,
+    0 0 150px yellow;}
+}
 
 
 .sns {
