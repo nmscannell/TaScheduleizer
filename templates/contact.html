@@ -6,54 +6,64 @@
     <title>Contact</title>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="stylesheet" type="text/css" href="{% static 'contact.css' %}">
-</head>
-<body>
-    <div class="container">
 
+    <div class="container">
         <div class="head">
             <h1 id="heading">Contact Form</h1>
         </div>
 
 
-    {% csrf_token %}
 
-    <label for="first_name"></label>
-    <input name="first_name" type="text" required placeholder="First Name"/>
-    <br>
-    <label for="last_name"></label>
-    <input name="last_name" type="text" required placeholder="Last Name"/>
-    <br>
-    <label for="email"></label>
-    <input name="email" type="email" required placeholder="Email"/>
-    <br>
-    <label for="message">
-        <center>Message</center>
-    </label><br>
-    <textarea name="message" cols="30" rows="10" placeholder="Write something" required> </textarea>
-
-
-
-
-    {% block content %}
-        <center>
-            <form method="post">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <script src='https://www.google.com/recaptcha/api.js'></script>
-                <div class="g-recaptcha" data-sitekey="6LdkVqEUAAAAAFyRjV5NdYqrglZrhK1m1wxB47aL"></div>
-            </form>
-        </center>
-    {% endblock %}
-
-    <form action="https://www.SnapHost.com/captcha/send.aspx" id="ContactUsCaptchaWebForm" method="post" onsubmit="return ValidateForm(this);" target="_top">
-<input name="skip_WhereToSend" type="hidden" value="spykim2003@gmail.com" />
-<input name="skip_SnapHostID" type="hidden" value="6LdkVqEUAAAAAFyRjV5NdYqrglZrhK1m1wxB47aL" />
+<form action="https://www.SnapHost.com/captcha/send.aspx" id="ContactUsCaptchaWebForm" method="post" onsubmit="return ValidateForm(this);" target="_top">
+<input name="skip_WhereToSend" type="hidden" value="arianator92@yahoo.com" />
+<input name="skip_SnapHostID" type="hidden" value="RNRLPJKG643T" />
 <input name="skip_WhereToReturn" type="hidden" value="https://webdevbasics.net/scripts/demo.php" />
 <input name="skip_Subject" type="hidden" value="Contact Us Form" />
 <input name="skip_ShowUsersIp" type="hidden" value="1" />
 <input name="skip_SendCopyToUser" type="hidden" value="1" />
-        <input type="submit" value="submit" class="btn"/>
-    </form>
-</div>
-</body>
-</html>
+<script type="text/javascript">
+function ValidateForm(frm) {
+if (frm.FirstName.value == "") {alert('First name is required.');frm.Name.focus();return false;}
+if (frm.LastName.value == "") {alert('Last name is required.');frm.Name.focus();return false;}
+if (frm.FromEmailAddress.value == "") {alert('Email address is required.');frm.FromEmailAddress.focus();return false;}
+if (frm.FromEmailAddress.value.indexOf("@") < 1 || frm.FromEmailAddress.value.indexOf(".") < 1) {alert('Please enter a valid email address.');frm.FromEmailAddress.focus();return false;}
+if (frm.Comments.value == "") {alert('Please enter comments or questions.');frm.Comments.focus();return false;}
+if (frm.skip_CaptchaCode.value == "") {alert('Enter web form code.');frm.skip_CaptchaCode.focus();return false;}
+return true; }
+function ReloadCaptchaImage(captchaImageId) {
+var obj = document.getElementById(captchaImageId);
+var src = '' + obj.src;
+obj.src = '';
+var date = new Date();
+var pos = src.indexOf('&rad=');
+if (pos >= 0) { src = src.substr(0, pos); }
+obj.src = src + '&rad=' + date.getTime();
+return false; }
+</script>
+<label for="first_name"></label>
+    <input name="FirstName" type="text" required placeholder="First Name"/>
+    <br>
+    <label for="last_name"></label>
+    <input name="LastName" type="text" required placeholder="Last Name"/>
+    <br>
+    <label for="email"></label>
+    <input name="FromEmailAddress" type="email" required placeholder="Email"/>
+    <br>
+    <label for="message">
+        <center>Message</center>
+    </label><br>
+    <textarea name="Comments" cols="30" rows="10" placeholder="Write something" required> </textarea>
+
+
+<tr valign="top"><td> <i>Enter web form code*:</i>
+<input name="skip_CaptchaCode" type="text" style="width:80px;" maxlength="6" />
+</td><td>
+<a href="https://www.snaphost.com/captcha/ReadyForms/ContactUsForm.aspx"><img id="CaptchaImage" alt="Contact Us form" title="HTML code for Contact Us form"
+style="margin-left:20px;"
+src="https://www.SnapHost.com/captcha/CaptchaImage.aspx?id=RNRLPJKG643T&ImgType=2" /></a><br />
+<a href="#" onclick="return ReloadCaptchaImage('CaptchaImage');"><span style="font-size:12px;">reload image</span></a> </td></tr>
+</table> <br />
+<input name="skip_Submit" type="submit" value="Submit" class="btn"/>
+</td></tr>
+</table><br />
+</form>
