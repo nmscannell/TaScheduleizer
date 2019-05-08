@@ -51,7 +51,7 @@ def containsOnlyDigits(argument):
 
 
 def checkValidTimes(time):
-    return re.match('^[0-1][0-9]{3}$', time) or re.match('^[2][0-3][0-9]{2}', time)
+    return re.match('^[0-1][0-9][0-5][0-9]$', time) or re.match('^[2][0-3][0-5][0-9]', time)
     ###if the first digit is 2, only 0-3 is allowed for the second digit
 
 
