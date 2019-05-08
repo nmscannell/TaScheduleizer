@@ -2,13 +2,13 @@
 {% load static %}
 
 {% block header %}
-<h1 id="heading">Directory</h1>
+<h1 id="heading" >Directory</h1>
 {% endblock %}
 
 {% block content %}<br>
     <link rel="stylesheet" type = "text/css" href="{% static 'courseAssignmentList.css' %}">
 {% for j in directory %}
- <table>
+ <table class="test">
     <thread>
         <tr class="topCell">
             <th colspan="2">{{ j }} </th>
