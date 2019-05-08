@@ -697,7 +697,7 @@ class Test_web(TestCase):
                                                       "4 digit military time representation")
 
 
-    def test_editPubInfo_start_no_end(self):
+    def test_editPubInfo_start_no_end_default(self):
         self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/editpubinfo/', {'username':'picard304','firstname': 'Jean Luc',
                                                  'lastname': 'Picard', 'email': 'picardj@uwm.edu',
@@ -708,7 +708,20 @@ class Test_web(TestCase):
                                                  'officeend': str(self.enddefault)})
         self.assertEqual(response.context['message'], "You must enter both a start and end time for office hours")
 
-    def test_editPubInfo_end_noStart(self):
+
+    def test_editPubInfo_start_no_end2_emptString(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
+        response = self.c.post('/editpubinfo/', {'username':'picard304','firstname': 'Jean Luc',
+                                                 'lastname': 'Picard', 'email': 'picardj@uwm.edu',
+                                                'password': '90456', 'homephone': '123-456-7893',
+                                                'address': '87 Enterprise Avenue', 'city': 'Alpha', 'state': 'Quadrant',
+                                                'zipcode': '11111', 'officenumber': '54', 'officephone': '777-777-7777',
+                                                'officedays': 'W', 'officestart': '1300',
+                                                 'officeend': ''})
+        self.assertEqual(response.context['message'], "You must enter both a start and end time for office hours")
+
+
+    def test_editPubInfo_end_noStart_default(self):
         self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/editpubinfo/', {'username': 'picard304', 'firstname': 'Jean Luc',
                                                  'lastname': 'Picard', 'email': 'picardj@uwm.edu',
@@ -721,7 +734,20 @@ class Test_web(TestCase):
                                                  'officeend': '1400'})
         self.assertEqual(response.context['message'], "You must enter both a start and end time for office hours")
 
-    def test_editPubInfo_times_noDays(self):
+    def test_editPubInfo_end_noStart_emptString(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
+        response = self.c.post('/editpubinfo/', {'username': 'picard304', 'firstname': 'Jean Luc',
+                                                 'lastname': 'Picard', 'email': 'picardj@uwm.edu',
+                                                 'password': '90456', 'homephone': '123-456-7893',
+                                                 'address': '87 Enterprise Avenue', 'city': 'Alpha',
+                                                 'state': 'Quadrant',
+                                                 'zipcode': '11111', 'officenumber': '54',
+                                                 'officephone': '777-777-7777',
+                                                 'officedays': 'W', 'officestart': '',
+                                                 'officeend': '1400'})
+        self.assertEqual(response.context['message'], "You must enter both a start and end time for office hours")
+
+    def test_editPubInfo_times_noDays_default(self):
         self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/editpubinfo/', {'username': 'picard304', 'firstname': 'Jean Luc',
                                                  'lastname': 'Picard', 'email': 'picardj@uwm.edu',
@@ -734,7 +760,20 @@ class Test_web(TestCase):
                                                  'officeend': '1400'})
         self.assertEqual(response.context['message'], "You must enter office days if you enter office hours")
 
-    def test_editPubInfo_days_noTimes(self):
+    def test_editPubInfo_times_noDays_default_emptString(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
+        response = self.c.post('/editpubinfo/', {'username': 'picard304', 'firstname': 'Jean Luc',
+                                                 'lastname': 'Picard', 'email': 'picardj@uwm.edu',
+                                                 'password': '90456', 'homephone': '123-456-7893',
+                                                 'address': '87 Enterprise Avenue', 'city': 'Alpha',
+                                                 'state': 'Quadrant',
+                                                 'zipcode': '11111', 'officenumber': '54',
+                                                 'officephone': '777-777-7777',
+                                                 'officedays': '', 'officestart': '1300',
+                                                 'officeend': '1400'})
+        self.assertEqual(response.context['message'], "You must enter office days if you enter office hours")
+
+    def test_editPubInfo_days_noTimes_default(self):
         self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/editpubinfo/', {'username': 'picard304', 'firstname': 'Jean Luc',
                                                  'lastname': 'Picard', 'email': 'picardj@uwm.edu',

@@ -396,6 +396,9 @@ def getPrivateDataList():
 
 
 def editPubInfo(user, dict):
+
+    errorString = "The following fields were incorrectly entered and not updated: "
+
     startdefault = Account._meta.get_field('officeHoursStart').get_default()
     enddefault = Account._meta.get_field('officeHoursEnd').get_default()
     daysdefault = Account._meta.get_field('officeDays').get_default()
@@ -406,16 +409,20 @@ def editPubInfo(user, dict):
     if firstName != user.firstName:
         if not firstName.replace(" ", "").isalpha():
             return "First Name can only contain letters"
-        user.firstName = firstName
-        user.save()
+            #errorString += "First name, "
+        else:
+            user.firstName = firstName
+            user.save()
 
 
     lastName = dict['lastName']
     if lastName != user.lastName:
         if not lastName.replace(" ", "").isalpha():
             return "Last name can only contain letters"
-        user.lastName = lastName
-        user.save()
+            #errorString += "Last name, "
+        else:
+            user.lastName = lastName
+            user.save()
 
 
     # Email
@@ -424,6 +431,7 @@ def editPubInfo(user, dict):
         if checkValidEmail(email) == False:
             return "The email address you have entered in not valid.  " \
                 "Please make sure you are using a uwm email address in the correct format."
+            #errorString += "Email, "
         else:
             user.email = email
             user.save()
@@ -439,6 +447,7 @@ def editPubInfo(user, dict):
     if homePhone != str(user.homePhone):
         if containsOnlyDigits(homePhone.replace("-", "")) == False:
             return "Home Phone can only contain numbers"
+            #errorString += "Home Phone, "
         else:
             user.homePhone = homePhone
             user.save()
@@ -454,22 +463,27 @@ def editPubInfo(user, dict):
     if city != user.city:
         if not city.replace(" ", "").isalpha():
             return "City must contain only letters"
-        user.city = city
-        user.save()
+            #errorString += "City, "
+        else:
+            user.city = city
+            user.save()
 
     # State
     state = dict['state']
     if state != user.state:
         if not state.replace(" ", "").isalpha():
             return "State must contain only letters"
-        user.state = state
-        user.save()
+            #errorString += "State, "
+        else:
+            user.state = state
+            user.save()
 
     # Zip Code
     zipCode = dict['zipcode']
     if zipCode != str(user.zipCode):
         if containsOnlyDigits(zipCode) == False:
             return "ZipCode my be only numeric"
+            #errorString += "Zipcode, "
         else:
             user.zipCode = zipCode
             user.save()
@@ -479,6 +493,7 @@ def editPubInfo(user, dict):
     if officeNumber != str(user.officeNumber):
         if containsOnlyDigits(officeNumber) == False:
             return "Office Number must be numeric"
+            #errorString += "Office number, "
         else:
             user.officeNumber = officeNumber
             user.save()
@@ -488,6 +503,7 @@ def editPubInfo(user, dict):
     if officePhone != str(user.officePhone):
         if containsOnlyDigits(officePhone.replace("-", "")) == False:
             return "Office Phone can only contain numbers"
+            #errorString += "Office Phone, "
         else:
             user.officePhone = officePhone
             user.save()
@@ -497,60 +513,106 @@ def editPubInfo(user, dict):
     if officeDays != user.officeDays:
         if not checkValidDays(officeDays):
             return "Invalid days of the week, please enter days in the format: MWTRF or NN for online"
-
-    # Start Time and End Time
-    # Enter a start time but not an end time
-    if officeHoursStart != str(startdefault) and (officeHoursEnd == str(enddefault) or officeHoursEnd == ""):
-        user.officeHoursStart = startdefault
-        user.save()
-        return "You must enter both a start and end time for office hours"
-
-    # Enter an end time but not a start time.
-    if officeHoursEnd != str(startdefault) and (officeHoursStart == str(startdefault) or officeHoursStart == ""):
-        user.officeHoursEnd = enddefault
-        user.save()
-        return "You must enter both a start and end time for office hours"
-
-    # Enter a start time and an end time, but not days
-    if officeHoursEnd != str(enddefault) and officeHoursStart != str(startdefault) and \
-            (officeDays == str(daysdefault) or officeDays == ""):
-        user.officeHoursEnd = enddefault
-        user.officeHoursStart = startdefault
-        user.save()
-        return "You must enter office days if you enter office hours"
-
-    #Enter office days, but not a start time or an end time
-    if officeDays != str(daysdefault) and (officeHoursStart == str(startdefault) or officeHoursEnd == str(enddefault)
-                                           or officeHoursStart == "" or officeHoursEnd == ""):
-        user.officeDays = daysdefault
-        user.officeHoursStart = startdefault
-        user.officeHoursEnd = enddefault
-        user.save()
-        return "You must enter office hours if you enter office days"
+            #errorString += "Office Days, "
 
     #Check start time is valid
-    if (officeHoursStart != str(user.officeHoursStart) and officeHoursStart != ""):
+    if (officeHoursStart != str(user.officeHoursStart) and officeHoursStart != "" and officeHoursStart != str(startdefault)):
         if not checkValidTimes(officeHoursStart):
             user.officeHoursEnd = enddefault
             user.officeHoursStart = startdefault
             user.save()
             return "Invalid start or end time, please use a 4 digit military time representation"
+            #errorString += "Office start time, "
         else:
             user.officeHoursStart = officeHoursStart
 
     # Check end time is valid
-    if (officeHoursEnd != str(user.officeHoursEnd) and officeHoursEnd != ""):
+    if (officeHoursEnd != str(user.officeHoursEnd) and officeHoursEnd != "" and officeHoursEnd != str(enddefault)):
         if not checkValidTimes(officeHoursEnd):
             user.officeHoursEnd = enddefault
             user.officeHoursStart = startdefault
             user.save()
             return "Invalid start or end time, please use a 4 digit military time representation"
+            #errorString += "Office end time"
         else:
             user.officeHoursEnd = officeHoursEnd
     user.officeDays = officeDays
     user.save()
 
+
+    # Office hours and days dependency checks
+    if (officeHoursStart != str(startdefault) and officeHoursStart != "") or (officeHoursEnd != str(enddefault) and officeHoursEnd != ""):
+            if officeHoursStart != str(startdefault) and (officeHoursEnd == str(enddefault) or officeHoursEnd == ""):
+                return "You must enter both a start and end time for office hours"
+            elif officeHoursEnd != str(startdefault) and (
+                    officeHoursStart == str(startdefault) or officeHoursStart == ""):
+                return "You must enter both a start and end time for office hours"
+            elif officeDays == str(daysdefault) or officeDays == "":
+                return "You must enter office days if you enter office hours"
+    else:
+            if officeDays != str(daysdefault) and officeDays != "":
+                return "You must enter office hours if you enter office days"
+
+
+
+    # Start Time and End Time
+    # Enter a start time but not an end time
+    #if officeHoursStart != str(startdefault) and (officeHoursEnd == str(enddefault) or officeHoursEnd == ""):
+    #    user.officeHoursStart = startdefault
+    #    user.officeHoursEnd = enddefault
+    #    user.save()
+    #    return "You must enter both a start and end time for office hours"
+        #errorString += "Office hours start time, "
+
+    # Enter an end time but not a start time.
+    #if officeHoursEnd != str(startdefault) and (officeHoursStart == str(startdefault) or officeHoursStart == ""):
+     #   user.officeHoursEnd = enddefault
+     #   user.officeHoursStart = startdefault
+     #   user.save()
+     #   return "You must enter both a start and end time for office hours"
+        #errorString += "Office hours end time, "
+
+    # Enter a start time and an end time, but not days
+    #if officeHoursEnd != str(enddefault) and officeHoursStart != str(startdefault) and \
+    #        (officeDays == str(daysdefault) or officeDays == ""):
+    #    user.officeHoursEnd = enddefault
+    #    user.officeHoursStart = startdefault
+    #    user.save()
+    #    return "You must enter office days if you enter office hours"
+        #errorString += "Office days, "
+
+    #Enter office days, but not a start time or an end time
+    #if officeDays != str(daysdefault) and (officeHoursStart == str(startdefault) or officeHoursEnd == str(enddefault)
+    #                                       or officeHoursStart == "" or officeHoursEnd == ""):
+    #    user.officeDays = daysdefault
+    #    user.officeHoursStart = startdefault
+    #    user.officeHoursEnd = enddefault
+    #    user.save()
+    #    return "You must enter office hours if you enter office days"
+        #errorString += "Office days, "
+
+
+    #if errorString == "The following fields were incorrectly entered and not updated: ":
+
     return "Fields successfully updated"
+    #else:
+        # errorString
+
+
+
+def checkDaysAndTimes(user, officeDays, officeStart, officeEnd):
+    startdefault = Account._meta.get_field('officeHoursStart').get_default()
+    enddefault = Account._meta.get_field('officeHoursEnd').get_default()
+    daysdefault = Account._meta.get_field('officeDays').get_default()
+
+    if (officeStart != str(startdefault) and officeStart != "") and (officeEnd != str(enddefault) and officeEnd != ""):
+        if officeDays == str(daysdefault) and officeDays == "":
+            pass
+            # times are present without days
+    else:
+        if officeDays != str(daysdefault) and officeDays != "":
+            pass
+            # days are present without times
 
 
 def getCommands():
