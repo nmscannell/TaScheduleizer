@@ -9,8 +9,8 @@
     <link rel="stylesheet" type = "text/css" href="{% static 'background.css' %}">
      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
           integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-    <h3>Choose a course.</h3>
-    <form method="post" action="/findcourse/">
+    <h3 class="zoomR">Choose a course.</h3>
+    <form method="post" action="/findcourse/" class="spin">
   {%csrf_token%}
 <div class="box">
 <select name = "course">
