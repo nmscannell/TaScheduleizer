@@ -7,7 +7,7 @@
 
 {% block content %}<br>
     <link rel="stylesheet" type = "text/css" href="{% static 'background.css' %}">
-    <form method="post" action="/createsection/">
+    <form method="post" action="/createsection/" class="zoomL">
   {%csrf_token%}
    <table>
        <TR class="cell1">
@@ -41,5 +41,5 @@
    </table>
 <p><input type="submit" class="btn"/></p>
   </form>
- <p>{{ message }}</p>
+ <p class="zoom">{{ message }}</p>
 {% endblock %}

@@ -7,9 +7,9 @@
 
 {% block content %}<br>
     <link rel="stylesheet" type = "text/css" href="{% static 'background.css' %}">
-    <form method="post" action="/createcourse/">
+    <form method="post" action="/createcourse/" class="zoomR">
   {%csrf_token%}
-   <table>
+   <table >
        <TR class="cell1">
            <TD>Course Name</TD>
            <TD><input type="text" name="name"  required/></TD>
@@ -25,6 +25,6 @@
    </table>
 <p><input type="submit" class="btn"/></p>
   </form>
- <p class="blinking">{{ message }}</p>
+ <p class="zoom">{{ message }}</p>
 
 {% endblock %}

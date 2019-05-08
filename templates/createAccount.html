@@ -7,7 +7,7 @@
 
 {% block content %}<br>
        <link rel="stylesheet" type = "text/css" href="{% static 'background.css' %}">
-    <form method="post" action="/createaccount/">
+    <form method="post" action="/createaccount/" class="zoomL">
   {%csrf_token%}
 
     <table>
@@ -35,7 +35,7 @@
 
 <P><input type="submit" class="btn"/></P>
 
-    <p class="blinking">{{ message }}</p>
+    <p class="zoom">{{ message }}</p>
 
 </form>
 
