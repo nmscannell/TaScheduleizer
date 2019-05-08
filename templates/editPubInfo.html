@@ -12,67 +12,67 @@
 <form method="post" action="/editpubinfo/">
   {%csrf_token%}
 
-<table>
+<table class="test">
        <TR class="cell1">
-           <TD>User Name</TD>
+           <TD class="zoomL">User Name</TD>
 
-           <TD><input type="text" name="username" value="{{ i.userName }}" readonly/></TD>
+           <TD class="zoomR"><input type="text" name="username" value="{{ i.userName }}" readonly/></TD>
        </TR>
        <TR class="cell2">
-           <TD>First Name</TD>
-           <TD><input type="text" name="firstname" value="{{i.firstName }}"/></TD>
+           <TD class="zoomL">First Name</TD>
+           <TD class="zoomR"><input type="text" name="firstname" value="{{i.firstName }}"/></TD>
        </TR>
        <TR class="cell1">
-           <TD>Last Name</TD>
-           <TD><input type="text" name="lastname" value="{{ i.lastName }}"/></TD>
+           <TD class="zoomL">Last Name</TD>
+           <TD class="zoomR"><input type="text" name="lastname" value="{{ i.lastName }}"/></TD>
        </TR>
        <TR class="cell2">
-           <TD>Email</TD>
-           <TD><input type="email" name="email"  value="{{ i.email }}"/></TD>
+           <TD class="zoomL">Email</TD>
+           <TD class="zoomR"><input type="email" name="email"  value="{{ i.email }}"/></TD>
        </TR>
        <TR class="cell1">
-           <TD>Password</TD>
-           <TD> <input type ="text" name="password" value="{{ i.password }}"/></TD>
+           <TD class="zoomL">Password</TD>
+           <TD class="zoomR"> <input type ="text" name="password" value="{{ i.password }}"/></TD>
        </TR>
      <TR class="cell2">
-           <TD>Home Phone</TD>
-           <TD> <input type ="text" name="homephone" value="{{ i.homePhone }}"/></TD>
+           <TD class="zoomL">Home Phone</TD>
+           <TD class="zoomR"> <input type ="text" name="homephone" value="{{ i.homePhone }}"/></TD>
        </TR>
      <TR class="cell1">
-           <TD>Address</TD>
-           <TD> <input type ="text" name="address" value="{{ i.address }}"/></TD>
+           <TD class="zoomL">Address</TD>
+           <TD class="zoomR"> <input type ="text" name="address" value="{{ i.address }}"/></TD>
        </TR>
      <TR class="cell2">
-           <TD>City</TD>
-           <TD> <input type ="text" name="city" value="{{ i.city }}"/></TD>
+           <TD class="zoomL">City</TD>
+           <TD class="zoomR"> <input type ="text" name="city" value="{{ i.city }}"/></TD>
        </TR>
      <TR class="cell1">
-           <TD>State</TD>
-           <TD> <input type ="text" name="state" value="{{ i.state }}"/></TD>
+           <TD class="zoomL">State</TD>
+           <TD class="zoomR"> <input type ="text" name="state" value="{{ i.state }}"/></TD>
        </TR>
      <TR class="cell2">
-           <TD>Zip Code</TD>
-           <TD> <input type ="text" name="zipcode" value="{{ i.zipCode }}"/></TD>
+           <TD class="zoomL">Zip Code</TD>
+           <TD class="zoomR"> <input type ="text" name="zipcode" value="{{ i.zipCode }}"/></TD>
        </TR>
      <TR class="cell1">
-           <TD>Office Number</TD>
-           <TD> <input type ="text" name="officenumber" value="{{ i.officeNumber }}"/></TD>
+           <TD class="zoomL">Office Number</TD>
+           <TD class="zoomR"> <input type ="text" name="officenumber" value="{{ i.officeNumber }}"/></TD>
        </TR>
      <TR class="cell2">
-           <TD>Office Phone</TD>
-           <TD> <input type ="text" name="officephone" value="{{ i.officePhone }}"/></TD>
+           <TD class="zoomL">Office Phone</TD>
+           <TD class="zoomR"> <input type ="text" name="officephone" value="{{ i.officePhone }}"/></TD>
        </TR>
      <TR class="cell1">
-           <TD>Office Days</TD>
-           <TD> <input type ="text" name="officedays" value="{{ i.officeDays }}"/></TD>
+           <TD class="zoomL">Office Days</TD>
+           <TD class="zoomR"> <input type ="text" name="officedays" value="{{ i.officeDays }}"/></TD>
        </TR>
      <TR class="cell2">
-           <TD>Office Hours Start</TD>
-           <TD> <input type ="text" name="officestart" value="{{ i.officeHoursStart }}"/></TD>
+           <TD class="zoomL">Office Hours Start</TD>
+           <TD class="zoomR"> <input type ="text" name="officestart" value="{{ i.officeHoursStart }}"/></TD>
        </TR>
      <TR class="cell1">
-           <TD>Office Hours End</TD>
-           <TD> <input type ="text" name="officeend" value="{{ i.officeHoursEnd }}"/></TD>
+           <TD class="zoomL">Office Hours End</TD>
+           <TD class="zoomR"> <input type ="text" name="officeend" value="{{ i.officeHoursEnd }}"/></TD>
        </TR>
    </table>
     <input class="btn" type="submit"/><br>

@@ -22,9 +22,19 @@ table{
     width: 300px;
 
 }
-.zoomL
+.zoomL2
 {
     animation: zoomLeft 1s;
+}
+
+.zoomR2
+{
+    animation: zoomRight 1s;
+}
+
+.zoomL
+{
+    animation: zoomLeft 3s;
 }
 @keyframes zoomLeft {
     0%{transform: translate(-1000%,0)}
@@ -33,12 +43,21 @@ table{
 
 .zoomR
 {
-    animation: zoomRight 1s;
+    animation: zoomRight 3s;
 }
 
 @keyframes zoomRight {
     0%{transform: translate(1000%,0)}
     100%{transform: translate(0%,0)}
+}
+
+.test{
+    animation: test 2s;
+}
+@keyframes test
+{
+     0%{ opacity: 0;}
+  100% {background-color:white;  height: 100px; width: 300px}
 }
 
 .cell1
