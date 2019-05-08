@@ -53,7 +53,13 @@ table{
     background-color: white;
     color: red;
 }
-
+.zoom{
+    animation: fromLeft 4s;
+}
+@keyframes fromLeft{
+    0% {font-size: 800pt; white-space: nowrap}
+    100% {font-size: 18pt; white-space: nowrap}
+}
 .blinking{
     margin-left: auto;
     margin-right: auto;
