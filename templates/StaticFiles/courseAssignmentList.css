@@ -51,7 +51,8 @@ table,td {
 }
 @keyframes test
 {
-     0%   {color:transparent; height: 0; width: 0;}
+     0%{opacity: 0;color:transparent; height: 0; width: 0;}
+    25%{color: transparent}
   100% {background-color:white;  height: 70px; width: 500px}
 }
 #heading{
@@ -117,4 +118,22 @@ table,td {
     0 0 90px yellow,
     0 0 100px yellow,
     0 0 150px yellow;}
+}
+.zoomL
+{
+    animation: zoomLeft 1s;
+}
+@keyframes zoomLeft {
+    0%{transform: translate(-1000%,0)}
+    100%{transform: translate(0%,0)}
+}
+
+.zoomR
+{
+    animation: zoomRight 1s;
+}
+
+@keyframes zoomRight {
+    0%{transform: translate(1000%,0)}
+    100%{transform: translate(0%,0)}
 }
