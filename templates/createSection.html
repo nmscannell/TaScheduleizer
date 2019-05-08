@@ -2,44 +2,44 @@
 {% load static %}
 
 {% block header %}
-<h1 id="heading">Create a Course Section</h1>
+    <h1 id="heading">Create a Course Section</h1>
 {% endblock %}
 
 {% block content %}<br>
-    <link rel="stylesheet" type = "text/css" href="{% static 'background.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'background.css' %}">
     <form method="post" action="/createsection/" class="zoomL2">
-  {%csrf_token%}
-   <table>
-       <TR class="cell1">
-           <TD>Course</TD>
-           <TD><select name = "course">
-            {%for i  in courseList %}
-            <option name="course" value="{{ i.number }}">{{ i }}</option>
-            {% endfor %}
-            </select></TD>
-       </TR>
-       <TR class="cell2">
-           <TD><input type ="radio" name="type" value="1"/>Lecture</TD>
-           <TD><input type ="radio"name="type" value="0"/>Lab</TD>
-       </TR>
-          <TR class="cell1">
-           <TD>Section Number</TD>
-           <TD><input type="text" name="number" required/></TD>
-       </TR>
-       <TR class="cell2">
-           <TD>Days</TD>
-           <TD><input type="text" name="days" required/></TD>
-       </TR>
-       <TR class="cell1">
-           <TD>Start Time</TD>
-           <TD> <input type ="text" name="start" required/></TD>
-       </TR>
-       <TR class="cell2">
-           <TD>End Time</TD>
-           <TD><input type="text" name="end" required/></TD>
-       </TR>
-   </table>
-<p><input type="submit" class="btn"/></p>
-  </form>
- <p class="zoom">{{ message }}</p>
+        {% csrf_token %}
+        <table>
+            <TR class="cell1">
+                <TD>Course</TD>
+                <TD><select name="course">
+                    {% for i  in courseList %}
+                        <option name="course" value="{{ i.number }}">{{ i }}</option>
+                    {% endfor %}
+                </select></TD>
+            </TR>
+            <TR class="cell2">
+                <TD><input type="radio" name="type" value="1"/>Lecture</TD>
+                <TD><input type="radio" name="type" value="0"/>Lab</TD>
+            </TR>
+            <TR class="cell1">
+                <TD>Section Number</TD>
+                <TD><input type="text" name="number" required/></TD>
+            </TR>
+            <TR class="cell2">
+                <TD>Days</TD>
+                <TD><input type="text" name="days" required/></TD>
+            </TR>
+            <TR class="cell1">
+                <TD>Start Time</TD>
+                <TD><input type="text" name="start" required/></TD>
+            </TR>
+            <TR class="cell2">
+                <TD>End Time</TD>
+                <TD><input type="text" name="end" required/></TD>
+            </TR>
+        </table>
+        <p><input type="submit" class="btn"/></p>
+    </form>
+    <p class="zoom">{{ message }}</p>
 {% endblock %}

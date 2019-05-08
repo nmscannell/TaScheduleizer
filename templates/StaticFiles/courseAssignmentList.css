@@ -1,68 +1,77 @@
-body
-{
+body {
     text-align: center;
 }
-    body, html {
-  margin: 0;
+
+body, html {
+    margin: 0;
     background-image: url("background.png");
-  height: 100%;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-attachment: fixed;
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
 }
-p
-{
+
+p {
     font-size: 20pt;
     white-space: pre-wrap;
     color: red;
 }
 
-.topCell
-{
+.topCell {
     background-color: violet;
 }
 
-.midCell
-{
+.midCell {
     background-color: powderblue;
 }
 
-.midCell2
-{
+.midCell2 {
     background-color: pink;
 }
 
-th{
+th {
     height: 25px;
     width: 500px;
 }
 
-table,td {
+table, td {
     background-color: white;
     border: 1px solid black;
-     margin-left: auto;
+    margin-left: auto;
     margin-right: auto;
     height: 70px;
     width: 500px;
 }
-.test{
+
+.test {
     animation: test 2s;
 }
-@keyframes test
-{
-     0%{opacity: 0;color:transparent; height: 0; width: 0;}
-    25%{color: transparent}
-  100% {background-color:white;  height: 70px; width: 500px}
+
+@keyframes test {
+    0% {
+        opacity: 0;
+        color: transparent;
+        height: 0;
+        width: 0;
+    }
+    25% {
+        color: transparent
+    }
+    100% {
+        background-color: white;
+        height: 70px;
+        width: 500px
+    }
 }
-#heading{
+
+#heading {
     text-align: center;
     text-transform: uppercase;
     font-size: 2em;
     color: white;
     letter-spacing: 0.15em;
-    text-shadow:
-    0 0 5px yellow,
+    text-shadow: 0 0 5px yellow,
     0 0 10px yellow,
     0 0 20px yellow,
     0 0 40px yellow,
@@ -73,67 +82,80 @@ table,td {
 }
 
 @keyframes change {
-    0%{ text-shadow:
-    0 0 5px yellow,
-    0 0 10px yellow,
-    0 0 20px yellow,
-    0 0 40px yellow,
-    0 0 80px yellow,
-    0 0 90px yellow,
-    0 0 100px yellow,
-    0 0 150px yellow;}
-    25%{text-shadow:
-    0 0 5px red,
-    0 0 10px red,
-    0 0 20px red,
-    0 0 40px red,
-    0 0 80px red,
-    0 0 90px red,
-    0 0 100px red,
-    0 0 150px red;}
-    50%{text-shadow:
-    0 0 5px blue,
-    0 0 10px blue,
-    0 0 20px blue,
-    0 0 40px blue,
-    0 0 80px blue,
-    0 0 90px blue,
-    0 0 100px blue,
-    0 0 150px blue;}
-    75%{text-shadow:
-    0 0 5px green,
-    0 0 10px green,
-    0 0 20px green,
-    0 0 40px green,
-    0 0 80px green,
-    0 0 90px green,
-    0 0 100px green,
-    0 0 150px green;}
-    100%{ text-shadow:
-    0 0 5px yellow,
-    0 0 10px yellow,
-    0 0 20px yellow,
-    0 0 40px yellow,
-    0 0 80px yellow,
-    0 0 90px yellow,
-    0 0 100px yellow,
-    0 0 150px yellow;}
-}
-.zoomL
-{
-    animation: zoomLeft 1s;
-}
-@keyframes zoomLeft {
-    0%{transform: translate(-1000%,0)}
-    100%{transform: translate(0%,0)}
+    0% {
+        text-shadow: 0 0 5px yellow,
+        0 0 10px yellow,
+        0 0 20px yellow,
+        0 0 40px yellow,
+        0 0 80px yellow,
+        0 0 90px yellow,
+        0 0 100px yellow,
+        0 0 150px yellow;
+    }
+    25% {
+        text-shadow: 0 0 5px red,
+        0 0 10px red,
+        0 0 20px red,
+        0 0 40px red,
+        0 0 80px red,
+        0 0 90px red,
+        0 0 100px red,
+        0 0 150px red;
+    }
+    50% {
+        text-shadow: 0 0 5px blue,
+        0 0 10px blue,
+        0 0 20px blue,
+        0 0 40px blue,
+        0 0 80px blue,
+        0 0 90px blue,
+        0 0 100px blue,
+        0 0 150px blue;
+    }
+    75% {
+        text-shadow: 0 0 5px green,
+        0 0 10px green,
+        0 0 20px green,
+        0 0 40px green,
+        0 0 80px green,
+        0 0 90px green,
+        0 0 100px green,
+        0 0 150px green;
+    }
+    100% {
+        text-shadow: 0 0 5px yellow,
+        0 0 10px yellow,
+        0 0 20px yellow,
+        0 0 40px yellow,
+        0 0 80px yellow,
+        0 0 90px yellow,
+        0 0 100px yellow,
+        0 0 150px yellow;
+    }
 }
 
-.zoomR
-{
+.zoomL {
+    animation: zoomLeft 1s;
+}
+
+@keyframes zoomLeft {
+    0% {
+        transform: translate(-1000%, 0)
+    }
+    100% {
+        transform: translate(0%, 0)
+    }
+}
+
+.zoomR {
     animation: zoomRight 1s;
 }
 
 @keyframes zoomRight {
-    0%{transform: translate(1000%,0)}
-    100%{transform: translate(0%,0)}
+    0% {
+        transform: translate(1000%, 0)
+    }
+    100% {
+        transform: translate(0%, 0)
+    }
 }

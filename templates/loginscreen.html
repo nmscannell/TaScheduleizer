@@ -4,35 +4,38 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
-     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link rel="stylesheet" type = "text/css" href="{% static 'login.css' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'login.css' %}">
 </head>
 <body>
 <div class="form-box">
     <div class="head">" "</div>
- <form class="form" method="post" action="/login/", id="login-form"> <!--Its super important that action matches the url of the page-->
-  {%csrf_token%}
-      <div class="form-group">
-          <label class="label-control">
-            <span class="label-text"></span>
-          </label>
-  <input type="text" name="username" id ="username" placeholder="UserName" required/>
-             </div>
-       <div class="form-group">
-          <label class="label-control">
-            <span class="label-text"></span>
-          </label>
-    <input type="password" name="password" id ="password" placeholder="Password" required/>
-       </div>
-     <input type="submit" value="Login" class="btn" />
-      <p class="error">{{ message }}</p>
-     <input type="checkbox" name="remember"> Stay Signed in
-     <center> Can't sign in? Contact us  <a href="/contact">Click here</a></center>
+    <form class="form" method="post" action="/login/" , id="login-form">
+        <!--Its super important that action matches the url of the page-->
+        {% csrf_token %}
+        <div class="form-group">
+            <label class="label-control">
+                <span class="label-text"></span>
+            </label>
+            <input type="text" name="username" id="username" placeholder="UserName" required/>
+        </div>
+        <div class="form-group">
+            <label class="label-control">
+                <span class="label-text"></span>
+            </label>
+            <input type="password" name="password" id="password" placeholder="Password" required/>
+        </div>
+        <input type="submit" value="Login" class="btn"/>
+        <p class="error">{{ message }}</p>
+        <input type="checkbox" name="remember"> Stay Signed in
+        <center> Can't sign in? Contact us <a href="/contact">Click here</a></center>
 
     </form>
-  </div>
+</div>
 <p align="center">
-<a href="http://www.quick-counter.net/" title="HTML hit counter - Quick-counter.net"><img src="http://www.quick-counter.net/aip.php?tp=sq&tz=America%2FChicago" alt="HTML hit counter - Quick-counter.net" border="0" /></a>
+    <a href="http://www.quick-counter.net/" title="HTML hit counter - Quick-counter.net"><img
+            src="http://www.quick-counter.net/aip.php?tp=sq&tz=America%2FChicago"
+            alt="HTML hit counter - Quick-counter.net" border="0"/></a>
 </p>
 </body>
 </html>

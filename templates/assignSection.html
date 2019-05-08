@@ -2,42 +2,42 @@
 {% load static %}
 
 {% block header %}
-  <h1 id="heading">Assign a User to a Course Section</h1>
+    <h1 id="heading">Assign a User to a Course Section</h1>
 {% endblock %}
 
 {% block content %}<br>
-    <link rel="stylesheet" type = "text/css" href="{% static 'background.css' %}">
-     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+    <link rel="stylesheet" type="text/css" href="{% static 'background.css' %}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
           integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     <form method="post" action="/assignsection/">
-  {%csrf_token%}
+        {% csrf_token %}
 
 
-<input type="text" name="course" value="{{ course.name }}">
+        <input type="text" name="course" value="{{ course.name }}">
 
-<div class="box">
-<select name="account">
-    {%for i  in accountList %}
-        <option name="account" value="{{ i.userName }}">{{ i }}</option>
-    {% endfor %}
-</select>
-</div>
+        <div class="box">
+            <select name="account">
+                {% for i  in accountList %}
+                    <option name="account" value="{{ i.userName }}">{{ i }}</option>
+                {% endfor %}
+            </select>
+        </div>
 
-<div class="box">
-<select name="section">
-    {%for i  in sectionList %}
-        <option name="section" value="{{ i.number }}">{{ i }}</option>
-    {% endfor %}
-</select>
-</div>
+        <div class="box">
+            <select name="section">
+                {% for i  in sectionList %}
+                    <option name="section" value="{{ i.number }}">{{ i }}</option>
+                {% endfor %}
+            </select>
+        </div>
 
 
-<br>
-<br>
+        <br>
+        <br>
 
-       <input type="submit" class="btn"/><br>
-    <p>{{ message }}</p>
+        <input type="submit" class="btn"/><br>
+        <p>{{ message }}</p>
 
-</form>
+    </form>
 {% endblock %}
 
