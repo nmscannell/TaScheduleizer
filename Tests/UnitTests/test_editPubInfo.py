@@ -358,6 +358,8 @@ class Test_editPubInfo(TestCase):
         self.janeway['officedays'] = "MW"
         self.assertEqual(Commands.editPubInfo(self.j, self.janeway),
                          "You must enter both a start and end time for office hours")
+        self.assertEqual(self.j.officeHoursStart, self.startdefault)
+        self.assertEqual(self.j.officeHoursEnd, self.enddefault)
 
     def test_change_times_finish_nostart(self):
         self.janeway['officestart'] = str(self.startdefault)
