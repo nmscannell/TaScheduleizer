@@ -6,17 +6,15 @@
     <title>Contact</title>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="stylesheet" type="text/css" href="{% static 'contact.css' %}">
-
+</head>
+<body>
     <div class="container">
 
         <div class="head">
             <h1 id="heading">Contact Form</h1>
         </div>
-<body>
 
-</head>
-<form class="form" method="post" action="/contact/" , id="contact-form">
-    <!--Its super important that action matches the url of the page-->
+
     {% csrf_token %}
 
     <label for="first_name"></label>
@@ -36,8 +34,6 @@
 
 
 
-
-
     {% block content %}
         <center>
             <form method="post">
@@ -48,9 +44,16 @@
             </form>
         </center>
     {% endblock %}
-    <form
-            action="https://webdevbasics.net/scripts/demo.php" method="get">
+
+    <form action="https://www.SnapHost.com/captcha/send.aspx" id="ContactUsCaptchaWebForm" method="post" onsubmit="return ValidateForm(this);" target="_top">
+<input name="skip_WhereToSend" type="hidden" value="spykim2003@gmail.com" />
+<input name="skip_SnapHostID" type="hidden" value="6LdkVqEUAAAAAFyRjV5NdYqrglZrhK1m1wxB47aL" />
+<input name="skip_WhereToReturn" type="hidden" value="https://webdevbasics.net/scripts/demo.php" />
+<input name="skip_Subject" type="hidden" value="Contact Us Form" />
+<input name="skip_ShowUsersIp" type="hidden" value="1" />
+<input name="skip_SendCopyToUser" type="hidden" value="1" />
         <input type="submit" value="submit" class="btn"/>
     </form>
+</div>
 </body>
 </html>
