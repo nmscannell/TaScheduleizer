@@ -103,6 +103,15 @@ def deleteAccountCom(userName):
     return "Account successfully deleted"
 
 
+def deleteCourseCom(courseName):
+    try:
+        a = Course.objects.get(name=courseName)
+    except Exception as e:
+        return "Course does not exist"
+    a.delete()
+    return "Course successfully deleted"
+
+
 def createCourse(name, number, online):
     # Check that the command has the appropriate number of arguments
 

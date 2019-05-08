@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from UserInterface import UI
-from Commands import login, logout,  deleteAccountCom, createSection,createAccount, editPubInfo, createCourse, assignAccSection
+from Commands import login, logout,  deleteAccountCom, createSection,createAccount, editPubInfo, createCourse, assignAccSection, deleteCourseCom
 from CurrentUserHelper import CurrentUser
 from Main.models import Account, Course, Section, AccountSection
 from AccountCourse.models import AccountCourse
@@ -444,3 +444,28 @@ class testView(View):
         user = CU.getCurrentUser(request)
         base = CU.getTemplate(request)
         return render(request, 'test/testCreateAccount.html', {"i": user, "base": base})
+
+
+class deleteCourseView(View):
+    def get(self, request):
+        CU = CurrentUser()
+        user = CU.getCurrentUser(request)
+        courseList = Course.objects.all()
+        CU = CurrentUser()
+        currentusertitle = CU.getCurrentUserTitle(request)
+        base = CU.getTemplate(request)
+        if currentusertitle == 0:
+            return render(request, 'errorPage.html', {"message": "You must log in to view this page"})
+        elif currentusertitle < 3:
+            return render(request, 'errorPage.html', {"message": "You do not have permission to view this page"})
+        return render(request, 'deletecourse.html', {"courselist": courseList, "i": user, "base": base})
+
+    def post(self, request):
+        CU = CurrentUser()
+        user = CU.getCurrentUser(request)
+        username = str(request.POST["coursename"])
+        message = deleteCourseCom(username)
+        courseList = Course.objects.all()
+        base = CU.getTemplate(request)
+
+        return render(request, 'deletecourse.html', {"message": message, "courselist": courseList, "i": user, "base": base})
