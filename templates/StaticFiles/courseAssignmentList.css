@@ -46,6 +46,14 @@ table,td {
     height: 70px;
     width: 500px;
 }
+.test{
+    animation: test 2s;
+}
+@keyframes test
+{
+     0%   {color:transparent; height: 0px; width: 0px}
+  100% {background-color:white;  height: 70px; width: 500px}
+}
 #heading{
     text-align: center;
     text-transform: uppercase;
