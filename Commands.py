@@ -1,11 +1,9 @@
 from Main.models import Account, Course, Section, AccountSection
 from AccountCourse.models import AccountCourse
-import CurrentUserHelper
 import re
-from itertools import chain
 
 
-class Command():
+class Command:
 
     def __init__(self, opcode, arguments, function):
         self.opcode = opcode
@@ -289,7 +287,6 @@ def displayCourseAssign(courseNumber):
     else:
         response += ", ".join(instructorList)
 
-
     response += "\nTeaching Assistants: "
 
     taList = []
@@ -327,7 +324,7 @@ def displayCourseAssign(courseNumber):
     return response
 
 
-def viewCourseAssign(userName): # secret message
+def viewCourseAssign(userName):
     if not Account.objects.filter(userName=userName).exists():
         return "Account not found"
 
@@ -543,7 +540,6 @@ def editPubInfo(user, dict):
             user.officeHoursEnd = officeHoursEnd
     user.officeDays = officeDays
     user.save()
-
 
     return "Fields successfully updated"
 

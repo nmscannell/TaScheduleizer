@@ -1,9 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from UserInterface import UI
-from Commands import login, logout, displayAllCourseAssign, deleteAccountCom, createSection,\
-    createAccount, getPrivateDataList, getPublicDataList, editPubInfo, assignAccCourse, createCourse, \
-    assignAccSection
+from Commands import login, logout,  deleteAccountCom, createSection,createAccount, editPubInfo, createCourse, assignAccSection
 from CurrentUserHelper import CurrentUser
 from Main.models import Account, Course, Section, AccountSection
 from AccountCourse.models import AccountCourse
@@ -150,13 +148,12 @@ class createAccountView(View):
         lastName = str(request.POST["lastname"])
         email = str(request.POST["email"])
         title = str(request.POST["title"])
-        #try:
+
         message = createAccount(userName=userName, firstName=firstName,
                                 lastName=lastName, email=email, title=title)
 
         return render(request, 'createAccount.html', {"message": message, "i": user, "base": base})
-        #except Exception as e:
-         #   return render(request, 'createAccount.html', {"message": str(e)})
+
 
 
 class courseAssignmentsList(View):
@@ -176,18 +173,7 @@ class courseAssignmentsList(View):
         return render(request, 'courseAssignmentList.html', {"courseList": courses, "i": user,
                                                              "accountList": accountList, "sectionList": sectionList,
                                                              'accountSec': accountsec, "base" : base})
-"""
-class viewTAAssignments(View):
 
-    def get(self, request):
-        CU = CurrentUser()
-        currentusertitle = CU.getCurrentUserTitle(request)
-        user = CU.getCurrentUser(request)
-        if currentusertitle == 0:
-            return render(request, 'errorPage.html', {"message": "You must log in to view this page"})
-        accountList = Account.objects.filter(title=1)
-        
-"""
 
 class deleteAccount(View):
     def get(self, request):
@@ -216,44 +202,6 @@ class deleteAccount(View):
         base = CU.getTemplate(request)
 
         return render(request, 'deleteAccount.html', {"message": message, "stafflist": staffList, "i": user, "base": base})
-
-
-#class instructorCourse(View):
-#    def get(self, request):
-#        CU = CurrentUser()
-#        currentusertitle = CU.getCurrentUserTitle(request)
-#        if currentusertitle == 0:
-#            return render(request, 'errorPage.html', {"message": "You must log in to view this page"})
-#        elif currentusertitle != 4:
-#            return render(request, 'errorPage.html', {"message": "You do not have permission to view this page"})
-#        instructorList = Account.objects.filter(title=2)
-#        courseList = Course.objects.all()
-#        return render(request, 'assignInstructor.html', {"instList": instructorList, "courseList": courseList})
-
-#    def post(self, request):
-#        username = str(request.POST.get("username"))
-#        course = str(request.POST.get("course"))
-#        message = assignAccCourse(username, course)
-#        return render(request, 'assignInstructor.html', {"message": message})
-
-
-#class taCourse(View):
-#    def get(self, request):
-#        CU = CurrentUser()
-#        currentusertitle = CU.getCurrentUserTitle(request)
-#        if currentusertitle == 0:
-#            return render(request, 'errorPage.html', {"message": "You must log in to view this page"})
-#        if currentusertitle != 4:
-#            return render(request, 'errorPage.html', {"message": "You do not have permission to view this page"})
-#        taList = Account.objects.filter(title=1)
-#        courseList = Course.objects.all()
-#        return render(request, 'assignTACourse.html', {"taList": taList, "courseList": courseList})
-
-#    def post(self, request):
-#        username = str(request.POST["username"])
-#        course = str(request.POST["course"])
-#        message = assignAccCourse(username, course)
-#        return render(request, 'assignTACourse.html', {"message": message})
 
 
 class accountSection(View):
