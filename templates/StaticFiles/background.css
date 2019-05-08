@@ -22,6 +22,25 @@ table{
     width: 300px;
 
 }
+.zoomL
+{
+    animation: zoomLeft 1s;
+}
+@keyframes zoomLeft {
+    0%{transform: translate(-1000%,0)}
+    100%{transform: translate(0%,0)}
+}
+
+.zoomR
+{
+    animation: zoomRight 1s;
+}
+
+@keyframes zoomRight {
+    0%{transform: translate(1000%,0)}
+    100%{transform: translate(0%,0)}
+}
+
 .cell1
 {
     background-color: powderblue;
@@ -35,7 +54,7 @@ table{
     text-align: center;
     text-transform: uppercase;
     font-size: 2em;
-    color: darkgreen;
+    color: white;
     letter-spacing: 0.15em;
     text-shadow:
     0 0 5px yellow,
@@ -57,8 +76,8 @@ table{
     animation: fromLeft 4s;
 }
 @keyframes fromLeft{
-    0% {font-size: 800pt; white-space: nowrap}
-    100% {font-size: 18pt; white-space: nowrap}
+    0% {font-size: 800pt; white-space: nowrap; }
+    100% {font-size: 18pt; white-space: nowrap;}
 }
 .blinking{
     margin-left: auto;

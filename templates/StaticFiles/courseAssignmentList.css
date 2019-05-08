@@ -51,14 +51,14 @@ table,td {
 }
 @keyframes test
 {
-     0%   {color:transparent; height: 0px; width: 0px}
+     0%   {color:transparent; height: 0; width: 0;}
   100% {background-color:white;  height: 70px; width: 500px}
 }
 #heading{
     text-align: center;
     text-transform: uppercase;
     font-size: 2em;
-    color: darkgreen;
+    color: white;
     letter-spacing: 0.15em;
     text-shadow:
     0 0 5px yellow,
