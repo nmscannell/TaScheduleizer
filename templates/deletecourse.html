@@ -12,9 +12,9 @@
     <form method="post" action="/deletecourse/">
         {% csrf_token %}
         <div class="box">
-            <select name="coursename">
+            <select name="Cname">
                 {% for i  in courselist %}
-                    <option name="coursename" id="username" value="{{ i.name }}">{{ i }}</option>
+                    <option id="username" value="{{ i.name }}">{{ i }}</option>
                 {% endfor %}
             </select>
         </div>
