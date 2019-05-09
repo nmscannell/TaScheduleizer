@@ -439,7 +439,7 @@ def editPubInfo(user, dict):
     email = dict['email']
     if email != user.email and email != str(emaildefault) and email != "":
         if checkValidEmail(email) == False:
-            errorList.append("The email address you have entered in not valid. "
+            errorList.append("The email address you have entered is not valid. "
                              "Please make sure you are using a uwm email address in the correct format.")
         else:
             user.email = email
@@ -532,6 +532,8 @@ def editPubInfo(user, dict):
             user.officeHoursEnd = enddefault
             user.officeHoursStart = startdefault
             errorList.append("Invalid start time, please use a 4 digit military time representation")
+        else:
+            user.officeHoursStart = officeHoursStart
 
     # Check end time is valid
     if (officeHoursEnd != str(user.officeHoursEnd) and officeHoursEnd != "" and officeHoursEnd != str(enddefault)):
@@ -539,6 +541,8 @@ def editPubInfo(user, dict):
             user.officeHoursEnd = enddefault
             user.officeHoursStart = startdefault
             errorList.append("Invalid end time, please use a 4 digit military time representation")
+        else:
+            user.officeHoursEnd = officeHoursEnd
 
     # Office hours and days dependency checks
     if (officeHoursStart != str(startdefault) and officeHoursStart != "") or (officeHoursEnd != str(enddefault) and officeHoursEnd != ""):
