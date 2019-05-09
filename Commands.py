@@ -523,13 +523,13 @@ def editPubInfo(user, dict):
     #if ((officeHoursStart != str(user.officeHoursStart) and officeHoursStart != "" and
      #    officeHoursStart != str(startdefault))) or ((officeHoursEnd != str(user.officeHoursEnd) and
       #                                                officeHoursEnd != "" and officeHoursEnd != str(enddefault))):
-    startOK = True;
+    startOK = True
     if (officeHoursStart != str(user.officeHoursStart) and officeHoursStart != "" and
             officeHoursStart != str(startdefault)):
        if not checkValidTimes(officeHoursStart):
             user.officeHoursEnd = enddefault
             user.officeHoursStart = startdefault
-            startOK = False;
+            startOK = False
             errorList.append("Invalid start time, please use a 4 digit military time representation")
        else:
            user.officeHoursStart = officeHoursStart
