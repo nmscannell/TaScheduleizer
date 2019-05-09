@@ -491,7 +491,7 @@ def editPubInfo(user, dict):
     zipCode = dict['zipcode']
     if zipCode != str(user.zipCode) and zipCode != str(zipcodedefault) and zipCode != "":
         if containsOnlyDigits(zipCode) == False:
-            errorList.append("ZipCode my be only numeric")
+            errorList.append("ZipCode must be only numeric")
             #errorString += "Zipcode, "
         else:
             user.zipCode = zipCode

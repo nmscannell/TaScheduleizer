@@ -16,4 +16,4 @@ class TestDeleteAccountCom(TestCase):
     def test_deleteAccountCom_notFound(self):
         self.assertEqual(Account.objects.count(), 1)
         self.assertEqual(deleteAccountCom("jlongtree"), "Account does not exist")
-        self.assertEqual(Account.objects.count(), 1) #secret
+        self.assertEqual(Account.objects.count(), 1)

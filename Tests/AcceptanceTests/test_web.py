@@ -836,7 +836,6 @@ class Test_web(TestCase):
                                                  'officedays': 'W', 'officestart': '0900', 'officeend': '1000'})
         self.assertEqual(response.context['message'], "Fields successfully updated")
 
-
     def test_editPubInfo_FN_LN_invalid(self):
         self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/editpubinfo/', {'username': 'picard304', 'firstname': '12',
@@ -1206,11 +1205,11 @@ class Test_web(TestCase):
 
     def test_deleteCourse_Success(self):
         self.c.post('/login/', {'username': 'kirkj22', 'password': '678543'})
-        response = self.c.post('/deletecourse/', {'name': 'TemporalMechanics'})
+        response = self.c.post('/deletecourse/', {'Cname': 'TemporalMechanics'})
         self.assertEqual(response.context['message'], "Course successfully deleted")
 
     def test_deleteCourse_notFound(self):
         self.c.post('/login/', {'username': 'kirkj22', 'password': '678543'})
-        response = self.c.post('/deletecourse/', {'name': 'secretCourse'})
-        self.assertEqual(response.context['message'], "Course not found")
+        response = self.c.post('/deletecourse/', {'Cname': 'secretCourse'})
+        self.assertEqual(response.context['message'], "Course does not exist")
 

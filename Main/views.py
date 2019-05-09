@@ -463,8 +463,8 @@ class deleteCourseView(View):
     def post(self, request):
         CU = CurrentUser()
         user = CU.getCurrentUser(request)
-        username = str(request.POST["coursename"])
-        message = deleteCourseCom(username)
+        courseName = str(request.POST['Cname'])
+        message = deleteCourseCom(courseName)
         courseList = Course.objects.all()
         base = CU.getTemplate(request)
 
