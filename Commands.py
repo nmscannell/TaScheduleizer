@@ -497,7 +497,7 @@ def editPubInfo(user, dict):
             user.zipCode = zipCode
             user.save(update_fields=['zipCode'])
 
-    # Office Number
+    # Office Number8
     officeNumber = dict['officenumber']
     if officeNumber != str(user.officeNumber) and officeNumber != str(officenumdefault) and officeNumber != "":
         if containsOnlyDigits(officeNumber) == False:
