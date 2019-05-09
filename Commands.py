@@ -491,13 +491,13 @@ def editPubInfo(user, dict):
     zipCode = dict['zipcode']
     if zipCode != str(user.zipCode) and zipCode != str(zipcodedefault) and zipCode != "":
         if containsOnlyDigits(zipCode) == False:
-            errorList.append("ZipCode my be only numeric")
+            errorList.append("ZipCode must be only numeric")
             #errorString += "Zipcode, "
         else:
             user.zipCode = zipCode
             user.save(update_fields=['zipCode'])
 
-    # Office Number
+    # Office Number8
     officeNumber = dict['officenumber']
     if officeNumber != str(user.officeNumber) and officeNumber != str(officenumdefault) and officeNumber != "":
         if containsOnlyDigits(officeNumber) == False:
