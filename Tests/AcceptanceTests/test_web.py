@@ -1246,11 +1246,11 @@ class Test_web(TestCase):
 
     def test_deleteCourse_Success(self):
         self.c.post('/login/', {'username': 'kirkj22', 'password': '678543'})
-        response = self.c.post('/deletecourse/', {'coursename': 'TemporalMechanics'})
+        response = self.c.post('/deletecourse/', {'Cname': 'TemporalMechanics'})
         self.assertEqual(response.context['message'], "Course successfully deleted")
 
     def test_deleteCourse_notFound(self):
         self.c.post('/login/', {'username': 'kirkj22', 'password': '678543'})
-        response = self.c.post('/deletecourse/', {'coursename': 'secretCourse'})
+        response = self.c.post('/deletecourse/', {'Cname': 'secretCourse'})
         self.assertEqual(response.context['message'], "Course does not exist")
 
