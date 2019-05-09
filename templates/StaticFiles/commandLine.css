@@ -1,24 +1,24 @@
-body{
-        background-image: url(logo.png),url(background.png);
-        background-repeat: no-repeat, no-repeat;
+body {
+    background-image: url(logo.png), url(background.png);
+    background-repeat: no-repeat, no-repeat;
     background-position: right, center;
-        color: black;
-    }
+    color: black;
+}
 
-#command{
+#command {
     height: 40px;
     width: 650px;
     font-size: large;
     border-color: darkgreen;
 }
-#label{
+
+#label {
     text-align: center;
     text-transform: uppercase;
     font-size: 4em;
     color: darkgreen;
     letter-spacing: 0.15em;
-    text-shadow:
-    0 0 5px yellow,
+    text-shadow: 0 0 5px yellow,
     0 0 10px yellow,
     0 0 20px yellow,
     0 0 40px yellow,
@@ -27,19 +27,20 @@ body{
     0 0 100px yellow,
     0 0 150px yellow;
 }
-.submit
-{
+
+.submit {
     height: 40px;
     width: 100px;
     font-size: large;
     color: darkgreen;
-      display: inline-block;
+    display: inline-block;
     padding: 0.3em 1em;
     border: solid 3px darkgreen;
     border-radius: 4px;
     transition: .5s;
 }
-.submit.hover{
-     background: darkgreen;
+
+.submit.hover {
+    background: darkgreen;
     color: white;
 }

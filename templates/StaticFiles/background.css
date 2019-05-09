@@ -1,20 +1,20 @@
 body, html {
-  margin: 0;
+    margin: 0;
     background-image: url("background.png");
-  height: 100%;
-  background-position: center;
-  background-repeat: no-repeat;
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
     background-attachment: fixed;
-  background-size: cover;
-  text-align: center;
+    background-size: cover;
+    text-align: center;
 }
 
-p{
+p {
     font-size: 18pt;
     white-space: pre-wrap;
 }
 
-table{
+table {
     background-color: white;
     margin-left: auto;
     margin-right: auto;
@@ -23,70 +23,84 @@ table{
 
 }
 
-.spin{
+.spin {
     animation: spinningText 4s;
 }
 
 @keyframes spinningText {
- 0%{font-size: 800pt}
-    100%{transform: rotate(360deg); font-size: 11pt}
+    0% {
+        font-size: 800pt
+    }
+    100% {
+        transform: rotate(360deg);
+        font-size: 11pt
+    }
 }
 
-.zoomL2
-{
+.zoomL2 {
     animation: zoomLeft 1s;
 }
 
-.zoomR2
-{
+.zoomR2 {
     animation: zoomRight 1s;
 }
 
-.zoomL
-{
+.zoomL {
     animation: zoomLeft 3s;
 }
+
 @keyframes zoomLeft {
-    0%{transform: translate(-1000%,0)}
-    100%{transform: translate(0%,0)}
+    0% {
+        transform: translate(-1000%, 0)
+    }
+    100% {
+        transform: translate(0%, 0)
+    }
 }
 
-.zoomR
-{
+.zoomR {
     animation: zoomRight 3s;
 }
 
 @keyframes zoomRight {
-    0%{transform: translate(1000%,0)}
-    100%{transform: translate(0%,0);}
+    0% {
+        transform: translate(1000%, 0)
+    }
+    100% {
+        transform: translate(0%, 0);
+    }
 }
 
-.test{
+.test {
     animation: test 2s;
 }
-@keyframes test
-{
-     0%{ opacity: 0;}
-  100% {background-color:white;  height: 100px; width: 300px}
+
+@keyframes test {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        background-color: white;
+        height: 100px;
+        width: 300px
+    }
 }
 
-.cell1
-{
+.cell1 {
     background-color: powderblue;
 }
-.cell2
-{
+
+.cell2 {
     background: pink;
 }
 
-#heading{
+#heading {
     text-align: center;
     text-transform: uppercase;
     font-size: 2em;
     color: white;
     letter-spacing: 0.15em;
-    text-shadow:
-    0 0 5px yellow,
+    text-shadow: 0 0 5px yellow,
     0 0 10px yellow,
     0 0 20px yellow,
     0 0 40px yellow,
@@ -96,19 +110,27 @@ table{
     0 0 150px yellow;
 }
 
-.message
-{
+.message {
     background-color: white;
     color: red;
 }
-.zoom{
+
+.zoom {
     animation: fromLeft 4s;
 }
-@keyframes fromLeft{
-    0% {font-size: 800pt; white-space: nowrap; }
-    100% {font-size: 18pt; white-space: nowrap;}
+
+@keyframes fromLeft {
+    0% {
+        font-size: 800pt;
+        white-space: nowrap;
+    }
+    100% {
+        font-size: 18pt;
+        white-space: nowrap;
+    }
 }
-.blinking{
+
+.blinking {
     margin-left: auto;
     margin-right: auto;
     text-align: center;
@@ -118,52 +140,62 @@ table{
     font-weight: bolder;
     color: red;
 }
-@keyframes blinkingText{
-    0%{     color: red;    }
-    50%{    color: transparent; }
-     100%{   color: red;    }
+
+@keyframes blinkingText {
+    0% {
+        color: red;
+    }
+    50% {
+        color: transparent;
+    }
+    100% {
+        color: red;
+    }
 }
 
 input.btn[type="submit"] {
-  background: #6498fe;
-  border:none;
-  border-radius: 2px;
-  color: #fff;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
-  letter-spacing: 3px;
-  margin: 5px 0;
-  outline: medium none;
-  overflow: hidden;
-  padding: 10px;
-  text-transform: uppercase;
-  transition: all 0.15s ease-in-out 0s;
-  width: 200px;
-  box-shadow: 0 1px 2px 0px rgba(0,0,0,0.16), 0 1px 2px 0px rgba(0,0,0,0.23);
+    background: #6498fe;
+    border: none;
+    border-radius: 2px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 3px;
+    margin: 5px 0;
+    outline: medium none;
+    overflow: hidden;
+    padding: 10px;
+    text-transform: uppercase;
+    transition: all 0.15s ease-in-out 0s;
+    width: 200px;
+    box-shadow: 0 1px 2px 0px rgba(0, 0, 0, 0.16), 0 1px 2px 0px rgba(0, 0, 0, 0.23);
 }
+
 input.btn[type="submit"]:hover {
-  background: #4b81eb;
-  box-shadow: 0 2px 4px 0px rgba(0,0,0,0.16), 0 2px 4px 0px rgba(0,0,0,0.23);
+    background: #4b81eb;
+    box-shadow: 0 2px 4px 0px rgba(0, 0, 0, 0.16), 0 2px 4px 0px rgba(0, 0, 0, 0.23);
 }
 
 .box {
     position: relative;
 
 }
+
 .box select {
-background: #312f33;
-color: #fffe31;
+    background: #312f33;
+    color: #fffe31;
     padding: 10px;
     width: 300px;
     height: 50px;
     border: none;
     font-size: 20px;
-    box-shadow: 0 5px 25px rgba(0,0,0,.5);
+    box-shadow: 0 5px 25px rgba(0, 0, 0, .5);
     -webkit-appearance: button;
-    outline:none;
+    outline: none;
 }
-.box:before{
+
+.box:before {
     content: '\f358';
     font-family: "Font Awesome 5 Free";
     position: relative;
@@ -171,13 +203,14 @@ color: #fffe31;
     top: 9px;
     width: 50px;
     height: 50px;
-    box-shadow: 0 5px 25px rgba(0,0,0,.5);
+    box-shadow: 0 5px 25px rgba(0, 0, 0, .5);
     line-height: 50px;
-    color:  #fffe31;
-    font-size:45px;
+    color: #fffe31;
+    font-size: 45px;
     text-align: center;
     pointer-events: none;
 }
-.box:hover:before{
+
+.box:hover:before {
     background: #0472ca;
 }
