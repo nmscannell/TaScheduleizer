@@ -862,7 +862,7 @@ class Test_web(TestCase):
 
         self.assertEqual(response.context['message'], "Errors: First Name can only contain letters, "
                                                       "Last name can only contain letters, The email address you have "
-                                                      "entered in not valid. Please make sure you are using a uwm email "
+                                                      "entered is not valid. Please make sure you are using a uwm email "
                                                       "address in the correct format., Home Phone can only "
                                                       "contain numbers, City must contain only letters")
 
