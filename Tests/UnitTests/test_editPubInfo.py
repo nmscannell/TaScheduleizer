@@ -347,13 +347,18 @@ class Test_editPubInfo(TestCase):
 
     def test_change_times_invalid(self):
         self.janeway['officestart'] = "9999"
-
         self.assertEqual(Commands.editPubInfo(self.j, self.janeway), "Errors: Invalid start time, please use a "
                                                                      "4 digit military time representation")
+        self.assertEqual(self.j.officeHoursStart, self.startdefault)
+        self.assertEqual(self.j.officeHoursEnd, self.enddefault)
+
+    def test_change_times_invalid2(self):
         self.janeway['officeend'] = "9999"
-        self.janeway['officestart'] = "1300"
+        #self.janeway['officestart'] = "1300"
         self.assertEqual(Commands.editPubInfo(self.j, self.janeway), "Errors: Invalid end time, please use a "
                                                                      "4 digit military time representation")
+        self.assertEqual(self.j.officeHoursStart, self.startdefault)
+        self.assertEqual(self.j.officeHoursEnd, self.enddefault)
 
     def test_change_times_start_nofinish(self):
         self.janeway['officestart'] = "1300"
@@ -369,6 +374,8 @@ class Test_editPubInfo(TestCase):
         self.janeway['officeday'] = "MW"
         self.assertEqual(Commands.editPubInfo(self.j, self.janeway),
                          "Errors: You must enter both a start and end time for office hours")
+        self.assertEqual(self.j.officeHoursStart, self.startdefault)
+        self.assertEqual(self.j.officeHoursEnd, self.enddefault)
 
     def test_times_no_day(self):
         self.janeway['officestart'] = "1300"
@@ -376,6 +383,9 @@ class Test_editPubInfo(TestCase):
         self.janeway['officedays'] = str(self.daysdefault)
         self.assertEqual(Commands.editPubInfo(self.j, self.janeway),
                          "Errors: You must enter office days if you enter office hours")
+        self.assertEqual(self.j.officeHoursStart, self.startdefault)
+        self.assertEqual(self.j.officeHoursEnd, self.enddefault)
+        self.assertEqual(self.j.officeDays, self.daysdefault)
 
     def test_days_no_times(self):
         self.janeway['officestart'] = str(self.startdefault)
@@ -383,3 +393,75 @@ class Test_editPubInfo(TestCase):
         self.janeway['officedays'] = 'MW'
         self.assertEqual(Commands.editPubInfo(self.j, self.janeway),
                          "Errors: You must enter office hours if you enter office days")
+        self.assertEqual(self.j.officeHoursStart, self.startdefault)
+        self.assertEqual(self.j.officeHoursEnd, self.enddefault)
+        self.assertEqual(self.j.officeDays, self.daysdefault)
+
+    def test_incorrect_FN_correct_LN(self):
+        self.janeway['firstName'] = "12"
+        self.janeway['lastName'] = "Brooks"
+        self.assertEqual(Commands.editPubInfo(self.j, self.janeway), "Errors: First Name can only contain letters")
+        self.assertEqual(self.j.firstName, "Kathryn")
+        self.assertEqual(self.j.lastName, "Brooks")
+
+    def test_incorrect_FN_LN_correct_email(self):
+        self.janeway['firstName'] = "12"
+        self.janeway['lastName'] = "14"
+        self.janeway['email'] = "jk45@uwm.edu"
+        self.assertEqual(Commands.editPubInfo(self.j, self.janeway), "Errors: First Name can only contain letters, "
+                                                                     "Last name can only contain letters")
+        self.assertEqual(self.j.firstName, "Kathryn")
+        self.assertEqual(self.j.lastName, "Janeway")
+        self.assertEqual(self.j.email, "jk45@uwm.edu")
+
+    def test_incorrect_FN_LN_email_correct_homephone(self):
+        self.janeway['firstName'] = "12"
+        self.janeway['lastName'] = "14"
+        self.janeway['email'] = "jk45@hotmail.edu"
+        self.janeway['homephone'] = "222-222-2222"
+        self.assertEqual(Commands.editPubInfo(self.j, self.janeway), "Errors: First Name can only contain letters, "
+                                                                     "Last name can only contain letters, The email "
+                                                                     "address you have entered is not valid. Please "
+                                                                     "make sure you are using a uwm email address in "
+                                                                     "the correct format.")
+        self.assertEqual(self.j.firstName, "Kathryn")
+        self.assertEqual(self.j.lastName, "Janeway")
+        self.assertEqual(self.j.email, "janewayk@uwm.edu")
+        self.assertEqual(self.j.homePhone, "222-222-2222")
+
+    def test_incorect_FN_LN_email_HP_correct_city(self):
+        self.janeway['firstName'] = "12"
+        self.janeway['lastName'] = "14"
+        self.janeway['email'] = "jk45@hotmail.edu"
+        self.janeway['homephone'] = "222-2u2-2222"
+        self.janeway['city'] = "Racine"
+        self.assertEqual(Commands.editPubInfo(self.j, self.janeway), "Errors: First Name can only contain letters, "
+                                                                     "Last name can only contain letters, The email "
+                                                                     "address you have entered is not valid. Please "
+                                                                     "make sure you are using a uwm email address in "
+                                                                     "the correct format., Home Phone can only contain "
+                                                                     "numbers")
+        self.assertEqual(self.j.firstName, "Kathryn")
+        self.assertEqual(self.j.lastName, "Janeway")
+        self.assertEqual(self.j.email, "janewayk@uwm.edu")
+        self.assertEqual(self.j.homePhone, "555-555-5555")
+        self.assertEqual(self.j.city, "Racine")
+
+    def test_days_noHours_correct_FN(self):
+        self.janeway['firstName'] = "Jamie"
+        self.janeway['officedays'] = "MW"
+        self.janeway['officestart'] = str(self.startdefault)
+        self.janeway['officeend'] = str(self.enddefault)
+        self.assertEqual(Commands.editPubInfo(self.j, self.janeway), "Errors: You must enter office hours "
+                                                                     "if you enter office days")
+        self.assertEqual(self.j.firstName, "Jamie")
+        self.assertEqual(self.j.officeDays, self.daysdefault)
+        self.assertEqual(self.j.officeHoursEnd, self.enddefault)
+        self.assertEqual(self.j.officeHoursStart, self.startdefault)
+
+    def test_incorrect_FN_correct_Zipcode(self):
+        self.janeway['firstName'] = "13ab"
+        self.janeway['zipcode'] = "99999"
+        self.assertEqual(Commands.editPubInfo(self.j, self.janeway), "Errors: First Name can only contain letters")
+        self.assertEqual(self.j.firstName, "Kathryn")
+        self.assertEqual(self.j.zipCode, "99999")

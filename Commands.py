@@ -454,9 +454,8 @@ def editPubInfo(user, dict):
     # Home phone
     homePhone = dict['homephone']
     if homePhone != str(user.homePhone) and homePhone != str(homephonedefault) and homePhone != "":
-        if containsOnlyDigits(homePhone.replace("-", "")) == False:
+        if not containsOnlyDigits(homePhone.replace("-", "")):
             errorList.append("Home Phone can only contain numbers")
-            #errorString += "Home Phone, "
         else:
             user.homePhone = homePhone
             user.save(update_fields=["homePhone"])
@@ -472,7 +471,6 @@ def editPubInfo(user, dict):
     if city != user.city and city != str(citydefault) and city != "":
         if not city.replace(" ", "").isalpha():
             errorList.append("City must contain only letters")
-            #errorString += "City, "
         else:
             user.city = city
             user.save(update_fields=["city"])
@@ -482,7 +480,6 @@ def editPubInfo(user, dict):
     if state != user.state and state != str(statedefault) and state != "":
         if not state.replace(" ", "").isalpha():
             errorList.append("State must contain only letters")
-            #errorString += "State, "
         else:
             user.state = state
             user.save(update_fields=["state"])
@@ -492,7 +489,6 @@ def editPubInfo(user, dict):
     if zipCode != str(user.zipCode) and zipCode != str(zipcodedefault) and zipCode != "":
         if containsOnlyDigits(zipCode) == False:
             errorList.append("ZipCode my be only numeric")
-            #errorString += "Zipcode, "
         else:
             user.zipCode = zipCode
             user.save(update_fields=['zipCode'])
@@ -502,7 +498,6 @@ def editPubInfo(user, dict):
     if officeNumber != str(user.officeNumber) and officeNumber != str(officenumdefault) and officeNumber != "":
         if containsOnlyDigits(officeNumber) == False:
             errorList.append("Office Number must be numeric")
-            #errorString += "Office number, "
         else:
             user.officeNumber = officeNumber
             user.save(update_fields=["officeNumber"])
@@ -512,7 +507,6 @@ def editPubInfo(user, dict):
     if officePhone != str(user.officePhone) and officePhone != str(officephonedefault) and officePhone != "":
         if containsOnlyDigits(officePhone.replace("-", "")) == False:
             errorList.append("Office Phone can only contain numbers")
-            #errorString += "Office Phone, "
         else:
             user.officePhone = officePhone
             user.save(update_fields=["officePhone"])
@@ -525,23 +519,26 @@ def editPubInfo(user, dict):
         else:
             user.officeDays = officeDays
 
-
     #Check start time is valid
-    if (officeHoursStart != str(user.officeHoursStart) and officeHoursStart != "" and officeHoursStart != str(startdefault)):
-        if not checkValidTimes(officeHoursStart):
+    #if ((officeHoursStart != str(user.officeHoursStart) and officeHoursStart != "" and
+     #    officeHoursStart != str(startdefault))) or ((officeHoursEnd != str(user.officeHoursEnd) and
+      #                                                officeHoursEnd != "" and officeHoursEnd != str(enddefault))):
+    startOK = True;
+    if (officeHoursStart != str(user.officeHoursStart) and officeHoursStart != "" and
+            officeHoursStart != str(startdefault)):
+       if not checkValidTimes(officeHoursStart):
             user.officeHoursEnd = enddefault
             user.officeHoursStart = startdefault
+            startOK = False;
             errorList.append("Invalid start time, please use a 4 digit military time representation")
-        else:
-            user.officeHoursStart = officeHoursStart
-
-    # Check end time is valid
+       else:
+           user.officeHoursStart = officeHoursStart
     if (officeHoursEnd != str(user.officeHoursEnd) and officeHoursEnd != "" and officeHoursEnd != str(enddefault)):
         if not checkValidTimes(officeHoursEnd):
             user.officeHoursEnd = enddefault
             user.officeHoursStart = startdefault
             errorList.append("Invalid end time, please use a 4 digit military time representation")
-        else:
+        elif startOK:
             user.officeHoursEnd = officeHoursEnd
 
     # Office hours and days dependency checks
@@ -568,44 +565,6 @@ def editPubInfo(user, dict):
                 user.officeDays = daysdefault
 
     user.save()
-
-
-
-    # Start Time and End Time
-    # Enter a start time but not an end time
-    #if officeHoursStart != str(startdefault) and (officeHoursEnd == str(enddefault) or officeHoursEnd == ""):
-    #    user.officeHoursStart = startdefault
-    #    user.officeHoursEnd = enddefault
-    #    user.save()
-    #    return "You must enter both a start and end time for office hours"
-        #errorString += "Office hours start time, "
-
-    # Enter an end time but not a start time.
-    #if officeHoursEnd != str(startdefault) and (officeHoursStart == str(startdefault) or officeHoursStart == ""):
-     #   user.officeHoursEnd = enddefault
-     #   user.officeHoursStart = startdefault
-     #   user.save()
-     #   return "You must enter both a start and end time for office hours"
-        #errorString += "Office hours end time, "
-
-    # Enter a start time and an end time, but not days
-    #if officeHoursEnd != str(enddefault) and officeHoursStart != str(startdefault) and \
-    #        (officeDays == str(daysdefault) or officeDays == ""):
-    #    user.officeHoursEnd = enddefault
-    #    user.officeHoursStart = startdefault
-    #    user.save()
-    #    return "You must enter office days if you enter office hours"
-        #errorString += "Office days, "
-
-    #Enter office days, but not a start time or an end time
-    #if officeDays != str(daysdefault) and (officeHoursStart == str(startdefault) or officeHoursEnd == str(enddefault)
-    #                                       or officeHoursStart == "" or officeHoursEnd == ""):
-    #    user.officeDays = daysdefault
-    #    user.officeHoursStart = startdefault
-    #    user.officeHoursEnd = enddefault
-    #    user.save()
-    #    return "You must enter office hours if you enter office days"
-        #errorString += "Office days, "
 
     if len(errorList) > 0:
         return "Errors: " + ", ".join(errorList)

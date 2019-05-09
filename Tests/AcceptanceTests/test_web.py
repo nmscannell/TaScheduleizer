@@ -866,6 +866,46 @@ class Test_web(TestCase):
                                                       "address in the correct format., Home Phone can only "
                                                       "contain numbers, City must contain only letters")
 
+    def test_editPubInfo_correct_FN_incorrect_LN(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
+        response = self.c.post('/editpubinfo/', {'username': 'picard304', 'firstname': 'Jim',
+                                                 'lastname': '42', 'email': 'picardj@uwm.edu',
+                                                 'password': '90456', 'homephone': '123-456-7893',
+                                                 'address': '87 Enterprise Avenue', 'city': 'Alpha',
+                                                 'state': 'Quadrant',
+                                                 'zipcode': '11111', 'officenumber': '54',
+                                                 'officephone': '777-777-7777',
+                                                 'officedays': 'W', 'officestart': '0900', 'officeend': '1000'})
+
+        self.assertEqual(response.context['message'], "Errors: Last name can only contain letters")
+
+    def test_editPubInfo_correct_email_days_no_times_empStrings(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
+        response = self.c.post('/editpubinfo/', {'username': 'picard304', 'firstname': 'Jean Luc',
+                                                 'lastname': 'Picard', 'email': 'pj@uwm.edu',
+                                                 'password': '90456', 'homephone': '123-456-7893',
+                                                 'address': '87 Enterprise Avenue', 'city': 'Alpha',
+                                                 'state': 'Quadrant',
+                                                 'zipcode': '11111', 'officenumber': '54',
+                                                 'officephone': '777-777-7777',
+                                                 'officedays': 'W', 'officestart': '', 'officeend': ''})
+
+        self.assertEqual(response.context['message'], "Errors: You must enter office hours if you enter office days")
+
+    def test_editPubInfo_correct_email_days_no_times_defaults(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
+        response = self.c.post('/editpubinfo/', {'username': 'picard304', 'firstname': 'Jean Luc',
+                                                 'lastname': 'Picard', 'email': 'pj@uwm.edu',
+                                                 'password': '90456', 'homephone': '123-456-7893',
+                                                 'address': '87 Enterprise Avenue', 'city': 'Alpha',
+                                                 'state': 'Quadrant',
+                                                 'zipcode': '11111', 'officenumber': '54',
+                                                 'officephone': '777-777-7777',
+                                                 'officedays': 'W', 'officestart': str(self.startdefault),
+                                                 'officeend': str(self.enddefault)})
+
+        self.assertEqual(response.context['message'], "Errors: You must enter office hours if you enter office days")
+
     """
     Assign Account Course tests 
     """
