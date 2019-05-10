@@ -116,18 +116,12 @@ table {
 }
 
 .zoom {
-    animation: fromLeft 4s;
+    animation: fromLeft 3s;
 }
 
 @keyframes fromLeft {
-    0% {
-        font-size: 800pt;
-        white-space: nowrap;
-    }
-    100% {
-        font-size: 18pt;
-        white-space: nowrap;
-    }
+    0% {transform: rotate(360deg);font-size: 800pt; white-space: nowrap;}
+    100% {font-size: 18pt; white-space: nowrap;}
 }
 
 .blinking {
