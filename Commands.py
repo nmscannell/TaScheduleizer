@@ -417,7 +417,9 @@ def editPubInfo(user, dict):
     officeHoursEnd = dict['officeend']
 
     firstName = dict['firstName']
-    if firstName != user.firstName and firstName != str(firstdefault) and firstName != "":
+    if firstName == "":
+        errorList.append("You must enter a first name")
+    elif firstName != user.firstName and firstName != str(firstdefault) and firstName != "":
         if not firstName.replace(" ", "").isalpha():
             #return "First Name can only contain letters"
             errorList.append("First Name can only contain letters")
@@ -427,7 +429,9 @@ def editPubInfo(user, dict):
 
 
     lastName = dict['lastName']
-    if lastName != user.lastName and lastName != str(lastdefault) and lastName != "":
+    if lastName == "":
+        errorList.append("You must enter a last name")
+    elif lastName != user.lastName and lastName != str(lastdefault) and lastName != "":
         if not lastName.replace(" ", "").isalpha():
             errorList.append("Last name can only contain letters")
         else:
@@ -437,7 +441,9 @@ def editPubInfo(user, dict):
 
     # Email
     email = dict['email']
-    if email != user.email and email != str(emaildefault) and email != "":
+    if email == "":
+        errorList.append("You must enter an email")
+    elif email != user.email and email != str(emaildefault) and email != "":
         if checkValidEmail(email) == False:
             errorList.append("The email address you have entered is not valid. "
                              "Please make sure you are using a uwm email address in the correct format.")
@@ -447,13 +453,18 @@ def editPubInfo(user, dict):
 
     # Password
     password = dict['password']
-    if password != user.password:
+    if password == "":
+        errorList.append("You must enter a password")
+    elif password != user.password:
         user.password = password
         user.save(update_fields=["password"])
 
     # Home phone
     homePhone = dict['homephone']
-    if homePhone != str(user.homePhone) and homePhone != str(homephonedefault) and homePhone != "":
+    if homePhone == "":
+        user.homePhone = str(homephonedefault)
+        user.save(update_fields=["homePhone"])
+    elif homePhone != str(user.homePhone) and homePhone != str(homephonedefault) and homePhone != "":
         if not containsOnlyDigits(homePhone.replace("-", "")):
             errorList.append("Home Phone can only contain numbers")
         else:
@@ -462,13 +473,19 @@ def editPubInfo(user, dict):
 
     # Address
     address = dict['address']
-    if address != user.address:
+    if address == "":
+        user.address = str(addressdefault)
+        user.save(update_fields=["address"])
+    elif address != user.address:
         user.address = address
         user.save(update_fields=["address"])
 
     # City
     city = dict['city']
-    if city != user.city and city != str(citydefault) and city != "":
+    if city == "":
+        user.city = str(citydefault)
+        user.save(update_fields=["city"])
+    elif city != user.city and city != str(citydefault) and city != "":
         if not city.replace(" ", "").isalpha():
             errorList.append("City must contain only letters")
         else:
@@ -477,7 +494,10 @@ def editPubInfo(user, dict):
 
     # State
     state = dict['state']
-    if state != user.state and state != str(statedefault) and state != "":
+    if state == "":
+        user.state = str(statedefault)
+        user.save(update_fields=["state"])
+    elif state != user.state and state != str(statedefault) and state != "":
         if not state.replace(" ", "").isalpha():
             errorList.append("State must contain only letters")
         else:
@@ -486,7 +506,10 @@ def editPubInfo(user, dict):
 
     # Zip Code
     zipCode = dict['zipcode']
-    if zipCode != str(user.zipCode) and zipCode != str(zipcodedefault) and zipCode != "":
+    if zipCode == "":
+        user.zipCode = str(zipcodedefault)
+        user.save(update_fields=["zipCode"])
+    elif zipCode != str(user.zipCode) and zipCode != str(zipcodedefault) and zipCode != "":
         if containsOnlyDigits(zipCode) == False:
             errorList.append("ZipCode my be only numeric")
         else:
@@ -495,7 +518,10 @@ def editPubInfo(user, dict):
 
     # Office Number
     officeNumber = dict['officenumber']
-    if officeNumber != str(user.officeNumber) and officeNumber != str(officenumdefault) and officeNumber != "":
+    if officeNumber == "":
+        user.officeNumber = str(officenumdefault)
+        user.save(update_fields=["officeNumber"])
+    elif officeNumber != str(user.officeNumber) and officeNumber != str(officenumdefault) and officeNumber != "":
         if containsOnlyDigits(officeNumber) == False:
             errorList.append("Office Number must be numeric")
         else:
@@ -504,7 +530,10 @@ def editPubInfo(user, dict):
 
     # Office phone
     officePhone = dict['officephone']
-    if officePhone != str(user.officePhone) and officePhone != str(officephonedefault) and officePhone != "":
+    if officePhone == "":
+        user.officePhone = str(officephonedefault)
+        user.save(update_fields=["officePhone"])
+    elif officePhone != str(user.officePhone) and officePhone != str(officephonedefault) and officePhone != "":
         if containsOnlyDigits(officePhone.replace("-", "")) == False:
             errorList.append("Office Phone can only contain numbers")
         else:
