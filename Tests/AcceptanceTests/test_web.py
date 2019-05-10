@@ -464,6 +464,41 @@ class Test_web(TestCase):
 
         self.assertEqual(response.context['message'], "Fields successfully updated")
 
+    def test_editPubInfo_firstName_none(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
+        response = self.c.post('/editpubinfo/', {'username': 'picard304', 'firstname': '',
+                                                 'lastname': 'Picard', 'email': 'picardj@uwm.edu',
+                                                'password': '90456', 'homephone': '123-456-7893',
+                                                'address': '87 Enterprise Avenue', 'city': 'Alpha', 'state': 'Quadrant',
+                                                'zipcode': '11111', 'officenumber': '54', 'officephone': '777-777-7777',
+                                                'officedays': 'W', 'officestart': '0900', 'officeend': '1000'})
+
+        self.assertEqual(response.context['message'], "Errors: You must enter a first name")
+
+    def test_editPubInfo_password_none(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
+        response = self.c.post('/editpubinfo/', {'username': 'picard304', 'firstname': 'James',
+                                                 'lastname': 'Picard', 'email': 'picardj@uwm.edu',
+                                                'password': '', 'homephone': '123-456-7893',
+                                                'address': '87 Enterprise Avenue', 'city': 'Alpha', 'state': 'Quadrant',
+                                                'zipcode': '11111', 'officenumber': '54', 'officephone': '777-777-7777',
+                                                'officedays': 'W', 'officestart': '0900', 'officeend': '1000'})
+
+        self.assertEqual(response.context['message'], "Errors: You must enter a password")
+
+    def test_editPubInfo_password_none_email_none(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
+        response = self.c.post('/editpubinfo/', {'username': 'picard304', 'firstname': 'James',
+                                                 'lastname': 'Picard', 'email': '',
+                                                'password': '', 'homephone': '123-456-7893',
+                                                'address': '87 Enterprise Avenue', 'city': 'Alpha', 'state': 'Quadrant',
+                                                'zipcode': '11111', 'officenumber': '54', 'officephone': '777-777-7777',
+                                                'officedays': 'W', 'officestart': '0900', 'officeend': '1000'})
+
+        self.assertEqual(response.context['message'], "Errors: You must enter an email, You must enter a password")
+
+
+
 
     def test_editPubInfo_lastName(self):
         self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
@@ -596,6 +631,19 @@ class Test_web(TestCase):
 
         self.assertEqual(response.context['message'], "Errors: City must contain only letters")
 
+
+    def test_editPubInfo_city_none(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
+        response = self.c.post('/editpubinfo/',
+                               {'username':'picard304', 'firstname': 'Jean Luc', 'lastname': 'Picard',
+                                'email': 'picardj@uwm.edu',
+                                'password': '90456', 'homephone': '123-456-7893',
+                                'address': '87 Enterprise Avenue', 'city': '', 'state': 'Quadrant',
+                                'zipcode': '11111', 'officenumber': '54', 'officephone': '777-777-7777',
+                                'officedays': 'W', 'officestart': '0900', 'officeend': '1000'})
+
+        self.assertEqual(response.context['message'], "Fields successfully updated")
+
     def test_editPubInfo_city_invalid2(self):
         self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
         response = self.c.post('/editpubinfo/',
@@ -619,6 +667,18 @@ class Test_web(TestCase):
                                 'officedays': 'W', 'officestart': '0900', 'officeend': '1000'})
 
         self.assertEqual(response.context['message'], "Errors: State must contain only letters")
+
+    def test_editPubInfo_state_none(self):
+        self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
+        response = self.c.post('/editpubinfo/',
+                               {'username':'picard304', 'firstname': 'Jean Luc', 'lastname': 'Picard',
+                                'email': 'picardj@uwm.edu',
+                                'password': '90456', 'homephone': '123-456-7893',
+                                'address': '87 Enterprise Avenue', 'city': 'Alpha', 'state': '',
+                                'zipcode': '11111', 'officenumber': '54', 'officephone': '777-777-7777',
+                                'officedays': 'W', 'officestart': '0900', 'officeend': '1000'})
+
+        self.assertEqual(response.context['message'], "Fields successfully updated")
 
     def test_editPubInfo_state_invalid2(self):
         self.c.post('/login/', {'username': 'picard304', 'password': '90456'})
