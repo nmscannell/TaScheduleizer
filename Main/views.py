@@ -386,7 +386,7 @@ class createSectionView(View):
         CU = CurrentUser()
         Acc = CU.getCurrentUser(request)
         courseList = Course.objects.all()
-        courseName = str(request.POST["course"])
+        courseName = str(request.POST.get("course"))
         #course = Course.objects.get(name=courseName)
         # courseNum = str(course.number)
         type = str(request.POST["type"])
@@ -427,6 +427,7 @@ class editUserInfoView(View):
         base = CU.getTemplate(request)
         return render(request, 'editPubInfo.html', {'i': account, "editor": editor, "info": info, "base": base})
 
+
 class contact(View):
 
     def get(self, request):
@@ -436,6 +437,7 @@ class contact(View):
 
     def post(self, request):
         return render(request, 'contact.html')
+
 
 class testView(View):
     def get(self, request):
