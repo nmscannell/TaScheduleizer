@@ -465,3 +465,11 @@ class Test_editPubInfo(TestCase):
         self.assertEqual(Commands.editPubInfo(self.j, self.janeway), "Errors: First Name can only contain letters")
         self.assertEqual(self.j.firstName, "Kathryn")
         self.assertEqual(self.j.zipCode, "99999")
+
+    def test_times_out_of_order(self):
+        self.janeway['officestart'] = "1200"
+        self.janeway['officeend'] = "1100"
+        self.assertEqual(Commands.editPubInfo(self.j, self.janeway),
+                         "Errors: Office hours end time must be after office hours start time")
+        self.assertEqual(self.j.officeHoursStart, self.startdefault)
+        self.assertEqual(self.j.officeHoursEnd, self.enddefault)

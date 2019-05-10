@@ -519,10 +519,6 @@ def editPubInfo(user, dict):
         else:
             user.officeDays = officeDays
 
-    #Check start time is valid
-    #if ((officeHoursStart != str(user.officeHoursStart) and officeHoursStart != "" and
-     #    officeHoursStart != str(startdefault))) or ((officeHoursEnd != str(user.officeHoursEnd) and
-      #                                                officeHoursEnd != "" and officeHoursEnd != str(enddefault))):
     startOK = True
     if (officeHoursStart != str(user.officeHoursStart) and officeHoursStart != "" and
             officeHoursStart != str(startdefault)):
@@ -533,13 +529,18 @@ def editPubInfo(user, dict):
             errorList.append("Invalid start time, please use a 4 digit military time representation")
        else:
            user.officeHoursStart = officeHoursStart
-    if (officeHoursEnd != str(user.officeHoursEnd) and officeHoursEnd != "" and officeHoursEnd != str(enddefault)):
+    if officeHoursEnd != str(user.officeHoursEnd) and officeHoursEnd != "" and officeHoursEnd != str(enddefault):
         if not checkValidTimes(officeHoursEnd):
             user.officeHoursEnd = enddefault
             user.officeHoursStart = startdefault
             errorList.append("Invalid end time, please use a 4 digit military time representation")
         elif startOK:
-            user.officeHoursEnd = officeHoursEnd
+            if officeHoursEnd < officeHoursStart:
+                user.officeHoursEnd = enddefault
+                user.officeHoursStart = startdefault
+                errorList.append("Office hours end time must be after office hours start time")
+            else:
+                user.officeHoursEnd = officeHoursEnd
 
     # Office hours and days dependency checks
     if (officeHoursStart != str(startdefault) and officeHoursStart != "") or (officeHoursEnd != str(enddefault) and officeHoursEnd != ""):
