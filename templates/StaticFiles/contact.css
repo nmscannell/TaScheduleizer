@@ -1,30 +1,30 @@
 body {
     background-image: url("background.png");
-  height: 100%;
-  background-position: center;
-  background-repeat: no-repeat;
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
     background-attachment: fixed;
-  background-size: cover;
-  text-align: center;
+    background-size: cover;
+    text-align: center;
 }
 
 h1 {
-	text-align: center;
+    text-align: center;
 }
 
 .container {
-	padding: 12px 24px 24px 24px;
-	margin: 48px 12px;
-	background: #fff8f8;
-	border-radius: 4px;
+    padding: 12px 24px 24px 24px;
+    margin: 48px 12px;
+    background: #fff8f8;
+    border-radius: 4px;
 }
 
 label {
-	font-size: 0.85em;
-	margin-left: 12px;
+    font-size: 0.85em;
+    margin-left: 12px;
 }
 
-input[type=text],input[type=email], textarea {
+input[type=text], input[type=email], textarea {
     width: 100%;
     padding: 12px;
     border: 1px solid #ccc;
@@ -35,22 +35,21 @@ input[type=text],input[type=email], textarea {
     resize: vertical;
 }
 
-input[type=text]:focus,input[type=email]:focus, textarea:focus {
-	border: 1px solid green;
+input[type=text]:focus, input[type=email]:focus, textarea:focus {
+    border: 1px solid green;
 }
 
 .center {
-	text-align: center;
+    text-align: center;
 }
 
-#heading{
+#heading {
     text-align: center;
     text-transform: uppercase;
     font-size: 2em;
     color: darkgreen;
     letter-spacing: 0.15em;
-    text-shadow:
-    0 0 5px yellow,
+    text-shadow: 0 0 5px yellow,
     0 0 10px yellow,
     0 0 20px yellow,
     0 0 40px yellow,
@@ -61,34 +60,35 @@ input[type=text]:focus,input[type=email]:focus, textarea:focus {
 }
 
 input.btn[type="submit"] {
-  background: #6498fe;
-  border:none;
-  border-radius: 2px;
-  color: #fff;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
-  letter-spacing: 3px;
-  margin: 5px 0;
-  outline: medium none;
-  overflow: hidden;
-  padding: 10px;
-  text-transform: uppercase;
-  transition: all 0.15s ease-in-out 0s;
-  width: 200px;
-  box-shadow: 0 1px 2px 0px rgba(0,0,0,0.16), 0 1px 2px 0px rgba(0,0,0,0.23);
+    background: #6498fe;
+    border: none;
+    border-radius: 2px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 3px;
+    margin: 5px 0;
+    outline: medium none;
+    overflow: hidden;
+    padding: 10px;
+    text-transform: uppercase;
+    transition: all 0.15s ease-in-out 0s;
+    width: 200px;
+    box-shadow: 0 1px 2px 0px rgba(0, 0, 0, 0.16), 0 1px 2px 0px rgba(0, 0, 0, 0.23);
 }
+
 input.btn[type="submit"]:hover {
-  background: #4b81eb;
-  box-shadow: 0 2px 4px 0px rgba(0,0,0,0.16), 0 2px 4px 0px rgba(0,0,0,0.23);
+    background: #4b81eb;
+    box-shadow: 0 2px 4px 0px rgba(0, 0, 0, 0.16), 0 2px 4px 0px rgba(0, 0, 0, 0.23);
 }
 
 .head {
-  color: #fff;
-  font-size: 34px;
-  font-weight: normal;
-  padding: 1px 0;
-  text-align: center;
-  text-transform: uppercase;
-  background: #8dbfff;
+    color: #fff;
+    font-size: 34px;
+    font-weight: normal;
+    padding: 1px 0;
+    text-align: center;
+    text-transform: uppercase;
+    background: #8dbfff;
 }

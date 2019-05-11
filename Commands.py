@@ -1,11 +1,9 @@
 from Main.models import Account, Course, Section, AccountSection
 from AccountCourse.models import AccountCourse
-import CurrentUserHelper
 import re
-from itertools import chain
 
 
-class Command():
+class Command:
 
     def __init__(self, opcode, arguments, function):
         self.opcode = opcode
@@ -103,6 +101,15 @@ def deleteAccountCom(userName):
         return "Account does not exist"
     a.delete()
     return "Account successfully deleted"
+
+
+def deleteCourseCom(courseName):
+    try:
+        a = Course.objects.get(name=courseName)
+    except Exception as e:
+        return "Course does not exist"
+    a.delete()
+    return "Course successfully deleted"
 
 
 def createCourse(name, number, online):
@@ -289,7 +296,6 @@ def displayCourseAssign(courseNumber):
     else:
         response += ", ".join(instructorList)
 
-
     response += "\nTeaching Assistants: "
 
     taList = []
@@ -327,7 +333,7 @@ def displayCourseAssign(courseNumber):
     return response
 
 
-def viewCourseAssign(userName): # secret message
+def viewCourseAssign(userName):
     if not Account.objects.filter(userName=userName).exists():
         return "Account not found"
 
@@ -390,121 +396,211 @@ def getPrivateDataList():
 
 
 def editPubInfo(user, dict):
+
+    errorList = []
+
     startdefault = Account._meta.get_field('officeHoursStart').get_default()
     enddefault = Account._meta.get_field('officeHoursEnd').get_default()
     daysdefault = Account._meta.get_field('officeDays').get_default()
+    firstdefault = Account._meta.get_field('firstName').get_default()
+    lastdefault = Account._meta.get_field('lastName').get_default()
+    emaildefault = Account._meta.get_field('email').get_default()
+    passdefault = Account._meta.get_field('password').get_default()
+    homephonedefault = Account._meta.get_field('homePhone').get_default()
+    addressdefault = Account._meta.get_field('address').get_default()
+    zipcodedefault = Account._meta.get_field('zipCode').get_default()
+    citydefault = Account._meta.get_field('city').get_default()
+    statedefault = Account._meta.get_field('state').get_default()
+    officenumdefault = Account._meta.get_field('officeNumber').get_default()
+    officephonedefault = Account._meta.get_field('officePhone').get_default()
     officeHoursStart = dict['officestart']
     officeHoursEnd = dict['officeend']
 
     firstName = dict['firstName']
-    if firstName != user.firstName:
+    if firstName == "":
+        errorList.append("You must enter a first name")
+    elif firstName != user.firstName and firstName != str(firstdefault) and firstName != "":
         if not firstName.replace(" ", "").isalpha():
-            return "First Name can only contain letters"
-        user.firstName = firstName
+            #return "First Name can only contain letters"
+            errorList.append("First Name can only contain letters")
+        else:
+            user.firstName = firstName
+            user.save(update_fields=["firstName"])
 
 
     lastName = dict['lastName']
-    if lastName != user.lastName:
+    if lastName == "":
+        errorList.append("You must enter a last name")
+    elif lastName != user.lastName and lastName != str(lastdefault) and lastName != "":
         if not lastName.replace(" ", "").isalpha():
-            return "Last name can only contain letters"
-        user.lastName = lastName
+            errorList.append("Last name can only contain letters")
+        else:
+            user.lastName = lastName
+            user.save(update_fields=["lastName"])
 
 
     # Email
     email = dict['email']
-    if email != user.email:
+    if email == "":
+        errorList.append("You must enter an email")
+    elif email != user.email and email != str(emaildefault) and email != "":
         if checkValidEmail(email) == False:
-            return "The email address you have entered in not valid.  " \
-                "Please make sure you are using a uwm email address in the correct format."
+            errorList.append("The email address you have entered is not valid. "
+                             "Please make sure you are using a uwm email address in the correct format.")
         else:
             user.email = email
+            user.save(update_fields=["email"])
 
     # Password
     password = dict['password']
-    if password != user.password:
+    if password == "":
+        errorList.append("You must enter a password")
+    elif password != user.password:
         user.password = password
+        user.save(update_fields=["password"])
 
     # Home phone
     homePhone = dict['homephone']
-    if homePhone != str(user.homePhone):
-        if containsOnlyDigits(homePhone.replace("-", "")) == False:
-            return "Home Phone can only contain numbers"
+    if homePhone == "":
+        user.homePhone = str(homephonedefault)
+        user.save(update_fields=["homePhone"])
+    elif homePhone != str(user.homePhone) and homePhone != str(homephonedefault) and homePhone != "":
+        if not containsOnlyDigits(homePhone.replace("-", "")):
+            errorList.append("Home Phone can only contain numbers")
         else:
             user.homePhone = homePhone
+            user.save(update_fields=["homePhone"])
 
     # Address
     address = dict['address']
-    if address != user.address:
+    if address == "":
+        user.address = str(addressdefault)
+        user.save(update_fields=["address"])
+    elif address != user.address:
         user.address = address
+        user.save(update_fields=["address"])
 
     # City
     city = dict['city']
-    if city != user.city:
+    if city == "":
+        user.city = str(citydefault)
+        user.save(update_fields=["city"])
+    elif city != user.city and city != str(citydefault) and city != "":
         if not city.replace(" ", "").isalpha():
-            return "City must contain only letters"
-        user.city = city
+            errorList.append("City must contain only letters")
+        else:
+            user.city = city
+            user.save(update_fields=["city"])
 
     # State
     state = dict['state']
-    if state != user.state:
+    if state == "":
+        user.state = str(statedefault)
+        user.save(update_fields=["state"])
+    elif state != user.state and state != str(statedefault) and state != "":
         if not state.replace(" ", "").isalpha():
-            return "State must contain only letters"
-        user.state = state
+            errorList.append("State must contain only letters")
+        else:
+            user.state = state
+            user.save(update_fields=["state"])
 
     # Zip Code
     zipCode = dict['zipcode']
-    if zipCode != str(user.zipCode):
+    if zipCode == "":
+        user.zipCode = str(zipcodedefault)
+        user.save(update_fields=["zipCode"])
+    elif zipCode != str(user.zipCode) and zipCode != str(zipcodedefault) and zipCode != "":
         if containsOnlyDigits(zipCode) == False:
-            return "ZipCode my be only numeric"
+            errorList.append("ZipCode my be only numeric")
         else:
             user.zipCode = zipCode
+            user.save(update_fields=['zipCode'])
 
     # Office Number
     officeNumber = dict['officenumber']
-    if officeNumber != str(user.officeNumber):
+    if officeNumber == "":
+        user.officeNumber = str(officenumdefault)
+        user.save(update_fields=["officeNumber"])
+    elif officeNumber != str(user.officeNumber) and officeNumber != str(officenumdefault) and officeNumber != "":
         if containsOnlyDigits(officeNumber) == False:
-            return "Office Number must be numeric"
+            errorList.append("Office Number must be numeric")
         else:
             user.officeNumber = officeNumber
+            user.save(update_fields=["officeNumber"])
 
     # Office phone
     officePhone = dict['officephone']
-    if officePhone != str(user.officePhone):
+    if officePhone == "":
+        user.officePhone = str(officephonedefault)
+        user.save(update_fields=["officePhone"])
+    elif officePhone != str(user.officePhone) and officePhone != str(officephonedefault) and officePhone != "":
         if containsOnlyDigits(officePhone.replace("-", "")) == False:
-            return "Office Phone can only contain numbers"
+            errorList.append("Office Phone can only contain numbers")
         else:
             user.officePhone = officePhone
+            user.save(update_fields=["officePhone"])
 
     # Office days
     officeDays = dict['officedays']
-    if officeDays != user.officeDays:
+    if officeDays != user.officeDays and officeDays != str(daysdefault) and officeDays != "":
         if not checkValidDays(officeDays):
-            return "Invalid days of the week, please enter days in the format: MWTRF or NN for online"
-    # Start Time and End Time
-    if officeHoursStart != str(startdefault) and officeHoursEnd == str(enddefault):
-        return "You must enter both a start and end time for office hours"
-    if officeHoursEnd != str(startdefault) and officeHoursStart == str(startdefault):
-        return "You must enter both a start and end time for office hours"
-    if officeHoursEnd != str(enddefault) and officeHoursStart != str(startdefault) and officeDays == str(daysdefault):
-        return "You must enter office days if you enter office hours"
-    if officeDays != str(daysdefault) and (officeHoursStart == str(startdefault) or officeHoursEnd == str(enddefault)):
-        return "You must enter office hours if you enter office days"
-    if (officeHoursStart != str(user.officeHoursStart)):
-        if not checkValidTimes(officeHoursStart):
-            return "Invalid start or end time, please use a 4 digit military time representation"
+            errorList.append("Invalid days of the week, please enter days in the format: MWTRF or NN for online")
         else:
-            user.officeHoursStart = officeHoursStart
-    if officeHoursEnd != str(user.officeHoursEnd):
-        if not checkValidTimes(officeHoursEnd):
-            return "Invalid start or end time, please use a 4 digit military time representation"
-        else:
-            user.officeHoursEnd = officeHoursEnd
-    user.officeDays = officeDays
+            user.officeDays = officeDays
 
-    # Save changes
+    startOK = True
+    if (officeHoursStart != str(user.officeHoursStart) and officeHoursStart != "" and
+            officeHoursStart != str(startdefault)):
+       if not checkValidTimes(officeHoursStart):
+            user.officeHoursEnd = enddefault
+            user.officeHoursStart = startdefault
+            startOK = False
+            errorList.append("Invalid start time, please use a 4 digit military time representation")
+       else:
+           user.officeHoursStart = officeHoursStart
+    if officeHoursEnd != str(user.officeHoursEnd) and officeHoursEnd != "" and officeHoursEnd != str(enddefault):
+        if not checkValidTimes(officeHoursEnd):
+            user.officeHoursEnd = enddefault
+            user.officeHoursStart = startdefault
+            errorList.append("Invalid end time, please use a 4 digit military time representation")
+        elif startOK:
+            if officeHoursEnd < officeHoursStart:
+                user.officeHoursEnd = enddefault
+                user.officeHoursStart = startdefault
+                errorList.append("Office hours end time must be after office hours start time")
+            else:
+                user.officeHoursEnd = officeHoursEnd
+
+    # Office hours and days dependency checks
+    if (officeHoursStart != str(startdefault) and officeHoursStart != "") or (officeHoursEnd != str(enddefault) and officeHoursEnd != ""):
+            if officeHoursStart != str(startdefault) and (officeHoursEnd == str(enddefault) or officeHoursEnd == ""):
+                errorList.append("You must enter both a start and end time for office hours")
+                user.officeHoursEnd = enddefault
+                user.officeHoursStart = startdefault
+            elif officeHoursEnd != str(startdefault) and (
+                    officeHoursStart == str(startdefault) or officeHoursStart == ""):
+                errorList.append("You must enter both a start and end time for office hours")
+                user.officeHoursEnd = enddefault
+                user.officeHoursStart = startdefault
+            elif officeDays == str(daysdefault) or officeDays == "":
+                errorList.append("You must enter office days if you enter office hours")
+                user.officeHoursEnd = enddefault
+                user.officeHoursStart = startdefault
+                user.officeDays = daysdefault
+    else:
+            if officeDays != str(daysdefault) and officeDays != "":
+                errorList.append("You must enter office hours if you enter office days")
+                user.officeHoursEnd = enddefault
+                user.officeHoursStart = startdefault
+                user.officeDays = daysdefault
+
     user.save()
 
-    return "Fields successfully updated"
+    if len(errorList) > 0:
+        return "Errors: " + ", ".join(errorList)
+    else:
+        return "Fields successfully updated"
+
 
 
 def getCommands():

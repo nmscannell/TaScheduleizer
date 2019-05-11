@@ -2,19 +2,19 @@
 {% load static %}
 
 {% block header %}
-    <h1 id="heading">Delete an Account</h1>
+    <h1 id="heading">Delete A Course</h1>
 {% endblock %}
 
 {% block content %}<br>
     <link rel="stylesheet" type="text/css" href="{% static 'background.css' %}">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
           integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-    <form method="post" action="/deleteaccount/">
+    <form method="post" action="/deletecourse/">
         {% csrf_token %}
         <div class="box">
-            <select name="username">
-                {% for i  in stafflist %}
-                    <option name="username" id="username" value="{{ i.userName }}">{{ i }}</option>
+            <select name="Cname">
+                {% for i  in courselist %}
+                    <option id="username" value="{{ i.name }}">{{ i }}</option>
                 {% endfor %}
             </select>
         </div>

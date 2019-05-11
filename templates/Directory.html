@@ -2,114 +2,46 @@
 {% load static %}
 
 {% block header %}
-<h1 id="heading">Directory</h1>
+    <h1 id="heading">Directory</h1>
 {% endblock %}
 
 {% block content %}<br>
-    <link rel="stylesheet" type = "text/css" href="{% static 'courseAssignmentList.css' %}">
-{% for j in directory %}
- <table>
-    <thread>
-        <tr class="topCell">
-            <th colspan="2">{{ j }} </th>
-            <th colspan="2">{{ j.displayTitle }}</th>
-        </tr>
-    <tr>
-        <td colspan="2" class="midCell"> <strong>Email:</strong><br> {{ j.email }} </td>
-    <td colspan="2" class="midCell2">
-            <strong>Office Number: {{ j.officeNumber }}</strong><br>
-                   Phone: {{ j.officePhone }}<br>
-                   Days: {{ j.officeDays }}<br>
-                   Hours: {{ j.officeHoursStart }} - {{ j.officeHoursEnd }}<br>
-        </td>
-    </tr>
-      {% if i.title > 2 %}
-        <tr>
-        <td colspan="2" class="midCell2">
-            <strong>Address:</strong><br>
-                {{ j.address }}<br>
-                {{ j.city }} {{ j.state }} {{ j.zipCode }}<br>
-        </td>
-            <td colspan="2" class="midCell"><strong>Home Phone:</strong><br>
-                {{ j.homePhone }}<br>
-        </td>
-        </tr>
-       {% endif %}
-        <tr>
+    <link rel="stylesheet" type="text/css" href="{% static 'courseAssignmentList.css' %}">
+    {% for j in directory %}
+        <table class="test">
+            <thread>
+                <tr class="topCell">
+                    <th colspan="2">{{ j }} </th>
+                    <th colspan="2">{{ j.displayTitle }}</th>
+                </tr>
+                <tr>
+                    <td colspan="2" class="midCell"><strong>Email:</strong><br> {{ j.email }} </td>
+                    <td colspan="2" class="midCell2">
+                        <strong>Office Number: {{ j.officeNumber }}</strong><br>
+                        Phone: {{ j.officePhone }}<br>
+                        Days: {{ j.officeDays }}<br>
+                        Hours: {{ j.officeHoursStart }} - {{ j.officeHoursEnd }}<br>
+                    </td>
+                </tr>
+                {% if i.title > 2 %}
+                    <tr>
+                        <td colspan="2" class="midCell2">
+                            <strong>Address:</strong><br>
+                            {{ j.address }}<br>
+                            {{ j.city }} {{ j.state }} {{ j.zipCode }}<br>
+                        </td>
+                        <td colspan="2" class="midCell"><strong>Home Phone:</strong><br>
+                            {{ j.homePhone }}<br>
+                        </td>
+                    </tr>
+                {% endif %}
+                <tr>
 
-        </tr>
-    </thread>
-    </table><br>
+                </tr>
+            </thread>
+        </table><br>
 
-{% endfor %}
+    {% endfor %}
 
 {% endblock %}
 
-<!--{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title>Directory</title>
-    <link rel="stylesheet" type = "text/css" href="{% static 'courseAssignmentList.css' %}">
-        <link rel="stylesheet" type = "text/css" href="{% static 'accountsHome.css' %}">
-</head>
-<body>
-<h1 id="heading">Directory</h1>
-
-
-<ul>
- <li>
-     {% if i.title == 1 %}<a href="/ta/">Home</a>{% endif %}
-     {% if i.title == 2 %}<a href="/instructor/">Home</a>{% endif %}
-     {% if i.title == 3 %}<a href="/administrator/">Home</a>{% endif %}
-     {% if i.title == 4 %}<a href="/supervisor/">Home</a>{% endif %}
- </li>
-
-     <a class="active" href="javascript:history.go(-1)">Home</a></li>
-    <li style="float:right"><a href="/logout/">Logout</a></li>
-</ul>
-
-<br>
-<br>
-
-
-{% for j in directory %}
- <table>
-    <thread>
-        <tr class="topCell">
-            <th colspan="2">{{ j }} </th>
-            <th colspan="2">{{ j.displayTitle }}</th>
-        </tr>
-    <tr>
-        <td colspan="2" class="midCell"> <strong>Email:</strong><br> {{ j.email }} </td>
-    <td colspan="2" class="midCell2">
-            <strong>Office Number: {{ j.officeNumber }}</strong><br>
-                   Phone: {{ j.officePhone }}<br>
-                   Days: {{ j.officeDays }}<br>
-                   Hours: {{ j.officeHoursStart }} - {{ j.officeHoursEnd }}<br>
-        </td>
-    </tr>
-      {% if i.title > 2 %}
-        <tr>
-        <td colspan="2" class="midCell2">
-            <strong>Address:</strong><br>
-                {{ j.address }}<br>
-                {{ j.city }} {{ j.state }} {{ j.zipCode }}<br>
-        </td>
-            <td colspan="2" class="midCell"><strong>Home Phone:</strong><br>
-                {{ j.homePhone }}<br>
-        </td>
-        </tr>
-       {% endif %}
-        <tr>
-
-        </tr>
-    </thread>
-    </table><br>
-
-{% endfor %}
-
-</body>
-</html>  -->
